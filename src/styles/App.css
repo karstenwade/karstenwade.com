@@ -1,0 +1,112 @@
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: left;
+}
+
+.app-header {
+  text-align: center;
+  padding: 2rem 0;
+  border-bottom: 2px solid #646cff;
+  margin-bottom: 2rem;
+}
+
+.app-header h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  color: #646cff;
+}
+
+.tagline {
+  font-size: 1.25rem;
+  color: #888;
+  font-style: italic;
+}
+
+.app-main {
+  padding: 2rem 0;
+}
+
+.hero {
+  margin-bottom: 3rem;
+}
+
+.hero h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #646cff;
+}
+
+.hero p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1rem;
+}
+
+.hero strong {
+  color: #646cff;
+  font-weight: 600;
+}
+
+.expertise {
+  margin-bottom: 3rem;
+}
+
+.expertise h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: #646cff;
+}
+
+.expertise ul {
+  list-style: none;
+  padding: 0;
+}
+
+.expertise li {
+  font-size: 1.1rem;
+  padding: 0.75rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.expertise li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #646cff;
+  font-weight: bold;
+}
+
+.app-footer {
+  text-align: center;
+  padding: 2rem 0;
+  border-top: 2px solid #646cff;
+  margin-top: 2rem;
+  color: #888;
+}
+
+@media (max-width: 768px) {
+  .app {
+    padding: 1rem;
+  }
+
+  .app-header h1 {
+    font-size: 2rem;
+  }
+
+  .tagline {
+    font-size: 1rem;
+  }
+
+  .hero h2,
+  .expertise h2 {
+    font-size: 1.5rem;
+  }
+
+  .hero p,
+  .expertise li {
+    font-size: 1rem;
+  }
+}
