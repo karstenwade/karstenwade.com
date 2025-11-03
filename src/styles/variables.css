@@ -1,0 +1,174 @@
+/**
+ * Design System Variables
+ * Theme: "Wide Horizon Clubhouse"
+ *
+ * A warm, welcoming palette inspired by open spaces,
+ * community gathering, and collaborative work.
+ */
+
+:root {
+  /* === Color Palette === */
+
+  /* Primary Colors - Warm horizon tones */
+  --color-primary: #D97038;           /* Sunset orange - primary brand */
+  --color-primary-light: #E69663;     /* Lighter sunset */
+  --color-primary-dark: #B85A2A;      /* Deeper sunset */
+
+  /* Secondary Colors - Sky and earth tones */
+  --color-secondary: #5B8FA3;         /* Horizon blue */
+  --color-secondary-light: #7FAABB;   /* Sky blue */
+  --color-secondary-dark: #456B7A;    /* Deep ocean */
+
+  /* Accent Colors - Community warmth */
+  --color-accent: #C85C5C;            /* Welcoming red */
+  --color-accent-light: #D98585;      /* Soft coral */
+  --color-accent-dark: #A04646;       /* Rich burgundy */
+
+  /* Neutral Colors - Natural materials */
+  --color-neutral-100: #F8F6F4;       /* Warm white - backgrounds */
+  --color-neutral-200: #E8E4E0;       /* Light sand */
+  --color-neutral-300: #D1CBC3;       /* Stone */
+  --color-neutral-400: #A39C94;       /* Weathered wood */
+  --color-neutral-500: #73695E;       /* Dark wood */
+  --color-neutral-600: #4A433B;       /* Charcoal */
+  --color-neutral-700: #2D2821;       /* Deep shadow */
+  --color-neutral-800: #1A1612;       /* Almost black */
+
+  /* Semantic Colors */
+  --color-success: #5A9367;           /* Growth green */
+  --color-warning: #D9A538;           /* Caution amber */
+  --color-error: #C85C5C;             /* Error red (matches accent) */
+  --color-info: #5B8FA3;              /* Info blue (matches secondary) */
+
+  /* Text Colors */
+  --color-text-primary: var(--color-neutral-800);
+  --color-text-secondary: var(--color-neutral-600);
+  --color-text-tertiary: var(--color-neutral-500);
+  --color-text-inverse: var(--color-neutral-100);
+
+  /* Background Colors */
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: var(--color-neutral-100);
+  --color-bg-tertiary: var(--color-neutral-200);
+  --color-bg-inverse: var(--color-neutral-800);
+
+  /* Border Colors */
+  --color-border-light: var(--color-neutral-200);
+  --color-border-medium: var(--color-neutral-300);
+  --color-border-dark: var(--color-neutral-400);
+
+  /* === Typography === */
+
+  /* Font Families */
+  --font-body: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+               'Helvetica Neue', Arial, sans-serif;
+  --font-heading: 'Open Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI',
+                  'Helvetica Neue', Arial, sans-serif;
+  --font-special: 'TT2020', 'Courier New', monospace;  /* For special elements */
+  --font-mono: 'SF Mono', 'Consolas', 'Monaco', 'Courier New', monospace;
+
+  /* Font Sizes - Fluid typography with clamp() */
+  --font-size-xs: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);      /* 12-14px */
+  --font-size-sm: clamp(0.875rem, 0.85rem + 0.25vw, 1rem);        /* 14-16px */
+  --font-size-base: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);      /* 16-18px */
+  --font-size-md: clamp(1.125rem, 1.05rem + 0.375vw, 1.25rem);    /* 18-20px */
+  --font-size-lg: clamp(1.25rem, 1.15rem + 0.5vw, 1.5rem);        /* 20-24px */
+  --font-size-xl: clamp(1.5rem, 1.35rem + 0.75vw, 2rem);          /* 24-32px */
+  --font-size-2xl: clamp(2rem, 1.75rem + 1.25vw, 3rem);           /* 32-48px */
+  --font-size-3xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);             /* 40-64px */
+
+  /* Font Weights */
+  --font-weight-light: 300;
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line Heights */
+  --line-height-tight: 1.25;
+  --line-height-snug: 1.375;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 2;
+
+  /* Letter Spacing */
+  --letter-spacing-tight: -0.025em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+  --letter-spacing-widest: 0.1em;
+
+  /* === Spacing === */
+
+  /* Base spacing unit: 0.25rem (4px) */
+  --space-1: 0.25rem;    /* 4px */
+  --space-2: 0.5rem;     /* 8px */
+  --space-3: 0.75rem;    /* 12px */
+  --space-4: 1rem;       /* 16px */
+  --space-5: 1.25rem;    /* 20px */
+  --space-6: 1.5rem;     /* 24px */
+  --space-8: 2rem;       /* 32px */
+  --space-10: 2.5rem;    /* 40px */
+  --space-12: 3rem;      /* 48px */
+  --space-16: 4rem;      /* 64px */
+  --space-20: 5rem;      /* 80px */
+  --space-24: 6rem;      /* 96px */
+
+  /* === Border Radius === */
+
+  --radius-sm: 0.25rem;   /* 4px */
+  --radius-md: 0.5rem;    /* 8px */
+  --radius-lg: 0.75rem;   /* 12px */
+  --radius-xl: 1rem;      /* 16px */
+  --radius-full: 9999px;  /* Fully rounded */
+
+  /* === Shadows === */
+
+  --shadow-xs: 0 1px 2px 0 rgba(29, 38, 33, 0.05);
+  --shadow-sm: 0 1px 3px 0 rgba(29, 38, 33, 0.1),
+               0 1px 2px -1px rgba(29, 38, 33, 0.1);
+  --shadow-md: 0 4px 6px -1px rgba(29, 38, 33, 0.1),
+               0 2px 4px -2px rgba(29, 38, 33, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(29, 38, 33, 0.1),
+               0 4px 6px -4px rgba(29, 38, 33, 0.1);
+  --shadow-xl: 0 20px 25px -5px rgba(29, 38, 33, 0.1),
+               0 8px 10px -6px rgba(29, 38, 33, 0.1);
+
+  /* === Transitions === */
+
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* === Z-Index Scale === */
+
+  --z-base: 0;
+  --z-dropdown: 1000;
+  --z-sticky: 1100;
+  --z-fixed: 1200;
+  --z-modal-backdrop: 1300;
+  --z-modal: 1400;
+  --z-popover: 1500;
+  --z-tooltip: 1600;
+
+  /* === Breakpoints (for reference in JS) === */
+
+  --breakpoint-sm: 640px;
+  --breakpoint-md: 768px;
+  --breakpoint-lg: 1024px;
+  --breakpoint-xl: 1280px;
+  --breakpoint-2xl: 1536px;
+}
+
+/**
+ * Dark Mode Support (future enhancement)
+ *
+ * @media (prefers-color-scheme: dark) {
+ *   :root {
+ *     --color-bg-primary: var(--color-neutral-800);
+ *     --color-bg-secondary: var(--color-neutral-700);
+ *     --color-text-primary: var(--color-neutral-100);
+ *     ...
+ *   }
+ * }
+ */
