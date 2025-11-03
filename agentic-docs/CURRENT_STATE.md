@@ -33,6 +33,24 @@ Building karstenwade.com - Personal website for Karsten Wade (Collaborative Expe
 - [x] Basic folder structure created
 - [x] Build produces static HTML output
 
+#### Story 1.2: Set up GitHub Actions deployment pipeline (3 points)
+**Status:** COMPLETE ✅ - MERGED via PR #7
+**GitHub Issue:** [#4](https://github.com/karstenwade/karstenwade.com/issues/4) - CLOSED
+
+**What was delivered:**
+- `.github/workflows/deploy.yml` workflow
+- Automated deployment on push to main
+- Build and deploy jobs with proper permissions
+- Manual trigger via workflow_dispatch
+- Successfully deployed to GitHub Pages
+
+**All acceptance criteria met:**
+- [x] .github/workflows/deploy.yml created
+- [x] Workflow triggers on push to main
+- [x] Build creates static site
+- [x] Deploys to GitHub Pages
+- [x] Test: Workflow runs successfully ✅
+
 #### Additional Work: Placeholder Content
 **Status:** COMPLETE ✅
 **Committed:** 18cf319 - "feat: Add placeholder content following Content Strategy"
@@ -55,24 +73,24 @@ Building karstenwade.com - Personal website for Karsten Wade (Collaborative Expe
 
 ### 🔄 In Progress
 
-#### Story 1.2: Set up GitHub Actions deployment pipeline (3 points)
+#### Story 1.3: Create DreamHost sync script (2 points)
 **Status:** PR CREATED - Waiting for merge
-**GitHub Issue:** [#4](https://github.com/karstenwade/karstenwade.com/issues/4)
-**Pull Request:** [#7](https://github.com/karstenwade/karstenwade.com/pull/7)
+**GitHub Issue:** [#5](https://github.com/karstenwade/karstenwade.com/issues/5)
+**Pull Request:** [#8](https://github.com/karstenwade/karstenwade.com/pull/8)
 
 **What was delivered:**
-- `.github/workflows/deploy.yml` workflow file
-- Automated deployment on push to main
-- Build job with Node.js 20 and npm caching
-- Deploy job using official GitHub Pages actions
-- Manual workflow trigger via workflow_dispatch
+- `scripts/sync-from-github.sh` - Bash script for syncing
+- Smart clone/update from gh-pages branch
+- Error handling with `set -euo pipefail`
+- Timestamped logging (INFO, ERROR, SUCCESS)
+- `scripts/README.md` with comprehensive documentation
 
 **All acceptance criteria met:**
-- [x] .github/workflows/deploy.yml created
-- [x] Workflow triggers on push to main branch
-- [x] Build creates static site
-- [x] Deploys to gh-pages branch (via deploy-pages action)
-- [ ] Test: Workflow runs successfully (will test after merge)
+- [x] sync-from-github.sh script created
+- [x] Script pulls from gh-pages branch
+- [x] Error handling and logging included
+- [x] Cron configuration documented
+- [x] Test: Script is executable and syntax valid
 
 ---
 
@@ -127,26 +145,27 @@ user.email: quaid@iquaid.org
 ### GitHub Organization
 - **Organization:** karstenwade (not a personal account)
 - **User:** quaid (maintainer)
-- **Open Issues:** 4 total
+- **Open Issues:** 3 total
   - #1, #2: Epic 1 tracking issues
   - #3: Story 1.1 - CLOSED ✅
-  - #4: Story 1.2 (in progress)
-  - #5: Story 1.3 (ready to start)
+  - #4: Story 1.2 - CLOSED ✅
+  - #5: Story 1.3 (in PR #8)
 
 ### Current Branch Status
 ```
-Branch: feat/story-1.2-github-actions-deployment
-Pull Request: #7 (OPEN)
-URL: https://github.com/karstenwade/karstenwade.com/pull/7
+Branch: feat/story-1.3-dreamhost-sync-script
+Pull Request: #8 (OPEN)
+URL: https://github.com/karstenwade/karstenwade.com/pull/8
 
 Commits in PR:
-  - 4ae0f02: GitHub Actions deployment workflow
+  - f73349d: DreamHost sync script
 
 Waiting for PR merge confirmation.
 ```
 
-**Previous PR:**
+**Previous PRs:**
 - PR #6: MERGED ✅ (Story 1.1 + placeholder content)
+- PR #7: MERGED ✅ (Story 1.2 - GitHub Actions)
 
 ### Workflow Notes
 **IMPORTANT:** Always use pull request workflow:
@@ -166,17 +185,14 @@ Waiting for PR merge confirmation.
 
 ## Notes for Next Session
 
-1. **WAITING: PR #7 merge** - Story 1.2 GitHub Actions workflow ready
-   - URL: https://github.com/karstenwade/karstenwade.com/pull/7
-   - ⚠️ **Important post-merge step:** Go to Settings → Pages → Set Source to "GitHub Actions"
-2. **After PR #7 merge:**
-   - Close Issue #4 (Story 1.2) referencing PR #7
-   - Configure GitHub Pages to use Actions (see PR notes)
-   - Test that workflow runs and deploys successfully
+1. **WAITING: PR #8 merge** - Story 1.3 DreamHost sync script ready
+   - URL: https://github.com/karstenwade/karstenwade.com/pull/8
+   - Contains sync script and comprehensive documentation
+2. **After PR #8 merge:**
+   - Epic 1 (Foundation & Infrastructure) will be COMPLETE! 🎉
    - Clean up feature branch
-3. **Then pick next story:**
-   - Story 1.3 (DreamHost sync script) - completes Epic 1
-   - Or Story 2.1 (Design system) - start Epic 2
+   - Continue with Epic 2 stories in numerical order
+3. **Next Story: 2.1** - Implement color palette and typography system (2 points)
 
 ---
 
@@ -223,7 +239,18 @@ npm run build
   - Created GitHub Actions deployment workflow
   - Created PR #7 for Story 1.2
   - Updated CURRENT_STATE.md with PR #7 status
-- **Next:** Wait for PR #7 merge, then configure GitHub Pages settings
+
+### Session: 2025-11-02 (Part 3)
+- **Started:** PR #7 merged, continue with Stories 1.3 and beyond in numerical order
+- **Accomplished:**
+  - Configured GitHub Pages to use GitHub Actions
+  - Triggered workflow manually - deployment successful! ✅
+  - Closed Issue #4 (auto-closed)
+  - Created DreamHost sync script with error handling and logging
+  - Comprehensive README with installation and troubleshooting docs
+  - Created PR #8 for Story 1.3
+  - Updated CURRENT_STATE.md
+- **Next:** Wait for PR #8 merge, then Epic 1 complete! Continue with Story 2.1
 
 ---
 
