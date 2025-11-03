@@ -1,0 +1,63 @@
+/* Featured Content Section Styles */
+
+.featured-content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  padding: var(--space-8) var(--space-4);
+  background-color: var(--color-bg-primary);
+}
+
+/* ===========================
+   Section Heading
+   =========================== */
+
+.featured-content__heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+  text-align: center;
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .featured-content {
+    padding: var(--space-12) var(--space-8);
+  }
+
+  .featured-content__heading {
+    font-size: var(--font-size-3xl);
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1024px) {
+  .featured-content {
+    padding: var(--space-16) var(--space-12);
+  }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .featured-content * {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .featured-content__heading {
+    font-weight: var(--font-weight-bold);
+  }
+}
