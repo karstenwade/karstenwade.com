@@ -1,0 +1,28 @@
+# Featured content rotation configuration
+# Controls what appears on homepage featured section
+
+rotation_strategy: "manual"  # manual, chronological, weighted_random
+max_featured: 3             # Number of items to show simultaneously
+auto_refresh: false         # Future: auto-update based on new content
+
+featured_items:
+  - type: "paper"
+    slug: "open-source-way-2.0"
+    headline: "The Open Source Way 2.0"
+    subheadline: "Industry-standard handbook for community building"
+    cta: "Read the Guide"
+    priority: 1
+
+  - type: "theory"
+    slug: "collab-x"
+    headline: "Introducing CollabX"
+    subheadline: "A framework for measuring collaborative experience"
+    cta: "Explore the Framework"
+    priority: 2
+
+  - type: "poem"
+    slug: "opening-collaboration"
+    headline: "Latest Poetry"
+    subheadline: "Opening Collaboration - A meditation on community"
+    cta: "Read the Poem"
+    priority: 3
