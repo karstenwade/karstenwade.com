@@ -4,9 +4,8 @@ import react from '@vitejs/plugin-react'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-  // Base path for GitHub Pages - will be '/' for custom domain
-  // or '/karstenwade.com/' for GitHub Pages subdomain
-  base: '/',
+  // Base path for GitHub Pages - '/karstenwade.com/' for github.io hosting
+  base: '/karstenwade.com/',
   build: {
     // Output directory for static files
     outDir: 'dist',
