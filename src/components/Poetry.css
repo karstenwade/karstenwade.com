@@ -1,0 +1,230 @@
+/* Poetry Component Styles */
+
+.poetry {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+/* ===========================
+   Section Header
+   =========================== */
+
+.poetry__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.poetry__heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.poetry__description {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Poems List
+   =========================== */
+
+.poems-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===========================
+   Poem Preview Card
+   =========================== */
+
+.poem-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-normal);
+}
+
+.poem-preview:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.poem-preview__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.poem-preview__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.poem-preview__metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.poem-preview__form,
+.poem-preview__date {
+  font-family: var(--font-body);
+  line-height: var(--line-height-normal);
+}
+
+.poem-preview__separator {
+  color: var(--color-text-tertiary);
+}
+
+.poem-preview__theme {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Poem Content
+   =========================== */
+
+.poem-preview__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.poem-preview__excerpt,
+.poem-preview__full-text {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-loose);
+  color: var(--color-text-primary);
+}
+
+.poem-line {
+  margin: 0;
+  white-space: pre-wrap;
+  min-height: 1.75em; /* Preserve empty lines for stanza breaks */
+}
+
+.poem-line:empty {
+  min-height: 0.875em; /* Half height for stanza breaks */
+}
+
+.poem-preview__full-text {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+}
+
+/* ===========================
+   Toggle Button
+   =========================== */
+
+.poem-preview__toggle {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.poem-preview__toggle:hover {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.poem-preview__toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.poem-preview__toggle:active {
+  transform: scale(0.98);
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .poetry {
+    gap: var(--space-12);
+  }
+
+  .poetry__heading {
+    font-size: var(--font-size-3xl);
+  }
+
+  .poetry__description {
+    font-size: var(--font-size-lg);
+  }
+
+  .poems-list {
+    gap: var(--space-12);
+  }
+
+  .poem-preview {
+    padding: var(--space-8);
+  }
+
+  .poem-preview__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .poem-preview,
+  .poem-preview__toggle {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .poem-preview {
+    border-width: 2px;
+  }
+
+  .poem-preview__toggle {
+    border-width: 2px;
+  }
+}

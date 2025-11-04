@@ -1,0 +1,66 @@
+/* Writing Page Styles */
+
+.writing {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-12);
+  padding: var(--space-8) var(--space-4);
+  min-height: 100vh;
+}
+
+/* ===========================
+   Page Header
+   =========================== */
+
+.writing__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.writing__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-3xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.writing__description {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-lg);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .writing {
+    padding: var(--space-12) var(--space-8);
+    gap: var(--space-16);
+  }
+
+  .writing__title {
+    font-size: var(--font-size-4xl);
+  }
+
+  .writing__description {
+    font-size: var(--font-size-xl);
+  }
+}
+
+/* Large Desktop */
+@media (min-width: 1024px) {
+  .writing {
+    padding: var(--space-16) var(--space-12);
+  }
+}
