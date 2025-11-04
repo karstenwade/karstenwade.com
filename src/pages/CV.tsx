@@ -1,3 +1,4 @@
+import SEO from '../components/SEO'
 import { cvData } from '../data/cv'
 import './CV.css'
 
@@ -12,7 +13,14 @@ const CV = ({ className = '' }: CVProps) => {
   }
 
   return (
-    <main className={`cv ${className}`}>
+    <>
+      <SEO
+        title="CV - Karsten Wade"
+        description="Professional CV of Karsten Wade - Open Source Community Architect, OSPO co-founder at Red Hat, and author of The Open Source Way."
+        keywords="Karsten Wade CV, resume, community architect, OSPO, Red Hat, open source career, developer relations"
+        ogUrl="https://karstenwade.github.io/karstenwade.com/cv"
+      />
+      <main className={`cv ${className}`}>
       <header className="cv__header">
         <h1 className="cv__name">{cvData.name}</h1>
         <p className="cv__title">{cvData.title}</p>
@@ -116,6 +124,7 @@ const CV = ({ className = '' }: CVProps) => {
         </p>
       </footer>
     </main>
+    </>
   )
 }
 

@@ -1,3 +1,4 @@
+import SEO from '../components/SEO'
 import Card from '../components/Card'
 import { papers } from '../data/papers'
 import './OpenPapers.css'
@@ -8,7 +9,14 @@ export interface OpenPapersProps {
 
 const OpenPapers = ({ className = '' }: OpenPapersProps) => {
   return (
-    <main className={`open-papers ${className}`}>
+    <>
+      <SEO
+        title="Open Papers - Karsten Wade"
+        description="Research papers and frameworks on open source community building, developer relations, and collaborative experience by Karsten Wade."
+        keywords="open source papers, community building, developer relations, collaborative experience, open collaboration research"
+        ogUrl="https://karstenwade.github.io/karstenwade.com/papers"
+      />
+      <main className={`open-papers ${className}`}>
       <div className="open-papers__header">
         <h1 className="open-papers__title">Open Papers</h1>
         <p className="open-papers__description">
@@ -40,6 +48,7 @@ const OpenPapers = ({ className = '' }: OpenPapersProps) => {
         ))}
       </div>
     </main>
+    </>
   )
 }
 

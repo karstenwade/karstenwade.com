@@ -1,3 +1,4 @@
+import SEO from '../components/SEO'
 import { theories } from '../data/theories'
 import './Theories.css'
 
@@ -12,7 +13,14 @@ const Theories = ({ className = '' }: TheoriesProps) => {
   }
 
   return (
-    <main className={`theories ${className}`}>
+    <>
+      <SEO
+        title="Theories & Frameworks - Karsten Wade"
+        description="Frameworks for understanding and improving collaborative work in open source communities, including CollabX, ContribX, and The Open Source Way."
+        keywords="CollabX, ContribX, collaborative experience, contributor experience, open source frameworks, community theory, The Open Source Way"
+        ogUrl="https://karstenwade.github.io/karstenwade.com/theories"
+      />
+      <main className={`theories ${className}`}>
       <div className="theories__header">
         <h1 className="theories__title">Theories & Frameworks</h1>
         <p className="theories__description">
@@ -91,6 +99,7 @@ const Theories = ({ className = '' }: TheoriesProps) => {
         ))}
       </div>
     </main>
+    </>
   )
 }
 
