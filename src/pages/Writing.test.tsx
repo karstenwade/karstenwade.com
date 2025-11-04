@@ -59,6 +59,29 @@ describe('Writing Page', () => {
     })
   })
 
+  describe('Fiction Section', () => {
+    it('should render fiction section', () => {
+      render(<Writing />)
+
+      const section = screen.getByRole('region', { name: /fiction/i })
+      expect(section).toBeInTheDocument()
+    })
+
+    it('should have fiction section heading', () => {
+      render(<Writing />)
+
+      const heading = screen.getByRole('heading', { level: 2, name: /fiction/i })
+      expect(heading).toBeInTheDocument()
+    })
+
+    it('should display at least one story preview', () => {
+      render(<Writing />)
+
+      const previews = screen.getAllByTestId('story-preview')
+      expect(previews.length).toBeGreaterThanOrEqual(1)
+    })
+  })
+
   describe('CSS Classes', () => {
     it('should apply base writing class', () => {
       render(<Writing />)
@@ -95,6 +118,13 @@ describe('Writing Page', () => {
       render(<Writing />)
 
       const section = screen.getByRole('region', { name: /poetry/i })
+      expect(section).toBeInTheDocument()
+    })
+
+    it('should have accessible fiction section', () => {
+      render(<Writing />)
+
+      const section = screen.getByRole('region', { name: /fiction/i })
       expect(section).toBeInTheDocument()
     })
   })

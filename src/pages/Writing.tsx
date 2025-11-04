@@ -1,4 +1,5 @@
 import Poetry from '../components/Poetry'
+import Fiction from '../components/Fiction'
 import './Writing.css'
 
 export interface WritingProps {
@@ -17,6 +18,7 @@ const Writing = ({ className = '' }: WritingProps) => {
       </div>
 
       <Poetry />
+      <Fiction />
     </main>
   )
 }

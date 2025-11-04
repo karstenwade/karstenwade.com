@@ -1,0 +1,225 @@
+/* Fiction Component Styles */
+
+.fiction {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+/* ===========================
+   Section Header
+   =========================== */
+
+.fiction__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.fiction__heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.fiction__description {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Stories List
+   =========================== */
+
+.stories-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===========================
+   Story Preview Card
+   =========================== */
+
+.story-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-normal);
+}
+
+.story-preview:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.story-preview__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.story-preview__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.story-preview__metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.story-preview__genre,
+.story-preview__word-count,
+.story-preview__date {
+  font-family: var(--font-body);
+  line-height: var(--line-height-normal);
+}
+
+.story-preview__separator {
+  color: var(--color-text-tertiary);
+}
+
+/* ===========================
+   Story Content
+   =========================== */
+
+.story-preview__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.story-preview__excerpt {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  font-style: italic;
+}
+
+.story-preview__full-text {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+}
+
+.story-paragraph {
+  margin: 0 0 var(--space-4) 0;
+}
+
+.story-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* ===========================
+   Toggle Button
+   =========================== */
+
+.story-preview__toggle {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.story-preview__toggle:hover {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.story-preview__toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.story-preview__toggle:active {
+  transform: scale(0.98);
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .fiction {
+    gap: var(--space-12);
+  }
+
+  .fiction__heading {
+    font-size: var(--font-size-3xl);
+  }
+
+  .fiction__description {
+    font-size: var(--font-size-lg);
+  }
+
+  .stories-list {
+    gap: var(--space-12);
+  }
+
+  .story-preview {
+    padding: var(--space-8);
+  }
+
+  .story-preview__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .story-preview,
+  .story-preview__toggle {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .story-preview {
+    border-width: 2px;
+  }
+
+  .story-preview__toggle {
+    border-width: 2px;
+  }
+}
