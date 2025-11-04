@@ -47,6 +47,9 @@ const SEO = ({
       <meta name="twitter:image" content={ogImage} />
       <meta name="twitter:creator" content="@quaid" />
 
+      {/* Bluesky - uses Open Graph and Twitter Card tags above, plus creator */}
+      <meta property="bluesky:creator" content="@quaid.bsky.app" />
+
       {/* Additional Meta Tags */}
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <meta httpEquiv="Content-Type" content="text/html; charset=utf-8" />
