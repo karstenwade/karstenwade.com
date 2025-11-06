@@ -20,7 +20,7 @@ const CV = ({ className = '' }: CVProps) => {
         keywords="Karsten Wade CV, resume, community architect, OSPO, Red Hat, open source career, developer relations"
         ogUrl="https://karstenwade.github.io/karstenwade.com/cv"
       />
-      <main className={`cv ${className}`}>
+      <main id="main-content" className={`cv ${className}`}>
       <header className="cv__header">
         <h1 className="cv__name">{cvData.name}</h1>
         <p className="cv__title">{cvData.title}</p>

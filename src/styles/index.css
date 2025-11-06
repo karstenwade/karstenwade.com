@@ -65,6 +65,40 @@ a:focus-visible {
   border-radius: var(--radius-sm);
 }
 
+/* Global focus styles for accessibility */
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: var(--radius-sm);
+}
+
+/* Ensure focus is never hidden */
+*:focus-visible {
+  outline-width: 2px;
+  outline-style: solid;
+  outline-color: var(--color-primary);
+}
+
+/* Skip link for keyboard navigation */
+.skip-link {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: var(--color-primary);
+  color: white;
+  padding: var(--space-2) var(--space-4);
+  text-decoration: none;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  top: 0;
+}
+
 code {
   font-family: var(--font-mono);
   font-size: 0.9em;

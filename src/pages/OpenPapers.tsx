@@ -16,7 +16,7 @@ const OpenPapers = ({ className = '' }: OpenPapersProps) => {
         keywords="open source papers, community building, developer relations, collaborative experience, open collaboration research"
         ogUrl="https://karstenwade.github.io/karstenwade.com/papers"
       />
-      <main className={`open-papers ${className}`}>
+      <main id="main-content" className={`open-papers ${className}`}>
       <div className="open-papers__header">
         <h1 className="open-papers__title">Open Papers</h1>
         <p className="open-papers__description">

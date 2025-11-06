@@ -15,7 +15,7 @@ const Home = ({ className = '' }: HomeProps) => {
         description="Karsten Wade - Open collaboration expert, community architect, and DevEx facilitator. Co-founder of Red Hat's OSPO and author of The Open Source Way."
         ogUrl="https://karstenwade.github.io/karstenwade.com/"
       />
-      <main className={`home ${className}`}>
+      <main id="main-content" className={`home ${className}`}>
         <Hero />
         <FeaturedContent />
       </main>

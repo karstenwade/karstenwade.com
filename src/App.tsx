@@ -24,6 +24,9 @@ function AppContent() {
 
   return (
     <div className="app">
+      <a href="#main-content" className="skip-link">
+        Skip to main content
+      </a>
       <Navigation />
 
       <Suspense fallback={<LoadingFallback />}>

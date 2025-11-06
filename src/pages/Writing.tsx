@@ -16,7 +16,7 @@ const Writing = ({ className = '' }: WritingProps) => {
         keywords="poetry, fiction, writing, open source literature, AI stories, collaboration writing"
         ogUrl="https://karstenwade.github.io/karstenwade.com/writing"
       />
-      <main className={`writing ${className}`}>
+      <main id="main-content" className={`writing ${className}`}>
         <div className="writing__header">
           <h1 className="writing__title">Writing</h1>
           <p className="writing__description">
