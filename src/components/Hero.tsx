@@ -9,7 +9,7 @@ const Hero = ({ className = '' }: HeroProps) => {
     <header className={`hero ${className}`} role="banner">
       <div className="hero__image-container">
         <img
-          src="/karstenwade.com/assets/images/karsten-wade-headshot.jpg"
+          src={`${import.meta.env.BASE_URL}assets/images/karsten-wade-headshot.jpg`}
           alt="Karsten Wade - Collaborative Experience Consultant"
           className="hero__image"
         />
