@@ -10,6 +10,36 @@
   border-bottom: 1px solid var(--color-border-light);
 }
 
+/* Logo styles */
+.navigation__logo {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: opacity var(--transition-fast);
+  border-radius: var(--radius-sm);
+}
+
+.navigation__logo:hover {
+  opacity: 0.8;
+}
+
+.navigation__logo:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.navigation__logo-image {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .navigation__logo-image {
+    height: 32px;
+  }
+}
+
 /* Hamburger button (mobile only) */
 .navigation__hamburger {
   display: none; /* Hidden on desktop */

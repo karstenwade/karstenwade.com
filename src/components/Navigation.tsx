@@ -39,6 +39,15 @@ const Navigation = ({ className = '' }: NavigationProps) => {
 
   return (
     <nav className={`navigation ${className}`} aria-label="Main navigation">
+      {/* Logo */}
+      <Link to="/" className="navigation__logo" aria-label="Karsten Wade - Home">
+        <img
+          src="/assets/images/logo.png"
+          alt="Karsten Wade"
+          className="navigation__logo-image"
+        />
+      </Link>
+
       {/* Mobile hamburger button */}
       <button
         className="navigation__hamburger"
