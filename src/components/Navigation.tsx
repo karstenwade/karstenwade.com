@@ -42,7 +42,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
       {/* Logo */}
       <Link to="/" className="navigation__logo" aria-label="Karsten Wade - Home">
         <img
-          src="/karstenwade.com/assets/images/logo.png"
+          src="assets/images/logo.png"
           alt="Karsten Wade"
           className="navigation__logo-image"
         />
