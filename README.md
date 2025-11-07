@@ -24,8 +24,7 @@ This website is built with modern web technologies focused on performance, acces
 - **Vite 6.0** - Lightning-fast build tool and dev server
 - **Vitest** - Unit testing framework
 - **ESLint** - Code quality and consistency
-- **GitHub Pages** - Static site hosting
-- **DreamHost** - Mirror hosting with automated sync
+- **GitHub Pages** - Static site hosting with custom domain
 
 ### Why Vite?
 
@@ -171,23 +170,23 @@ npm run type-check
 
 ## Deployment
 
-### GitHub Pages (Primary)
+### GitHub Pages with Custom Domain
 
 The site is automatically deployed to GitHub Pages via GitHub Actions:
 
 1. Push changes to the `main` branch
 2. GitHub Actions builds the site
 3. Static files deploy to `gh-pages` branch
-4. Available at `https://karstenwade.com`
+4. Available at `https://karstenwade.com` (custom domain)
 
-### DreamHost (Mirror)
+### Custom Domain Configuration
 
-DreamHost mirrors the GitHub Pages deployment every 5 minutes:
+- **Primary Domain:** karstenwade.com
+- **DNS:** A records point to GitHub Pages IPs
+- **HTTPS:** Enforced via GitHub Pages (automatic SSL)
+- **CDN:** GitHub's global CDN for fast delivery
 
-1. Cron job runs `/home/quaid/scripts/sync-from-github.sh`
-2. Script pulls latest from `gh-pages` branch
-3. Files sync to DreamHost web root
-4. Site mirrors at DreamHost domain
+See `docs/PRD.md` for detailed DNS configuration.
 
 ## Development Methodology
 
