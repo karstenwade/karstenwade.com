@@ -218,13 +218,13 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 8.4: Update deployment documentation ✅
 - Story 8.5: Test both deployments ✅ (manual)
 
-### Epic 9: Advanced SEO & Structured Data 🔄 IN PROGRESS
-- Story 9.1: Update sitemap and robots.txt for custom domain
-- Story 9.2: Add Schema.org Person structured data
-- Story 9.3: Add Schema.org CreativeWork markup for content
-- Story 9.4: Add Google Search Console setup and documentation
-- Story 9.5: Configure Google Analytics 4 Measurement ID
-- Story 9.6: Add Bluesky meta tags
+### Epic 9: Advanced SEO & Structured Data ✅ COMPLETE
+- Story 9.1: Update sitemap and robots.txt for custom domain ✅
+- Story 9.2: Add Schema.org Person structured data ✅
+- Story 9.3: Add Schema.org CreativeWork markup for content ✅
+- Story 9.4: Add Google Search Console setup and documentation ✅
+- Story 9.5: Configure Google Analytics 4 Measurement ID ✅
+- Story 9.6: Add Bluesky meta tags ✅
 
 ---
 
@@ -273,11 +273,11 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.1: Update Sitemap and Robots.txt for Custom Domain
 **Acceptance Criteria:**
-- [ ] Update sitemap.xml URLs from GitHub Pages to karstenwade.com
-- [ ] Update robots.txt sitemap reference to karstenwade.com
-- [ ] Update lastmod dates to current date
-- [ ] Add new content pages (legacy redirects) if applicable
-- [ ] Verify sitemap validates at https://www.xml-sitemaps.com/validate-xml-sitemap.html
+- [x] Update sitemap.xml URLs from GitHub Pages to karstenwade.com
+- [x] Update robots.txt sitemap reference to karstenwade.com
+- [x] Update lastmod dates to current date
+- [x] Add new content pages (legacy redirects) if applicable
+- [x] Verify sitemap validates at https://www.xml-sitemaps.com/validate-xml-sitemap.html
 
 **Files to Update:**
 - `public/sitemap.xml`
@@ -285,12 +285,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.2: Add Schema.org Person Structured Data
 **Acceptance Criteria:**
-- [ ] Create JSON-LD structured data for Karsten Wade as Person
-- [ ] Include name, jobTitle, description, url, image
-- [ ] Include sameAs links (social media profiles)
-- [ ] Add to Hero component or dedicated StructuredData component
-- [ ] Validate with Google Rich Results Test
-- [ ] Test with Schema.org validator
+- [x] Create JSON-LD structured data for Karsten Wade as Person
+- [x] Include name, jobTitle, description, url, image
+- [x] Include sameAs links (social media profiles)
+- [x] Add to Hero component or dedicated StructuredData component
+- [x] Validate with Google Rich Results Test
+- [x] Test with Schema.org validator
 
 **Implementation:**
 - Create `src/components/StructuredData.tsx` component
@@ -299,12 +299,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.3: Add Schema.org CreativeWork Markup
 **Acceptance Criteria:**
-- [ ] Add Article/CreativeWork schema for poems
-- [ ] Add Article/CreativeWork schema for essays/fiction
-- [ ] Add ScholarlyArticle schema for papers
-- [ ] Include author, datePublished, headline, articleBody
-- [ ] Add to Poetry and Fiction components
-- [ ] Validate with Google Rich Results Test
+- [x] Add Article/CreativeWork schema for poems
+- [x] Add Article/CreativeWork schema for essays/fiction
+- [x] Add ScholarlyArticle schema for papers
+- [x] Include author, datePublished, headline, articleBody
+- [x] Add to Poetry and Fiction components
+- [x] Validate with Google Rich Results Test
 
 **Implementation:**
 - Update Poetry component with structured data
@@ -313,12 +313,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.4: Add Google Search Console Setup and Documentation
 **Acceptance Criteria:**
-- [ ] Create docs/GOOGLE_SEARCH_CONSOLE.md with setup instructions
-- [ ] Add site verification meta tag option to SEO component
-- [ ] Document sitemap submission process
-- [ ] Document URL inspection and indexing requests
-- [ ] Document Core Web Vitals monitoring
-- [ ] Add troubleshooting section
+- [x] Create docs/GOOGLE_SEARCH_CONSOLE.md with setup instructions
+- [x] Add site verification meta tag option to SEO component
+- [x] Document sitemap submission process
+- [x] Document URL inspection and indexing requests
+- [x] Document Core Web Vitals monitoring
+- [x] Add troubleshooting section
 
 **Documentation Sections:**
 - Initial setup and verification
@@ -330,11 +330,11 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.5: Configure Google Analytics 4 Measurement ID
 **Acceptance Criteria:**
-- [ ] Replace G-XXXXXXXXXX placeholder with actual Measurement ID
-- [ ] Update both instances in index.html
-- [ ] Update GOOGLE_ANALYTICS.md with actual ID (or keep as example)
-- [ ] Test tracking in GA4 Real-Time reports
-- [ ] Verify page_view events are firing
+- [x] Replace G-XXXXXXXXXX placeholder with actual Measurement ID
+- [x] Update both instances in index.html
+- [x] Update GOOGLE_ANALYTICS.md with actual ID (or keep as example)
+- [x] Test tracking in GA4 Real-Time reports
+- [x] Verify page_view events are firing
 
 **Files to Update:**
 - `index.html` (lines 37 and 42)
@@ -342,11 +342,11 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.6: Add Bluesky Meta Tags
 **Acceptance Criteria:**
-- [ ] Research Bluesky meta tag requirements
-- [ ] Add Bluesky-specific meta tags to SEO component
-- [ ] Include author handle/profile link if applicable
-- [ ] Test with Bluesky link preview
-- [ ] Document in code comments
+- [x] Research Bluesky meta tag requirements
+- [x] Add Bluesky-specific meta tags to SEO component
+- [x] Include author handle/profile link if applicable
+- [x] Test with Bluesky link preview
+- [x] Document in code comments
 
 **Implementation:**
 - Add to `src/components/SEO.tsx`
