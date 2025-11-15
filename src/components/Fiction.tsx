@@ -42,6 +42,7 @@ const Fiction = ({ className = '' }: FictionProps) => {
           return (
             <article
               key={story.slug}
+              id={story.slug}
               className="story-preview"
               data-testid="story-preview"
             >

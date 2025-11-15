@@ -3,6 +3,23 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "framework": "vite",
+  "redirects": [
+    {
+      "source": "/2022/09/20/bonn-cemetery-alter-friedhof/",
+      "destination": "/writing#bonn-cemetery-alter-friedhof",
+      "permanent": true
+    },
+    {
+      "source": "/2022/09/19/time-banking-on-the-rhine/",
+      "destination": "/writing#time-banking-on-the-rhine",
+      "permanent": true
+    },
+    {
+      "source": "/2021/05/14/pardon-me-while-i-leak-some-life-onto-this-page/",
+      "destination": "/writing#pardon-me-while-i-leak-some-life-onto-this-page",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",

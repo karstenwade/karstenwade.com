@@ -188,6 +188,16 @@ The site is automatically deployed to GitHub Pages via GitHub Actions:
 
 See `docs/PRD.md` for detailed DNS configuration.
 
+### Legacy URL Redirects
+
+The site includes permanent redirects for content migrated from the previous WordPress site:
+
+- `/2022/09/20/bonn-cemetery-alter-friedhof/` → `/writing#bonn-cemetery-alter-friedhof`
+- `/2022/09/19/time-banking-on-the-rhine/` → `/writing#time-banking-on-the-rhine`
+- `/2021/05/14/pardon-me-while-i-leak-some-life-onto-this-page/` → `/writing#pardon-me-while-i-leak-some-life-onto-this-page`
+
+Redirects are configured in `vercel.json`. See `docs/VERCEL_DEPLOYMENT.md` for details.
+
 ## Development Methodology
 
 This project follows **Test-Driven Development (TDD)** principles:

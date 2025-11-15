@@ -424,6 +424,39 @@ git push origin main
 
 ---
 
+## Legacy URL Redirects
+
+The site includes permanent redirects (HTTP 301) for content migrated from the previous WordPress site:
+
+**Redirected URLs:**
+- `/2022/09/20/bonn-cemetery-alter-friedhof/` → `/writing#bonn-cemetery-alter-friedhof`
+- `/2022/09/19/time-banking-on-the-rhine/` → `/writing#time-banking-on-the-rhine`
+- `/2021/05/14/pardon-me-while-i-leak-some-life-onto-this-page/` → `/writing#pardon-me-while-i-leak-some-life-onto-this-page`
+
+**Configuration:**
+Redirects are defined in `vercel.json`:
+
+```json
+"redirects": [
+  {
+    "source": "/2022/09/20/bonn-cemetery-alter-friedhof/",
+    "destination": "/writing#bonn-cemetery-alter-friedhof",
+    "permanent": true
+  },
+  ...
+]
+```
+
+**Testing Redirects:**
+```bash
+# Test redirect (after deployment)
+curl -I https://karstenwade.com/2022/09/20/bonn-cemetery-alter-friedhof/
+# Should return: HTTP/1.1 308 Permanent Redirect
+# Location: https://karstenwade.com/writing#bonn-cemetery-alter-friedhof
+```
+
+---
+
 ## Vercel CLI (Optional)
 
 Install Vercel CLI for local development and manual deployments:

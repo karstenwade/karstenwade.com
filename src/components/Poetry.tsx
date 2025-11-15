@@ -43,6 +43,7 @@ const Poetry = ({ className = '' }: PoetryProps) => {
           return (
             <article
               key={poem.slug}
+              id={poem.slug}
               className="poem-preview"
               data-testid="poem-preview"
             >
