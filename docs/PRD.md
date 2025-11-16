@@ -218,13 +218,21 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 8.4: Update deployment documentation ✅
 - Story 8.5: Test both deployments ✅ (manual)
 
-### Epic 9: Advanced SEO & Structured Data 🔄 IN PROGRESS
-- Story 9.1: Update sitemap and robots.txt for custom domain
-- Story 9.2: Add Schema.org Person structured data
-- Story 9.3: Add Schema.org CreativeWork markup for content
-- Story 9.4: Add Google Search Console setup and documentation
-- Story 9.5: Configure Google Analytics 4 Measurement ID
-- Story 9.6: Add Bluesky meta tags
+### Epic 9: Advanced SEO & Structured Data ✅ COMPLETE
+- Story 9.1: Update sitemap and robots.txt for custom domain ✅
+- Story 9.2: Add Schema.org Person structured data ✅
+- Story 9.3: Add Schema.org CreativeWork markup for content ✅
+- Story 9.4: Add Google Search Console setup and documentation ✅
+- Story 9.5: Configure Google Analytics 4 Measurement ID ✅
+- Story 9.6: Add Bluesky meta tags ✅
+
+### Epic 10: Automated Paper Syncing & Content Cleanup 🔄 IN PROGRESS
+- Story 10.1: Remove generated content from poetry and fiction ✅
+- Story 10.2: Create GitHub API client for papers repository 🔲
+- Story 10.3: Build paper fetching and parsing service 🔲
+- Story 10.4: Generate individual paper pages with markdown rendering 🔲
+- Story 10.5: Update sitemap dynamically with paper pages 🔲
+- Story 10.6: Add GitHub Actions workflow for scheduled paper sync 🔲
 
 ---
 
@@ -273,11 +281,11 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.1: Update Sitemap and Robots.txt for Custom Domain
 **Acceptance Criteria:**
-- [ ] Update sitemap.xml URLs from GitHub Pages to karstenwade.com
-- [ ] Update robots.txt sitemap reference to karstenwade.com
-- [ ] Update lastmod dates to current date
-- [ ] Add new content pages (legacy redirects) if applicable
-- [ ] Verify sitemap validates at https://www.xml-sitemaps.com/validate-xml-sitemap.html
+- [x] Update sitemap.xml URLs from GitHub Pages to karstenwade.com
+- [x] Update robots.txt sitemap reference to karstenwade.com
+- [x] Update lastmod dates to current date
+- [x] Add new content pages (legacy redirects) if applicable
+- [x] Verify sitemap validates at https://www.xml-sitemaps.com/validate-xml-sitemap.html
 
 **Files to Update:**
 - `public/sitemap.xml`
@@ -285,12 +293,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.2: Add Schema.org Person Structured Data
 **Acceptance Criteria:**
-- [ ] Create JSON-LD structured data for Karsten Wade as Person
-- [ ] Include name, jobTitle, description, url, image
-- [ ] Include sameAs links (social media profiles)
-- [ ] Add to Hero component or dedicated StructuredData component
-- [ ] Validate with Google Rich Results Test
-- [ ] Test with Schema.org validator
+- [x] Create JSON-LD structured data for Karsten Wade as Person
+- [x] Include name, jobTitle, description, url, image
+- [x] Include sameAs links (social media profiles)
+- [x] Add to Hero component or dedicated StructuredData component
+- [x] Validate with Google Rich Results Test
+- [x] Test with Schema.org validator
 
 **Implementation:**
 - Create `src/components/StructuredData.tsx` component
@@ -299,12 +307,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.3: Add Schema.org CreativeWork Markup
 **Acceptance Criteria:**
-- [ ] Add Article/CreativeWork schema for poems
-- [ ] Add Article/CreativeWork schema for essays/fiction
-- [ ] Add ScholarlyArticle schema for papers
-- [ ] Include author, datePublished, headline, articleBody
-- [ ] Add to Poetry and Fiction components
-- [ ] Validate with Google Rich Results Test
+- [x] Add Article/CreativeWork schema for poems
+- [x] Add Article/CreativeWork schema for essays/fiction
+- [x] Add ScholarlyArticle schema for papers
+- [x] Include author, datePublished, headline, articleBody
+- [x] Add to Poetry and Fiction components
+- [x] Validate with Google Rich Results Test
 
 **Implementation:**
 - Update Poetry component with structured data
@@ -313,12 +321,12 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.4: Add Google Search Console Setup and Documentation
 **Acceptance Criteria:**
-- [ ] Create docs/GOOGLE_SEARCH_CONSOLE.md with setup instructions
-- [ ] Add site verification meta tag option to SEO component
-- [ ] Document sitemap submission process
-- [ ] Document URL inspection and indexing requests
-- [ ] Document Core Web Vitals monitoring
-- [ ] Add troubleshooting section
+- [x] Create docs/GOOGLE_SEARCH_CONSOLE.md with setup instructions
+- [x] Add site verification meta tag option to SEO component
+- [x] Document sitemap submission process
+- [x] Document URL inspection and indexing requests
+- [x] Document Core Web Vitals monitoring
+- [x] Add troubleshooting section
 
 **Documentation Sections:**
 - Initial setup and verification
@@ -330,11 +338,11 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.5: Configure Google Analytics 4 Measurement ID
 **Acceptance Criteria:**
-- [ ] Replace G-XXXXXXXXXX placeholder with actual Measurement ID
-- [ ] Update both instances in index.html
-- [ ] Update GOOGLE_ANALYTICS.md with actual ID (or keep as example)
-- [ ] Test tracking in GA4 Real-Time reports
-- [ ] Verify page_view events are firing
+- [x] Replace G-XXXXXXXXXX placeholder with actual Measurement ID
+- [x] Update both instances in index.html
+- [x] Update GOOGLE_ANALYTICS.md with actual ID (or keep as example)
+- [x] Test tracking in GA4 Real-Time reports
+- [x] Verify page_view events are firing
 
 **Files to Update:**
 - `index.html` (lines 37 and 42)
@@ -342,15 +350,131 @@ Create a fast, accessible, and content-rich personal website that:
 
 ### Story 9.6: Add Bluesky Meta Tags
 **Acceptance Criteria:**
-- [ ] Research Bluesky meta tag requirements
-- [ ] Add Bluesky-specific meta tags to SEO component
-- [ ] Include author handle/profile link if applicable
-- [ ] Test with Bluesky link preview
-- [ ] Document in code comments
+- [x] Research Bluesky meta tag requirements
+- [x] Add Bluesky-specific meta tags to SEO component
+- [x] Include author handle/profile link if applicable
+- [x] Test with Bluesky link preview
+- [x] Document in code comments
 
 **Implementation:**
 - Add to `src/components/SEO.tsx`
 - Similar pattern to Twitter Cards
+
+---
+
+## Automated Paper Syncing & Content Cleanup Requirements (Epic 10)
+
+### Story 10.1: Remove Generated Content from Poetry and Fiction
+**Acceptance Criteria:**
+- [x] Remove "Opening Collaboration" poem (AI-generated content)
+- [x] Remove "The Pull Request" story (AI-generated content)
+- [x] Update "Bonn Cemetery: Alter Friedhof" to featured status
+- [x] Update "Pardon me while I leak some life onto this page" to featured status
+- [x] Verify authentic Karsten Wade writing remains
+
+**Rationale:**
+Clean slate for authentic writing only. Site should showcase only genuine Karsten Wade creative work.
+
+### Story 10.2: Create GitHub API Client for Papers Repository
+**Acceptance Criteria:**
+- [ ] Create `src/services/githubApi.ts` service
+- [ ] Implement `fetchRepositoryContents(owner, repo, path)` function
+- [ ] Implement `fetchFileContent(owner, repo, path)` function
+- [ ] Add error handling and retry logic
+- [ ] Use GitHub REST API v3 (no auth required for public repos)
+- [ ] Add TypeScript interfaces for API responses
+- [ ] Add unit tests for API client
+
+**Technical Implementation:**
+- Use native `fetch` API
+- Target repository: `karstenwade/papers`
+- Parse markdown files from repository root
+- Extract frontmatter metadata (title, date, abstract, etc.)
+
+### Story 10.3: Build Paper Fetching and Parsing Service
+**Acceptance Criteria:**
+- [ ] Create `src/services/paperService.ts`
+- [ ] Implement `fetchPapersFromGitHub()` function
+- [ ] Parse markdown frontmatter (YAML format)
+- [ ] Extract paper metadata (title, abstract, date, tags, etc.)
+- [ ] Transform GitHub API response to Paper interface
+- [ ] Cache fetched data for build performance
+- [ ] Add error handling for missing/malformed papers
+- [ ] Add unit tests for paper parsing
+
+**Expected Frontmatter Format:**
+```yaml
+---
+title: Paper Title
+abstract: Brief description
+publicationDate: 2024-01-15
+version: 1.0
+category: Category Name
+tags: [tag1, tag2, tag3]
+featured: true
+---
+```
+
+### Story 10.4: Generate Individual Paper Pages with Markdown Rendering
+**Acceptance Criteria:**
+- [ ] Create `src/pages/PaperDetail.tsx` component
+- [ ] Add markdown rendering library (react-markdown or marked)
+- [ ] Implement dynamic routing for `/papers/:slug`
+- [ ] Render full paper content from markdown
+- [ ] Add syntax highlighting for code blocks (if present)
+- [ ] Add table of contents generation
+- [ ] Style paper content with proper typography
+- [ ] Add SEO metadata for each paper page
+- [ ] Add structured data (ScholarlyArticle) for each paper
+- [ ] Add "Back to Papers" navigation
+- [ ] Add "View on GitHub" link
+
+**Technical Considerations:**
+- Use React Router dynamic routes
+- Pre-render paper pages at build time
+- Ensure proper heading hierarchy (h1, h2, h3)
+- Add print stylesheet for paper pages
+
+### Story 10.5: Update Sitemap Dynamically with Paper Pages
+**Acceptance Criteria:**
+- [ ] Create build-time script to generate sitemap
+- [ ] Fetch papers from GitHub during build
+- [ ] Add individual paper page URLs to sitemap
+- [ ] Set appropriate priority (0.8 for papers)
+- [ ] Set changefreq based on last modified date
+- [ ] Ensure sitemap validates
+- [ ] Update robots.txt if needed
+- [ ] Add sitemap generation to build process
+
+**Implementation:**
+- Create `scripts/generate-sitemap.ts`
+- Run as part of `npm run build`
+- Output to `public/sitemap.xml`
+
+### Story 10.6: Add GitHub Actions Workflow for Scheduled Paper Sync
+**Acceptance Criteria:**
+- [ ] Create `.github/workflows/sync-papers.yml`
+- [ ] Schedule workflow to run daily at 00:00 UTC
+- [ ] Trigger on changes to `karstenwade/papers` repository (webhook)
+- [ ] Fetch latest papers from GitHub
+- [ ] Rebuild site if papers changed
+- [ ] Deploy updated site automatically
+- [ ] Add workflow status badge to README
+- [ ] Document sync process in README
+
+**Workflow Steps:**
+1. Check out repository
+2. Fetch papers from GitHub
+3. Compare with existing papers data
+4. If changes detected:
+   - Update papers data
+   - Rebuild site
+   - Deploy to Vercel and GitHub Pages
+5. Notify on failure (GitHub Actions notifications)
+
+**Optional Enhancement:**
+- Add manual workflow dispatch for immediate sync
+- Add webhook from karstenwade/papers to trigger sync on push
 
 ---
 

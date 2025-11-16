@@ -198,6 +198,29 @@ The site includes permanent redirects for content migrated from the previous Wor
 
 Redirects are configured in `vercel.json`. See `docs/VERCEL_DEPLOYMENT.md` for details.
 
+### Automated Paper Syncing
+
+The site automatically syncs papers from the [karstenwade/papers](https://github.com/karstenwade/papers) repository:
+
+**Scheduled Sync:**
+- Runs daily at 00:00 UTC via GitHub Actions
+- Fetches latest papers from GitHub
+- Regenerates sitemap with new papers
+- Rebuilds and deploys site if papers changed
+- Vercel auto-deploys from main branch
+
+**Manual Sync:**
+- Trigger workflow manually from GitHub Actions UI
+- Run `npm run generate-sitemap` locally
+
+**Workflow:** `.github/workflows/sync-papers.yml`
+
+**Features:**
+- Automatic sitemap updates
+- Conditional deployment (only if papers changed)
+- Error notifications
+- Dual deployment (GitHub Pages + Vercel)
+
 ## SEO & Analytics
 
 ### Google Analytics 4

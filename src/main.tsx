@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { HelmetProvider } from 'react-helmet-async'
 import './styles/variables.css'
 import './styles/index.css'
+import 'highlight.js/styles/github.css'
 import App from './App.tsx'
 
 createRoot(document.getElementById('root')!).render(
