@@ -1,0 +1,232 @@
+/* Essays Component Styles */
+
+.essays {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  width: 100%;
+}
+
+/* ===========================
+   Section Header
+   =========================== */
+
+.essays__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.essays__heading {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.essays__description {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Essays List
+   =========================== */
+
+.essays-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-8);
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ===========================
+   Essay Preview Card
+   =========================== */
+
+.essay-preview {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-6);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  transition: box-shadow var(--transition-normal);
+}
+
+.essay-preview:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.essay-preview__header {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.essay-preview__title {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-tight);
+  color: var(--color-text-primary);
+}
+
+.essay-preview__metadata {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--font-size-sm);
+  color: var(--color-text-tertiary);
+}
+
+.essay-preview__word-count,
+.essay-preview__date {
+  font-family: var(--font-body);
+  line-height: var(--line-height-normal);
+}
+
+.essay-preview__separator {
+  color: var(--color-text-tertiary);
+}
+
+.essay-preview__theme {
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-style: italic;
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+}
+
+/* ===========================
+   Essay Content
+   =========================== */
+
+.essay-preview__content {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.essay-preview__excerpt {
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+  font-style: italic;
+}
+
+.essay-preview__full-text {
+  padding-top: var(--space-4);
+  border-top: 1px solid var(--color-border);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-primary);
+}
+
+.essay-paragraph {
+  margin: 0 0 var(--space-4) 0;
+}
+
+.essay-paragraph:last-child {
+  margin-bottom: 0;
+}
+
+/* ===========================
+   Toggle Button
+   =========================== */
+
+.essay-preview__toggle {
+  align-self: flex-start;
+  padding: var(--space-2) var(--space-4);
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-primary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.essay-preview__toggle:hover {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.essay-preview__toggle:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.essay-preview__toggle:active {
+  transform: scale(0.98);
+}
+
+/* ===========================
+   Responsive Breakpoints
+   =========================== */
+
+/* Tablet and Desktop */
+@media (min-width: 769px) {
+  .essays {
+    gap: var(--space-12);
+  }
+
+  .essays__heading {
+    font-size: var(--font-size-3xl);
+  }
+
+  .essays__description {
+    font-size: var(--font-size-lg);
+  }
+
+  .essays-list {
+    gap: var(--space-12);
+  }
+
+  .essay-preview {
+    padding: var(--space-8);
+  }
+
+  .essay-preview__title {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+/* ===========================
+   Accessibility
+   =========================== */
+
+/* Reduced motion for users who prefer it */
+@media (prefers-reduced-motion: reduce) {
+  .essay-preview,
+  .essay-preview__toggle {
+    transition: none;
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .essay-preview {
+    border-width: 2px;
+  }
+
+  .essay-preview__toggle {
+    border-width: 2px;
+  }
+}

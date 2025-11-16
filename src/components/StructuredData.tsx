@@ -1,5 +1,6 @@
 import { Helmet } from 'react-helmet-async'
 import type { Poem } from '../data/poetry'
+import type { Essay } from '../data/essays'
 import type { Story } from '../data/fiction'
 import type { Paper } from '../data/papers'
 
@@ -14,8 +15,8 @@ export interface PersonData {
 }
 
 export interface StructuredDataProps {
-  type: 'person' | 'poem' | 'story' | 'paper'
-  data?: PersonData | Poem | Story | Paper
+  type: 'person' | 'poem' | 'essay' | 'story' | 'paper'
+  data?: PersonData | Poem | Essay | Story | Paper
 }
 
 const StructuredData = ({ type, data }: StructuredDataProps) => {
@@ -74,8 +75,26 @@ const StructuredData = ({ type, data }: StructuredDataProps) => {
       inLanguage: 'en-US',
       abstract: poem.excerpt,
     }
+  } else if (type === 'essay' && data) {
+    // Schema.org Article for essays
+    const essay = data as Essay
+    jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'Article',
+      headline: essay.title,
+      articleBody: essay.fullText,
+      author: {
+        '@type': 'Person',
+        name: 'Karsten Wade',
+        url: 'https://karstenwade.com',
+      },
+      datePublished: essay.dateWritten,
+      wordCount: essay.wordCount,
+      inLanguage: 'en-US',
+      abstract: essay.excerpt,
+    }
   } else if (type === 'story' && data) {
-    // Schema.org Article for essays/fiction
+    // Schema.org Article for fiction
     const story = data as Story
     jsonLd = {
       '@context': 'https://schema.org',

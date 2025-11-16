@@ -39,6 +39,55 @@
 }
 
 /* ===========================
+   Tabs
+   =========================== */
+
+.writing__tabs {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-2);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--space-2);
+  background: var(--color-surface);
+  border-radius: var(--radius-md);
+  border: 1px solid var(--color-border);
+}
+
+.writing__tab {
+  flex: 1;
+  padding: var(--space-3) var(--space-4);
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-medium);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.writing__tab:hover {
+  background: var(--color-background);
+  color: var(--color-text-primary);
+}
+
+.writing__tab--active {
+  background: var(--color-primary);
+  color: var(--color-background);
+}
+
+.writing__tab:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+.writing__tab:active {
+  transform: scale(0.98);
+}
+
+/* ===========================
    Responsive Breakpoints
    =========================== */
 
