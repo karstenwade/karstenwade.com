@@ -226,13 +226,20 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 9.5: Configure Google Analytics 4 Measurement ID ✅
 - Story 9.6: Add Bluesky meta tags ✅
 
-### Epic 10: Automated Paper Syncing & Content Cleanup 🔄 IN PROGRESS
+### Epic 10: Automated Paper Syncing & Content Cleanup ✅ COMPLETE
 - Story 10.1: Remove generated content from poetry and fiction ✅
-- Story 10.2: Create GitHub API client for papers repository 🔲
-- Story 10.3: Build paper fetching and parsing service 🔲
-- Story 10.4: Generate individual paper pages with markdown rendering 🔲
-- Story 10.5: Update sitemap dynamically with paper pages 🔲
-- Story 10.6: Add GitHub Actions workflow for scheduled paper sync 🔲
+- Story 10.2: Create GitHub API client for papers repository ✅
+- Story 10.3: Build paper fetching and parsing service ✅
+- Story 10.4: Generate individual paper pages with markdown rendering ✅
+- Story 10.5: Update sitemap dynamically with paper pages ✅
+- Story 10.6: Add GitHub Actions workflow for scheduled paper sync ✅
+
+### Epic 11: Poetry Formatting & Essays Section ✅ COMPLETE
+- Story 11.1: Fix poetry formatting to preserve line breaks and indentation ✅
+- Story 11.2: Add Essays section to Writing page ✅
+- Story 11.3: Move essay from fiction to essays ✅
+- Story 11.4: Create publishing documentation for Writing section ✅
+- Story 11.5: Create Claude development workflow guide ✅
 
 ---
 
@@ -475,6 +482,108 @@ featured: true
 **Optional Enhancement:**
 - Add manual workflow dispatch for immediate sync
 - Add webhook from karstenwade/papers to trigger sync on push
+
+---
+
+## Poetry Formatting & Essays Section Requirements (Epic 11)
+
+### Story 11.1: Fix Poetry Formatting to Preserve Line Breaks and Indentation
+**Acceptance Criteria:**
+- [ ] Modify Poetry component to preserve exact formatting
+- [ ] Support `<pre>` tags or `white-space: pre-wrap` CSS
+- [ ] Update poetry data with properly formatted text
+- [ ] Maintain visual indentation from original source
+- [ ] Test with both poems (Bonn Cemetery, Time Banking)
+- [ ] Ensure responsive design maintains formatting
+
+**Problem:**
+Current poetry rendering loses line breaks and indentation that are critical to poem structure and meaning.
+
+**Solution:**
+Use `white-space: pre-wrap` CSS or render raw HTML with `<pre>` tags to preserve exact formatting from source markdown files.
+
+**Files:**
+- `src/components/Poetry.tsx`
+- `src/components/Poetry.css`
+- `src/data/poetry.ts`
+
+### Story 11.2: Add Essays Section to Writing Page
+**Acceptance Criteria:**
+- [ ] Create Essays tab in Writing page navigation
+- [ ] Implement tabbed interface (Poetry | Essays | Fiction)
+- [ ] Create `src/data/essays.ts` data file
+- [ ] Create Essays component (similar to Poetry/Fiction)
+- [ ] Style Essays section consistently
+- [ ] Update Writing page routing/navigation
+- [ ] Ensure accessibility (keyboard navigation, ARIA)
+
+**Implementation:**
+- Tabbed interface with three sections: Poetry, Essays, Fiction
+- Essays display similar to Fiction (full text, metadata)
+- Clean navigation between tabs
+
+**Files:**
+- `src/pages/Writing.tsx` (add tabs)
+- `src/data/essays.ts` (new file)
+- `src/components/Essays.tsx` (new component)
+- `src/pages/Writing.css` (tab styles)
+
+### Story 11.3: Move Essay from Fiction to Essays
+**Acceptance Criteria:**
+- [ ] Move "Pardon me while I leak some life onto this page" to essays
+- [ ] Remove from fiction.ts
+- [ ] Add to essays.ts with proper metadata
+- [ ] Update featured status
+- [ ] Verify essay displays correctly in Essays tab
+- [ ] Update sitemap if needed
+
+**Data Migration:**
+Move essay object from `src/data/fiction.ts` to `src/data/essays.ts`
+
+### Story 11.4: Create Publishing Documentation for Writing Section
+**Acceptance Criteria:**
+- [ ] Create `docs/PUBLISHING_TO_WRITING.md`
+- [ ] Document how to add new poems (with formatting preservation)
+- [ ] Document how to add new essays
+- [ ] Document how to add new fiction
+- [ ] Include frontmatter examples
+- [ ] Explain data file structure
+- [ ] Provide formatting guidelines for poetry
+- [ ] Include examples for each content type
+
+**Documentation Sections:**
+1. Overview of Writing section structure
+2. Adding Poetry (with `<pre>` formatting example)
+3. Adding Essays
+4. Adding Fiction
+5. Metadata fields explanation
+6. Featured content selection
+7. Testing locally before publishing
+
+### Story 11.5: Create Claude Development Workflow Guide
+**Acceptance Criteria:**
+- [ ] Create `docs/CLAUDE_DEVELOPMENT_GUIDE.md`
+- [ ] Document PRD-first approach
+- [ ] Explain story creation in backlog
+- [ ] GitHub issues workflow
+- [ ] Feature branch naming conventions
+- [ ] Pull request process
+- [ ] Working from personal fork option
+- [ ] Code review process
+- [ ] Testing requirements
+- [ ] Deployment workflow
+
+**Documentation Sections:**
+1. Development Philosophy (PRD-driven)
+2. Epic and Story Creation
+3. GitHub Issues Integration
+4. Feature Branch Workflow
+5. Pull Request Paradigm
+6. Working from Personal Fork
+7. Code Review Standards
+8. Testing Requirements
+9. Continuous Integration
+10. Deployment Process
 
 ---
 
