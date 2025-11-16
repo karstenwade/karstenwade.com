@@ -144,9 +144,6 @@ function transformToPaper(
   frontmatter: PaperFrontmatter,
   filePath: string
 ): Paper {
-  // Generate slug from filename
-  const slug = filePath.replace(/\.m(arkdown|d)$/i, '').replace(/^\//, '')
-
   // Generate external URL to GitHub
   const externalUrl = `https://github.com/${PAPERS_REPO_OWNER}/${PAPERS_REPO_NAME}/blob/main/${filePath}`
 
@@ -172,10 +169,9 @@ function transformToPaper(
 /**
  * Fetch all papers from GitHub repository
  *
- * @param cacheTTL - Cache time-to-live in milliseconds (default: 5 minutes)
  * @returns Array of Paper objects
  */
-export async function fetchPapersFromGitHub(cacheTTL = 5 * 60 * 1000): Promise<Paper[]> {
+export async function fetchPapersFromGitHub(): Promise<Paper[]> {
   try {
     // Fetch all markdown files from repository root
     const markdownFiles = await fetchMarkdownFiles(
@@ -256,7 +252,7 @@ export async function getPapers(
     return cachedPapers
   }
 
-  const papers = await fetchPapersFromGitHub(cacheTTL)
+  const papers = await fetchPapersFromGitHub()
   cachedPapers = papers
   cacheTimestamp = now
 

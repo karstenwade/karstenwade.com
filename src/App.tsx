@@ -10,6 +10,7 @@ const Writing = lazy(() => import('./pages/Writing'))
 const CV = lazy(() => import('./pages/CV'))
 const Theories = lazy(() => import('./pages/Theories'))
 const OpenPapers = lazy(() => import('./pages/OpenPapers'))
+const PaperDetail = lazy(() => import('./pages/PaperDetail'))
 
 // Loading fallback component
 const LoadingFallback = () => (
@@ -36,6 +37,7 @@ function AppContent() {
           <Route path="/cv" element={<CV />} />
           <Route path="/theories" element={<Theories />} />
           <Route path="/papers" element={<OpenPapers />} />
+          <Route path="/papers/:slug" element={<PaperDetail />} />
         </Routes>
       </Suspense>
 
