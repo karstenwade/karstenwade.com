@@ -48,71 +48,71 @@ Of our infinite capacity for love, you and I`,
   },
   {
     title: 'Time Banking on the Rhine',
-    excerpt: 'Standing on\nthe very sands of time\nThe river is the rhyme\nthe Rhine is the grind\nthe instrument of time',
+    excerpt: 'Standing on\n     the very sands of time\nThe river is the rhyme\nthe Rhine is the grind\n     the instrument of time',
     firstLine: 'Standing on',
     fullText: `Standing on
-the very sands of time
+     the very sands of time
 The river is the rhyme
 the Rhine is the grind
-the instrument of time
+     the instrument of time
 A tool engulfing my ankles and toes
-the very essence of
-Wade wading in the waters
-Shins wet
+     the very essence of
+     Wade wading in the waters
+     Shins wet
 
 Boulders crack, wedges went away
-cascading stones tear away
+     cascading stones tear away
 Grind ground to dust and sand
-The liquid river of late, Yes
-The ice river a glacier clearly past
+     The liquid river of late, Yes
+     The ice river a glacier clearly past
 More tools of time come to bear
-Mere entropy made evident
-in wind and rain, freezing and thawing,
-Like teeth on a fine wheel
-or burrs on a grindstone
-wrought slowly o'er the landscape
-scraping and rending
-O'er out o'er
-Until
+     Mere entropy made evident
+     in wind and rain, freezing and thawing,
+     Like teeth on a fine wheel
+     or burrs on a grindstone
+     wrought slowly o'er the landscape
+     scraping and rending
+     O'er out o'er
+     Until
 
 A beach is formed
-against this jetty of quarry stone
-shills and stones
-pebbles and riverglass
-and sand
-proof of the past passing through
-endlessly
+     against this jetty of quarry stone
+     shills and stones
+     pebbles and riverglass
+     and sand
+     proof of the past passing through
+     endlessly
 
 With these thoughts
-held lightly in my
-rearward attention
+     held lightly in my
+     rearward attention
 My left hand filled
-with stones that with skill
-will soon be skipping my thrill
-on the Rhine
-skips from two to nine
-I will
+     with stones that with skill
+     will soon be skipping my thrill
+     on the Rhine
+     skips from two to nine
+     I will
 Bending with this bend
-in this river that wends
-its way down its valley
-I rally
-Turn two skips to four
-And soon four is now five
+     in this river that wends
+     its way down its valley
+     I rally
+     Turn two skips to four
+     And soon four is now five
 Five I am certain
-Six perhaps on that
-one stone that caught a wave
-the wind
-a curve
-a dance
-and a landing of 3,4, 5,..6?
-7?
-8, perhaps 9?
+     Six perhaps on that
+     one stone that caught a wave
+     the wind
+     a curve
+     a dance
+     and a landing of 3,4, 5,..6?
+     7?
+     8, perhaps 9?
 Nein, not nine on the Rhine
-For cert five I can claim
-mine is the name
-of Five Skips Over the Rhine
-while time banked precious sand
-against a hand made shore`,
+     For cert five I can claim
+     mine is the name
+     of Five Skips Over the Rhine
+     while time banked precious sand
+     against a hand made shore`,
     dateWritten: '2022-09-19',
     form: 'Free Verse',
     theme: 'Time, nature, rivers, erosion, play, presence',
