@@ -226,6 +226,14 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 9.5: Configure Google Analytics 4 Measurement ID ✅
 - Story 9.6: Add Bluesky meta tags ✅
 
+### Epic 10: Automated Paper Syncing & Content Cleanup 🔄 IN PROGRESS
+- Story 10.1: Remove generated content from poetry and fiction ✅
+- Story 10.2: Create GitHub API client for papers repository 🔲
+- Story 10.3: Build paper fetching and parsing service 🔲
+- Story 10.4: Generate individual paper pages with markdown rendering 🔲
+- Story 10.5: Update sitemap dynamically with paper pages 🔲
+- Story 10.6: Add GitHub Actions workflow for scheduled paper sync 🔲
+
 ---
 
 ## Vercel Deployment Requirements
@@ -351,6 +359,122 @@ Create a fast, accessible, and content-rich personal website that:
 **Implementation:**
 - Add to `src/components/SEO.tsx`
 - Similar pattern to Twitter Cards
+
+---
+
+## Automated Paper Syncing & Content Cleanup Requirements (Epic 10)
+
+### Story 10.1: Remove Generated Content from Poetry and Fiction
+**Acceptance Criteria:**
+- [x] Remove "Opening Collaboration" poem (AI-generated content)
+- [x] Remove "The Pull Request" story (AI-generated content)
+- [x] Update "Bonn Cemetery: Alter Friedhof" to featured status
+- [x] Update "Pardon me while I leak some life onto this page" to featured status
+- [x] Verify authentic Karsten Wade writing remains
+
+**Rationale:**
+Clean slate for authentic writing only. Site should showcase only genuine Karsten Wade creative work.
+
+### Story 10.2: Create GitHub API Client for Papers Repository
+**Acceptance Criteria:**
+- [ ] Create `src/services/githubApi.ts` service
+- [ ] Implement `fetchRepositoryContents(owner, repo, path)` function
+- [ ] Implement `fetchFileContent(owner, repo, path)` function
+- [ ] Add error handling and retry logic
+- [ ] Use GitHub REST API v3 (no auth required for public repos)
+- [ ] Add TypeScript interfaces for API responses
+- [ ] Add unit tests for API client
+
+**Technical Implementation:**
+- Use native `fetch` API
+- Target repository: `karstenwade/papers`
+- Parse markdown files from repository root
+- Extract frontmatter metadata (title, date, abstract, etc.)
+
+### Story 10.3: Build Paper Fetching and Parsing Service
+**Acceptance Criteria:**
+- [ ] Create `src/services/paperService.ts`
+- [ ] Implement `fetchPapersFromGitHub()` function
+- [ ] Parse markdown frontmatter (YAML format)
+- [ ] Extract paper metadata (title, abstract, date, tags, etc.)
+- [ ] Transform GitHub API response to Paper interface
+- [ ] Cache fetched data for build performance
+- [ ] Add error handling for missing/malformed papers
+- [ ] Add unit tests for paper parsing
+
+**Expected Frontmatter Format:**
+```yaml
+---
+title: Paper Title
+abstract: Brief description
+publicationDate: 2024-01-15
+version: 1.0
+category: Category Name
+tags: [tag1, tag2, tag3]
+featured: true
+---
+```
+
+### Story 10.4: Generate Individual Paper Pages with Markdown Rendering
+**Acceptance Criteria:**
+- [ ] Create `src/pages/PaperDetail.tsx` component
+- [ ] Add markdown rendering library (react-markdown or marked)
+- [ ] Implement dynamic routing for `/papers/:slug`
+- [ ] Render full paper content from markdown
+- [ ] Add syntax highlighting for code blocks (if present)
+- [ ] Add table of contents generation
+- [ ] Style paper content with proper typography
+- [ ] Add SEO metadata for each paper page
+- [ ] Add structured data (ScholarlyArticle) for each paper
+- [ ] Add "Back to Papers" navigation
+- [ ] Add "View on GitHub" link
+
+**Technical Considerations:**
+- Use React Router dynamic routes
+- Pre-render paper pages at build time
+- Ensure proper heading hierarchy (h1, h2, h3)
+- Add print stylesheet for paper pages
+
+### Story 10.5: Update Sitemap Dynamically with Paper Pages
+**Acceptance Criteria:**
+- [ ] Create build-time script to generate sitemap
+- [ ] Fetch papers from GitHub during build
+- [ ] Add individual paper page URLs to sitemap
+- [ ] Set appropriate priority (0.8 for papers)
+- [ ] Set changefreq based on last modified date
+- [ ] Ensure sitemap validates
+- [ ] Update robots.txt if needed
+- [ ] Add sitemap generation to build process
+
+**Implementation:**
+- Create `scripts/generate-sitemap.ts`
+- Run as part of `npm run build`
+- Output to `public/sitemap.xml`
+
+### Story 10.6: Add GitHub Actions Workflow for Scheduled Paper Sync
+**Acceptance Criteria:**
+- [ ] Create `.github/workflows/sync-papers.yml`
+- [ ] Schedule workflow to run daily at 00:00 UTC
+- [ ] Trigger on changes to `karstenwade/papers` repository (webhook)
+- [ ] Fetch latest papers from GitHub
+- [ ] Rebuild site if papers changed
+- [ ] Deploy updated site automatically
+- [ ] Add workflow status badge to README
+- [ ] Document sync process in README
+
+**Workflow Steps:**
+1. Check out repository
+2. Fetch papers from GitHub
+3. Compare with existing papers data
+4. If changes detected:
+   - Update papers data
+   - Rebuild site
+   - Deploy to Vercel and GitHub Pages
+5. Notify on failure (GitHub Actions notifications)
+
+**Optional Enhancement:**
+- Add manual workflow dispatch for immediate sync
+- Add webhook from karstenwade/papers to trigger sync on push
 
 ---
 
