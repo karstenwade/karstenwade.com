@@ -241,6 +241,22 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 11.4: Create publishing documentation for Writing section ✅
 - Story 11.5: Create Claude development workflow guide ✅
 
+### Epic 11.5: Pre-Strapi Gap Remediation 🔲 PLANNED
+- Story 11.5.1: Fix linting errors and code quality issues 🔲
+- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) 🔲
+- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲
+- Story 11.5.4: Create content service abstraction layer 🔲
+
+### Epic 12: Strapi CMS Integration & Blog 🔲 PLANNED
+- Story 12.1: Set up Strapi backend and deploy 🔲
+- Story 12.2: Configure content types (Blog, Writing, Papers) 🔲
+- Story 12.3: Implement API integration with React frontend 🔲
+- Story 12.4: Migrate existing Writing content to Strapi 🔲
+- Story 12.5: Add media management and CDN integration 🔲
+- Story 12.6: Implement draft/publish workflow 🔲
+- Story 12.7: Create blog section with Strapi integration 🔲
+- Story 12.8: Testing and content migration validation 🔲
+
 ---
 
 ## Vercel Deployment Requirements
@@ -754,6 +770,319 @@ This approach:
 **Document Version History:**
 - v1.0 (2025-11-02): Initial PRD with DreamHost
 - v2.0 (2025-11-07): Removed DreamHost, added Epic 8 for custom domain
+
+---
+
+## Pre-Strapi Gap Remediation Requirements (Epic 11.5)
+
+### Story 11.5.1: Fix Linting Errors and Code Quality Issues
+**Acceptance Criteria:**
+- [ ] Fix unused variable in Card.test.tsx:150
+- [ ] Fix const usage in variables.test.tsx:10
+- [ ] Run `npm run lint` with 0 errors
+- [ ] Add pre-commit hook to prevent linting errors
+- [ ] Update CI/CD to fail on linting errors
+
+**Problem:**
+Two ESLint errors exist in test files that should be resolved for code quality.
+
+**Solution:**
+- Remove unused `user` variable in Card.test.tsx
+- Change `let` to `const` for `variablesContent` in variables.test.tsx
+- Add lint check to GitHub Actions workflow
+
+**Files:**
+- `src/components/Card.test.tsx`
+- `src/styles/variables.test.tsx`
+- `.github/workflows/deploy.yml`
+
+### Story 11.5.2: Add Missing Test Coverage
+**Acceptance Criteria:**
+- [ ] Add test suite for Essays component
+- [ ] Add test suite for SEO component
+- [ ] Add test suite for StructuredData component
+- [ ] Achieve 80%+ code coverage
+- [ ] All tests pass
+- [ ] Add coverage reporting to CI/CD
+
+**Problem:**
+Three important components lack test coverage, creating risk during refactoring.
+
+**Solution:**
+Create comprehensive test suites using Vitest and React Testing Library:
+- Essays.tsx: Test expand/collapse, essay display, empty state
+- SEO.tsx: Test meta tags, Open Graph, Twitter cards
+- StructuredData.tsx: Test schema generation for all types
+
+**Files:**
+- `src/components/Essays.test.tsx` (new)
+- `src/components/SEO.test.tsx` (new)
+- `src/components/StructuredData.test.tsx` (new)
+
+### Story 11.5.3: Implement Dynamic Paper Loading
+**Acceptance Criteria:**
+- [ ] Remove TODO from PaperDetail.tsx
+- [ ] Implement dynamic paper loading from paperService
+- [ ] Enable direct URL access to papers
+- [ ] Add loading and error states
+- [ ] Update sitemap with paper URLs
+- [ ] Test direct navigation to paper URLs
+
+**Problem:**
+Papers can only be accessed by navigating from Papers list, not via direct URLs. This limits bookmarking, sharing, and SEO.
+
+**Solution:**
+- Fetch paper data dynamically using slug parameter
+- Use paperService to load paper metadata
+- Fetch markdown content from GitHub
+- Handle loading and error states gracefully
+
+**Files:**
+- `src/pages/PaperDetail.tsx`
+- `src/services/paperService.ts`
+
+### Story 11.5.4: Create Content Service Abstraction Layer
+**Acceptance Criteria:**
+- [ ] Design ContentService interface
+- [ ] Implement LocalContentService (current TypeScript data)
+- [ ] Abstract Poetry, Essays, Fiction data access
+- [ ] Update components to use ContentService
+- [ ] Maintain backward compatibility
+- [ ] Add TypeScript types for content service
+- [ ] Document content service API
+
+**Problem:**
+Content is hardcoded in TypeScript files with no abstraction layer, making CMS migration difficult.
+
+**Solution:**
+Create ContentService abstraction that:
+- Defines interface for content operations (get, list, search)
+- Implements LocalContentService using current data files
+- Prepares for StrategyContentService in Epic 12
+- Allows components to be data-source agnostic
+
+**Files:**
+- `src/services/contentService.ts` (new)
+- `src/services/localContentService.ts` (new)
+- `src/components/Poetry.tsx`
+- `src/components/Essays.tsx`
+- `src/components/Fiction.tsx`
+- `src/pages/Writing.tsx`
+
+---
+
+## Strapi CMS Integration & Blog Requirements (Epic 12)
+
+### Story 12.1: Set Up Strapi Backend and Deploy
+**Acceptance Criteria:**
+- [ ] Initialize Strapi project
+- [ ] Configure database (PostgreSQL on Vercel/Railway)
+- [ ] Deploy Strapi to hosting platform
+- [ ] Set up admin panel access
+- [ ] Configure CORS for React frontend
+- [ ] Set up authentication/authorization
+- [ ] Add environment variables
+- [ ] Document deployment process
+
+**Problem:**
+Need a headless CMS for managing blog posts and potentially Writing content with draft/publish workflow.
+
+**Solution:**
+- Create new Strapi project using latest version
+- Deploy to Vercel, Railway, or dedicated hosting
+- Use PostgreSQL for production database
+- Configure secure admin access
+- Set up API endpoints
+
+**Files:**
+- `strapi/` (new directory)
+- `strapi/config/`
+- `strapi/api/`
+- `docs/STRAPI_DEPLOYMENT.md` (new)
+
+### Story 12.2: Configure Content Types
+**Acceptance Criteria:**
+- [ ] Create Blog Post content type
+- [ ] Create optional Writing content types (Poetry, Essay, Fiction)
+- [ ] Define all fields and relationships
+- [ ] Set up media fields for images
+- [ ] Configure content versioning
+- [ ] Add SEO fields (meta title, description, keywords)
+- [ ] Test content creation in admin panel
+
+**Problem:**
+Need to define Strapi content schemas matching current data structures.
+
+**Solution:**
+Create content types with fields:
+
+**Blog Post**:
+- title, slug, excerpt, content (rich text)
+- author, publishDate, lastModified
+- featuredImage, gallery
+- categories, tags
+- status (draft/published)
+- SEO fields
+
+**Optional Writing Types** (if migrating to Strapi):
+- Poetry: title, fullText, excerpt, form, theme, tags
+- Essay: title, fullText, excerpt, theme, wordCount, tags
+- Fiction: title, fullText, excerpt, genre, theme, wordCount, tags
+
+**Files:**
+- `strapi/api/blog-post/`
+- `strapi/api/poetry/` (optional)
+- `strapi/api/essay/` (optional)
+- `strapi/api/fiction/` (optional)
+
+### Story 12.3: Implement API Integration with React Frontend
+**Acceptance Criteria:**
+- [ ] Create StrategyContentService implementation
+- [ ] Implement GraphQL/REST client
+- [ ] Add authentication for preview mode
+- [ ] Handle loading and error states
+- [ ] Implement caching strategy
+- [ ] Add retry logic for failed requests
+- [ ] Test API integration end-to-end
+
+**Problem:**
+React frontend needs to fetch content from Strapi API.
+
+**Solution:**
+- Use ContentService abstraction created in 11.5.4
+- Implement StrategyContentService class
+- Use fetch or axios for API calls
+- Add SWR or React Query for caching
+- Handle authentication for draft previews
+
+**Files:**
+- `src/services/strapiContentService.ts` (new)
+- `src/services/strapiClient.ts` (new)
+- `src/hooks/useStrapi.ts` (new)
+
+### Story 12.4: Migrate Existing Writing Content to Strapi
+**Acceptance Criteria:**
+- [ ] Export current poetry, essays, fiction data
+- [ ] Create migration script
+- [ ] Import content to Strapi
+- [ ] Verify all fields migrated correctly
+- [ ] Test content display on frontend
+- [ ] Keep TypeScript files as fallback
+- [ ] Document migration process
+
+**Problem:**
+Need to transfer existing Writing content from TypeScript files to Strapi.
+
+**Solution:**
+- Create Node.js migration script
+- Read from existing data files
+- Post to Strapi API
+- Validate migration success
+- Keep option to roll back
+
+**Files:**
+- `scripts/migrate-to-strapi.ts` (new)
+- `docs/CONTENT_MIGRATION.md` (new)
+
+### Story 12.5: Add Media Management and CDN Integration
+**Acceptance Criteria:**
+- [ ] Configure Strapi media library
+- [ ] Set up cloud storage (Cloudinary/S3)
+- [ ] Integrate CDN for image delivery
+- [ ] Add image optimization
+- [ ] Configure upload limits and validation
+- [ ] Test image uploads and display
+- [ ] Add alt text management
+
+**Problem:**
+Need to manage images and media files for blog posts.
+
+**Solution:**
+- Use Strapi media library
+- Integrate with Cloudinary or AWS S3
+- Configure automatic image optimization
+- Set up CDN for fast delivery
+- Add responsive image support
+
+**Files:**
+- `strapi/config/plugins.js`
+- `src/components/StrapiImage.tsx` (new)
+
+### Story 12.6: Implement Draft/Publish Workflow
+**Acceptance Criteria:**
+- [ ] Configure draft and published states
+- [ ] Add preview mode for drafts
+- [ ] Implement authentication for preview
+- [ ] Add scheduled publishing
+- [ ] Test workflow end-to-end
+- [ ] Document editorial process
+
+**Problem:**
+Need ability to draft content before publishing.
+
+**Solution:**
+- Use Strapi's built-in draft/publish system
+- Add preview mode with authentication
+- Optional: Add scheduled publishing plugin
+- Create documentation for content editors
+
+**Files:**
+- `src/pages/Preview.tsx` (new)
+- `docs/CONTENT_EDITING.md` (new)
+
+### Story 12.7: Create Blog Section with Strapi Integration
+**Acceptance Criteria:**
+- [ ] Create Blog listing page
+- [ ] Create Blog post detail page
+- [ ] Add blog navigation
+- [ ] Implement pagination
+- [ ] Add category/tag filtering
+- [ ] Add search functionality
+- [ ] Add RSS feed
+- [ ] Update sitemap with blog posts
+- [ ] Test blog functionality
+
+**Problem:**
+Need new blog section to publish regular content.
+
+**Solution:**
+- Create /blog route
+- Build BlogList and BlogPost components
+- Use StrategyContentService to fetch posts
+- Add filtering and search
+- Generate RSS feed from Strapi data
+
+**Files:**
+- `src/pages/Blog.tsx` (new)
+- `src/pages/BlogPost.tsx` (new)
+- `src/components/BlogCard.tsx` (new)
+- `src/pages/Blog.css` (new)
+
+### Story 12.8: Testing and Content Migration Validation
+**Acceptance Criteria:**
+- [ ] Test all Strapi endpoints
+- [ ] Verify content migration accuracy
+- [ ] Test draft/publish workflow
+- [ ] Test media uploads and display
+- [ ] Performance testing
+- [ ] SEO validation
+- [ ] Accessibility testing
+- [ ] User acceptance testing
+- [ ] Document any issues found
+
+**Problem:**
+Need comprehensive testing before launching Strapi integration.
+
+**Solution:**
+- Create test plan
+- Test all user flows
+- Validate migrated content
+- Performance benchmarks
+- Fix any issues found
+
+**Files:**
+- `tests/strapi-integration.test.ts` (new)
+- `docs/STRAPI_TESTING.md` (new)
 
 ---
 
