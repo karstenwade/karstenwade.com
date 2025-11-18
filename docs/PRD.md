@@ -578,15 +578,15 @@ Move essay object from `src/data/fiction.ts` to `src/data/essays.ts`
 
 ### Story 11.5: Create Claude Development Workflow Guide
 **Acceptance Criteria:**
-- [ ] Create `docs/CLAUDE_DEVELOPMENT_GUIDE.md`
-- [ ] Document PRD-first approach
-- [ ] Explain story creation in backlog
-- [ ] GitHub issues workflow
-- [ ] Feature branch naming conventions
-- [ ] Pull request process
-- [ ] Working from personal fork option
-- [ ] Code review process
-- [ ] Testing requirements
+- [x] Create `agentic-docs/CLAUDE_DEVELOPMENT_GUIDE.md`
+- [x] Document PRD-first approach
+- [x] Explain story creation in backlog
+- [x] GitHub issues workflow
+- [x] Feature branch naming conventions
+- [x] Pull request process
+- [x] Working from personal fork option
+- [x] Code review process
+- [x] Testing requirements
 - [ ] Deployment workflow
 
 **Documentation Sections:**
