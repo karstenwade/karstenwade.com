@@ -247,6 +247,15 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲
 - Story 11.5.4: Create content service abstraction layer 🔲
 
+### Epic 13: Tailwind CSS & Shadcn UI Integration 🔄 IN PROGRESS
+- Story 13.1: Setup Tailwind CSS and Shadcn UI infrastructure ✅
+- Story 13.2: Migrate Navigation component to Tailwind + Shadcn 🔲 ([#88](https://github.com/karstenwade/karstenwade.com/issues/88))
+- Story 13.3: Migrate Card component to Shadcn UI 🔲 ([#89](https://github.com/karstenwade/karstenwade.com/issues/89))
+- Story 13.4: Migrate Hero component to Tailwind 🔲 ([#90](https://github.com/karstenwade/karstenwade.com/issues/90))
+- Story 13.5: Update global styles for Tailwind compatibility 🔲 ([#91](https://github.com/karstenwade/karstenwade.com/issues/91))
+- Story 13.6: Add Shadcn Button component 🔲 ([#92](https://github.com/karstenwade/karstenwade.com/issues/92))
+- Story 13.7: Testing and visual regression validation 🔲 ([#93](https://github.com/karstenwade/karstenwade.com/issues/93))
+
 ### Epic 12: Strapi CMS Integration & Blog 🔲 PLANNED
 - Story 12.1: Set up Strapi backend and deploy 🔲
 - Story 12.2: Configure content types (Blog, Writing, Papers) 🔲
@@ -868,6 +877,204 @@ Create ContentService abstraction that:
 - `src/components/Essays.tsx`
 - `src/components/Fiction.tsx`
 - `src/pages/Writing.tsx`
+
+---
+
+## Tailwind CSS & Shadcn UI Integration Requirements (Epic 13)
+
+### Story 13.1: Setup Tailwind CSS and Shadcn UI Infrastructure ✅
+**Acceptance Criteria:**
+- [x] Install Tailwind CSS v4 and dependencies
+- [x] Install Shadcn UI peer dependencies
+- [x] Configure PostCSS for Tailwind v4
+- [x] Add Tailwind directives to main CSS file
+- [x] Configure path aliases in tsconfig.json and vite.config.ts
+- [x] Create components.json for Shadcn configuration
+- [x] Create lib/utils.ts with cn() helper
+- [x] Create components/ui/ directory structure
+- [x] Verify build succeeds with Tailwind
+
+**Problem:**
+Need modern UI component library and utility-first CSS framework for consistent, maintainable styling and faster UI development before Strapi integration.
+
+**Solution:**
+- Install Tailwind CSS v4 with @tailwindcss/postcss plugin
+- Configure Shadcn UI with "new-york" style and neutral color scheme
+- Set up proper path aliases for clean imports
+- Create utility functions for class name merging
+
+**Files:**
+- `tailwind.config.js` (created)
+- `postcss.config.js` (created)
+- `components.json` (created)
+- `src/lib/utils.ts` (created)
+- `src/components/ui/` (created)
+- `src/styles/index.css` (modified)
+- `tsconfig.json` (modified)
+- `vite.config.ts` (modified)
+- `package.json` (modified)
+
+---
+
+### Story 13.2: Migrate Navigation Component to Tailwind + Shadcn
+**Acceptance Criteria:**
+- [ ] Replace custom CSS with Tailwind utilities
+- [ ] Maintain responsive mobile menu functionality
+- [ ] Preserve accessibility (ARIA labels, keyboard nav)
+- [ ] Keep active route highlighting
+- [ ] Test across all viewports
+- [ ] Update tests for Navigation component
+- [ ] Remove Navigation.css after migration
+
+**Problem:**
+Navigation uses custom CSS that could be simplified and standardized with Tailwind utilities.
+
+**Solution:**
+- Convert layout to Tailwind flex/grid utilities
+- Use Tailwind responsive modifiers for mobile menu
+- Maintain existing ARIA attributes and keyboard navigation
+- Use Tailwind color utilities for active states
+
+**Files:**
+- `src/components/Navigation.tsx`
+- `src/components/__tests__/Navigation.test.tsx`
+- `src/components/Navigation.css` (to be removed)
+
+---
+
+### Story 13.3: Migrate Card Component to Shadcn UI
+**Acceptance Criteria:**
+- [ ] Install Shadcn Card component
+- [ ] Replace custom Card with Shadcn Card
+- [ ] Maintain all existing Card variants
+- [ ] Preserve hover effects and transitions
+- [ ] Keep accessibility features
+- [ ] Update all Card usages across site
+- [ ] Update Card tests
+- [ ] Remove Card.css after migration
+
+**Problem:**
+Card component could benefit from Shadcn's battle-tested accessibility and styling patterns.
+
+**Solution:**
+- Install Shadcn Card via CLI: `npx shadcn@latest add card`
+- Adapt CardHeader, CardTitle, CardDescription, CardContent
+- Migrate existing custom styles to Tailwind utilities
+- Update all pages using Card component
+
+**Files:**
+- `src/components/ui/card.tsx` (new from Shadcn)
+- `src/components/Card.tsx` (modified)
+- `src/components/__tests__/Card.test.tsx`
+- `src/components/Card.css` (to be removed)
+- `src/pages/Home.tsx`
+- `src/pages/CV.tsx`
+- `src/pages/Theories.tsx`
+
+---
+
+### Story 13.4: Migrate Hero Component to Tailwind
+**Acceptance Criteria:**
+- [ ] Replace custom CSS with Tailwind utilities
+- [ ] Maintain responsive typography scaling
+- [ ] Preserve gradient background effects
+- [ ] Keep animation/transition timings
+- [ ] Test on all viewport sizes
+- [ ] Remove Hero.css after migration
+
+**Problem:**
+Hero component has custom CSS that can be simplified with Tailwind's responsive and gradient utilities.
+
+**Solution:**
+- Use Tailwind gradient utilities (bg-gradient-to-r)
+- Apply responsive text sizing (text-4xl md:text-6xl)
+- Use Tailwind spacing scale for consistent margins/padding
+- Leverage Tailwind's transition utilities
+
+**Files:**
+- `src/components/Hero.tsx`
+- `src/components/Hero.css` (to be removed)
+
+---
+
+### Story 13.5: Update Global Styles for Tailwind Compatibility
+**Acceptance Criteria:**
+- [ ] Review all CSS variable usage
+- [ ] Convert compatible global styles to Tailwind config
+- [ ] Update custom CSS to work with Tailwind preflight
+- [ ] Maintain existing color palette via Tailwind theme
+- [ ] Test typography scales work correctly
+- [ ] Ensure focus styles remain accessible
+- [ ] Document any custom CSS that must remain
+
+**Problem:**
+Need to ensure CSS variables and global styles work harmoniously with Tailwind's preflight and utilities.
+
+**Solution:**
+- Extend Tailwind theme with custom colors from CSS variables
+- Keep CSS variables for values that need runtime changes
+- Convert static values to Tailwind theme configuration
+- Use @layer utilities for custom utility classes
+
+**Files:**
+- `tailwind.config.js`
+- `src/styles/variables.css`
+- `src/styles/index.css`
+- `src/styles/App.css`
+
+---
+
+### Story 13.6: Add Shadcn Button Component
+**Acceptance Criteria:**
+- [ ] Install Shadcn Button component
+- [ ] Create Button variants matching site design
+- [ ] Use Buttons in Navigation links
+- [ ] Add Buttons to CTAs on Home page
+- [ ] Test keyboard navigation on Buttons
+- [ ] Test screen reader compatibility
+- [ ] Document Button usage patterns
+
+**Problem:**
+Site needs consistent, accessible button styling across all interactive elements.
+
+**Solution:**
+- Install Shadcn Button: `npx shadcn@latest add button`
+- Configure variants: default, outline, ghost, link
+- Apply to navigation items and CTAs
+- Ensure proper focus-visible styles
+
+**Files:**
+- `src/components/ui/button.tsx` (new from Shadcn)
+- `src/components/Navigation.tsx`
+- `src/pages/Home.tsx`
+- `src/components/FeaturedContent.tsx`
+
+---
+
+### Story 13.7: Testing and Visual Regression Validation
+**Acceptance Criteria:**
+- [ ] All unit tests pass with Tailwind changes
+- [ ] Visual comparison confirms no unintended changes
+- [ ] Accessibility tests pass (axe-core)
+- [ ] Responsive layouts work on all breakpoints
+- [ ] Build size remains reasonable
+- [ ] Performance metrics unchanged or improved
+- [ ] Document migration process
+
+**Problem:**
+Need to validate that Tailwind migration doesn't introduce visual regressions or accessibility issues.
+
+**Solution:**
+- Run full test suite: `npm test`
+- Manual visual testing across viewports
+- Run axe-core accessibility tests
+- Compare build sizes before/after
+- Test keyboard navigation throughout site
+- Create migration documentation
+
+**Files:**
+- All test files
+- `docs/TAILWIND_MIGRATION.md` (new)
 
 ---
 
