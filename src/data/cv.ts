@@ -33,7 +33,7 @@ export const cvData: CVData = {
   title: 'Open Source Community Architect & OSPO Leader',
   summary: 'Open Source Community Architect with over 20 years of experience building and managing communities, leading OSPO initiatives, and advancing developer relations. Expert in collaborative experience (CollabX), contributor experience (ContribX), and human systems design.',
   contact: {
-    email: 'karsten@redhat.com',
+    email: 'karsten@karstenwade.com',
     linkedin: 'https://linkedin.com/in/karstenwade',
     github: 'https://github.com/karstenwade',
     website: 'https://karstenwade.com',
