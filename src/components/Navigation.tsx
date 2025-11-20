@@ -115,10 +115,8 @@ const Navigation = ({ className = '' }: NavigationProps) => {
       <ul
         id="navigation-menu"
         className={cn(
-          // Base styles - visible on desktop, sidebar on mobile
-          "flex gap-2 list-none m-0 p-0",
-          // Desktop - horizontal row, flush left
-          "md:flex-row",
+          // Base styles - horizontal row on desktop, visible by default
+          "flex flex-row gap-2 list-none m-0 p-0",
           // Mobile - fixed sidebar
           "max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0",
           "max-md:flex-col max-md:gap-0",
