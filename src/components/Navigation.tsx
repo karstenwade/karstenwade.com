@@ -116,7 +116,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
         id="navigation-menu"
         className={cn(
           // Always flex (visible on desktop, positioned off-screen on mobile)
-          "flex flex-row gap-2 list-none m-0 p-0",
+          "flex flex-row gap-6 list-none m-0 p-0",
           // Mobile - fixed sidebar (hidden via translate)
           "max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0",
           "max-md:flex-col max-md:gap-0",
@@ -146,7 +146,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
             <Link
               to={link.href}
               className={cn(
-                "block px-4 py-3",
+                "block px-3 py-2",
                 "font-[var(--font-body)] text-base font-medium",
                 "text-[var(--color-text-primary)] no-underline",
                 "rounded-sm transition-all duration-200",
@@ -155,7 +155,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2",
                 "active:bg-[var(--color-neutral-200)]",
                 "md:whitespace-nowrap",
-                "max-md:py-4 max-md:text-base"
+                "max-md:px-4 max-md:py-4 max-md:text-base"
               )}
               onClick={closeMenu}
             >
