@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import './Navigation.css'
+import { cn } from '@/lib/utils'
 
 interface NavigationProps {
   className?: string
@@ -38,19 +38,44 @@ const Navigation = ({ className = '' }: NavigationProps) => {
   ]
 
   return (
-    <nav className={`navigation ${className}`} aria-label="Main navigation">
+    <nav
+      className={cn(
+        "relative flex items-center justify-between p-4",
+        "bg-[var(--color-bg-primary)] border-b border-[var(--color-border-light)]",
+        className
+      )}
+      aria-label="Main navigation"
+    >
       {/* Logo */}
-      <Link to="/" className="navigation__logo" aria-label="Karsten Wade - Home">
+      <Link
+        to="/"
+        className={cn(
+          "flex items-center no-underline",
+          "transition-opacity duration-200 rounded-sm",
+          "hover:opacity-80",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2"
+        )}
+        aria-label="Karsten Wade - Home"
+      >
         <img
           src={`${import.meta.env.BASE_URL}assets/images/logo.png`}
           alt="Karsten Wade"
-          className="navigation__logo-image"
+          className="h-10 md:h-10 w-auto block"
         />
       </Link>
 
       {/* Mobile hamburger button */}
       <button
-        className="navigation__hamburger"
+        className={cn(
+          "hidden md:hidden flex-col justify-center items-center",
+          "w-11 h-11 p-2",
+          "bg-transparent border-2 border-[var(--color-neutral-400)] rounded-sm",
+          "cursor-pointer transition-all duration-200 z-[var(--z-sticky)]",
+          "hover:border-[var(--color-primary)] hover:bg-[var(--color-neutral-100)]",
+          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2 focus-visible:border-[var(--color-primary)]",
+          "active:bg-[var(--color-neutral-200)]",
+          "max-md:flex"
+        )}
         onClick={toggleMenu}
         onKeyDown={handleKeyDown}
         aria-expanded={isMenuOpen}
@@ -58,24 +83,79 @@ const Navigation = ({ className = '' }: NavigationProps) => {
         aria-label={isMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
         type="button"
       >
-        <span className="navigation__hamburger-icon" aria-hidden="true">
-          <span className="navigation__hamburger-line"></span>
-          <span className="navigation__hamburger-line"></span>
-          <span className="navigation__hamburger-line"></span>
+        <span className={cn(
+          "flex flex-col w-5",
+          isMenuOpen ? "gap-0" : "gap-1"
+        )} aria-hidden="true">
+          <span className={cn(
+            "block w-full h-0.5 bg-[var(--color-neutral-700)]",
+            "transition-all duration-300",
+            "motion-reduce:transition-none",
+            isMenuOpen && "rotate-45 translate-y-0.5"
+          )}></span>
+          <span className={cn(
+            "block w-full h-0.5 bg-[var(--color-neutral-700)]",
+            "transition-all duration-300",
+            "motion-reduce:transition-none",
+            isMenuOpen && "opacity-0"
+          )}></span>
+          <span className={cn(
+            "block w-full h-0.5 bg-[var(--color-neutral-700)]",
+            "transition-all duration-300",
+            "motion-reduce:transition-none",
+            isMenuOpen && "-rotate-45 -translate-y-0.5"
+          )}></span>
         </span>
       </button>
 
       {/* Navigation menu */}
       <ul
         id="navigation-menu"
-        className={`navigation__menu ${isMenuOpen ? 'navigation__menu--open' : ''}`}
+        className={cn(
+          // Base desktop styles
+          "flex gap-2 list-none m-0 p-0",
+          // Desktop - center the menu
+          "md:justify-center md:flex-1",
+          // Mobile - fixed sidebar
+          "max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0",
+          "max-md:flex-col max-md:gap-0",
+          "max-md:w-[280px] max-md:max-w-[80vw]",
+          "max-md:pt-16 max-md:px-4 max-md:pb-8",
+          "max-md:bg-[var(--color-bg-primary)]",
+          "max-md:border-l max-md:border-[var(--color-border-medium)]",
+          "max-md:shadow-[var(--shadow-xl)]",
+          "max-md:z-[var(--z-fixed)]",
+          "max-md:overflow-y-auto",
+          // Mobile - slide animation
+          "max-md:transition-transform max-md:duration-300",
+          "max-md:motion-reduce:transition-none",
+          isMenuOpen ? "max-md:translate-x-0" : "max-md:translate-x-full"
+        )}
         role="list"
       >
-        {navLinks.map((link) => (
-          <li key={link.href} className="navigation__item">
+        {navLinks.map((link, index) => (
+          <li
+            key={link.href}
+            className={cn(
+              "m-0",
+              "max-md:border-b max-md:border-[var(--color-border-light)]",
+              index === navLinks.length - 1 && "max-md:border-b-0"
+            )}
+          >
             <Link
               to={link.href}
-              className="navigation__link"
+              className={cn(
+                "block px-4 py-3",
+                "font-[var(--font-body)] text-base font-medium",
+                "text-[var(--color-text-primary)] no-underline",
+                "rounded-sm transition-all duration-200",
+                "motion-reduce:transition-none",
+                "hover:text-[var(--color-primary)] hover:bg-[var(--color-neutral-100)] hover:no-underline",
+                "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2",
+                "active:bg-[var(--color-neutral-200)]",
+                "md:whitespace-nowrap",
+                "max-md:py-4 max-md:text-base"
+              )}
               onClick={closeMenu}
             >
               {link.name}
