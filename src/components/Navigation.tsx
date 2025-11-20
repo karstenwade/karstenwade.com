@@ -40,32 +40,34 @@ const Navigation = ({ className = '' }: NavigationProps) => {
   return (
     <nav
       className={cn(
-        "relative flex items-center justify-between p-4",
+        "relative flex flex-col md:flex-col p-4",
         "bg-[var(--color-bg-primary)] border-b border-[var(--color-border-light)]",
         className
       )}
       aria-label="Main navigation"
     >
-      {/* Logo */}
-      <Link
-        to="/"
-        className={cn(
-          "flex items-center no-underline",
-          "transition-opacity duration-200 rounded-sm",
-          "hover:opacity-80",
-          "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2"
-        )}
-        aria-label="Karsten Wade - Home"
-      >
-        <img
-          src={`${import.meta.env.BASE_URL}assets/images/logo.png`}
-          alt="Karsten Wade"
-          className="h-10 md:h-10 w-auto block"
-        />
-      </Link>
+      {/* Header row with logo and hamburger */}
+      <div className="flex items-center justify-between w-full mb-0 md:mb-2">
+        {/* Logo */}
+        <Link
+          to="/"
+          className={cn(
+            "flex items-center no-underline",
+            "transition-opacity duration-200 rounded-sm",
+            "hover:opacity-80",
+            "focus-visible:outline focus-visible:outline-2 focus-visible:outline-[var(--color-primary)] focus-visible:outline-offset-2"
+          )}
+          aria-label="Karsten Wade - Home"
+        >
+          <img
+            src={`${import.meta.env.BASE_URL}assets/images/logo.png`}
+            alt="Karsten Wade"
+            className="h-10 md:h-10 w-auto block"
+          />
+        </Link>
 
-      {/* Mobile hamburger button */}
-      <button
+        {/* Mobile hamburger button */}
+        <button
         className={cn(
           "hidden md:hidden flex-col justify-center items-center",
           "w-11 h-11 p-2",
@@ -107,18 +109,19 @@ const Navigation = ({ className = '' }: NavigationProps) => {
           )}></span>
         </span>
       </button>
+      </div>
 
-      {/* Navigation menu */}
+      {/* Navigation menu - below header, flush left on desktop */}
       <ul
         id="navigation-menu"
         className={cn(
-          // Base desktop styles
+          // Base desktop styles - flush left, below header
           "flex gap-2 list-none m-0 p-0",
-          // Desktop - center the menu
-          "md:justify-center md:flex-1",
+          // Desktop - hidden on mobile, shown as horizontal row on desktop
+          "hidden md:flex md:flex-row",
           // Mobile - fixed sidebar
           "max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0",
-          "max-md:flex-col max-md:gap-0",
+          "max-md:flex max-md:flex-col max-md:gap-0",
           "max-md:w-[280px] max-md:max-w-[80vw]",
           "max-md:pt-16 max-md:px-4 max-md:pb-8",
           "max-md:bg-[var(--color-bg-primary)]",
