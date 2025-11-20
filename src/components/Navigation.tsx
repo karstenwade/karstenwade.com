@@ -115,13 +115,13 @@ const Navigation = ({ className = '' }: NavigationProps) => {
       <ul
         id="navigation-menu"
         className={cn(
-          // Base desktop styles - flush left, below header
+          // Base styles - visible on desktop, sidebar on mobile
           "flex gap-2 list-none m-0 p-0",
-          // Desktop - hidden on mobile, shown as horizontal row on desktop
-          "hidden md:flex md:flex-row",
+          // Desktop - horizontal row, flush left
+          "md:flex-row",
           // Mobile - fixed sidebar
           "max-md:fixed max-md:top-0 max-md:right-0 max-md:bottom-0",
-          "max-md:flex max-md:flex-col max-md:gap-0",
+          "max-md:flex-col max-md:gap-0",
           "max-md:w-[280px] max-md:max-w-[80vw]",
           "max-md:pt-16 max-md:px-4 max-md:pb-8",
           "max-md:bg-[var(--color-bg-primary)]",
