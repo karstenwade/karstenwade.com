@@ -1,7 +1,17 @@
 import { describe, it, expect, beforeEach } from 'vitest'
 import { render, screen } from '@testing-library/react'
+import { MemoryRouter } from 'react-router-dom'
 import userEvent from '@testing-library/user-event'
 import Navigation from './Navigation'
+
+// Helper to render Navigation with Router context
+const renderNavigation = (props = {}) => {
+  return render(
+    <MemoryRouter>
+      <Navigation {...props} />
+    </MemoryRouter>
+  )
+}
 
 describe('Navigation Component', () => {
   beforeEach(() => {
@@ -10,15 +20,15 @@ describe('Navigation Component', () => {
 
   describe('Component Rendering', () => {
     it('should render navigation element', () => {
-      render(<Navigation />)
+      renderNavigation()
       const nav = screen.getByRole('navigation', { name: /main navigation/i })
       expect(nav).toBeInTheDocument()
     })
 
     it('should render all 5 navigation links', () => {
-      render(<Navigation />)
+      renderNavigation()
 
-      expect(screen.getByRole('link', { name: /home/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /^home$/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /open papers/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /writing/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /cv/i })).toBeInTheDocument()
@@ -26,9 +36,9 @@ describe('Navigation Component', () => {
     })
 
     it('should have correct href attributes for all links', () => {
-      render(<Navigation />)
+      renderNavigation()
 
-      expect(screen.getByRole('link', { name: /home/i })).toHaveAttribute('href', '/')
+      expect(screen.getByRole('link', { name: /^home$/i })).toHaveAttribute('href', '/')
       expect(screen.getByRole('link', { name: /open papers/i })).toHaveAttribute('href', '/papers')
       expect(screen.getByRole('link', { name: /writing/i })).toHaveAttribute('href', '/writing')
       expect(screen.getByRole('link', { name: /cv/i })).toHaveAttribute('href', '/cv')
@@ -38,13 +48,13 @@ describe('Navigation Component', () => {
 
   describe('Hamburger Menu Button', () => {
     it('should render hamburger button', () => {
-      render(<Navigation />)
+      renderNavigation()
       const button = screen.getByRole('button', { name: /open navigation menu/i })
       expect(button).toBeInTheDocument()
     })
 
     it('should have correct ARIA attributes when closed', () => {
-      render(<Navigation />)
+      renderNavigation()
       const button = screen.getByRole('button', { name: /open navigation menu/i })
 
       expect(button).toHaveAttribute('aria-expanded', 'false')
@@ -53,7 +63,7 @@ describe('Navigation Component', () => {
 
     it('should toggle aria-expanded when clicked', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
       expect(button).toHaveAttribute('aria-expanded', 'false')
@@ -72,7 +82,7 @@ describe('Navigation Component', () => {
   describe('Keyboard Navigation', () => {
     it('should toggle menu with Enter key', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
       button.focus()
@@ -88,7 +98,7 @@ describe('Navigation Component', () => {
 
     it('should toggle menu with Space key', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
       button.focus()
@@ -104,7 +114,7 @@ describe('Navigation Component', () => {
 
     it('should close menu with Escape key', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
 
@@ -119,17 +129,21 @@ describe('Navigation Component', () => {
 
     it('should allow navigation through links with Tab key', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
-      // Tab to hamburger button first (mobile control)
+      // Tab to logo link first
+      await user.tab()
+      expect(screen.getByRole('link', { name: /karsten wade - home/i })).toHaveFocus()
+
+      // Tab to hamburger button (mobile control)
       await user.tab()
       expect(screen.getByRole('button', { name: /open navigation menu/i })).toHaveFocus()
 
-      // Tab to first link
+      // Tab to first nav link
       await user.tab()
-      expect(screen.getByRole('link', { name: /home/i })).toHaveFocus()
+      expect(screen.getByRole('link', { name: /^home$/i })).toHaveFocus()
 
-      // Tab to second link
+      // Tab to second nav link
       await user.tab()
       expect(screen.getByRole('link', { name: /open papers/i })).toHaveFocus()
     })
@@ -138,7 +152,7 @@ describe('Navigation Component', () => {
   describe('Menu State Management', () => {
     it('should close menu when a link is clicked', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
 
@@ -147,7 +161,7 @@ describe('Navigation Component', () => {
       expect(button).toHaveAttribute('aria-expanded', 'true')
 
       // Click a navigation link
-      const homeLink = screen.getByRole('link', { name: /home/i })
+      const homeLink = screen.getByRole('link', { name: /^home$/i })
       await user.click(homeLink)
 
       // Menu should close
@@ -157,7 +171,7 @@ describe('Navigation Component', () => {
 
   describe('Accessibility', () => {
     it('should have proper ARIA labels', () => {
-      render(<Navigation />)
+      renderNavigation()
 
       const nav = screen.getByRole('navigation')
       expect(nav).toHaveAttribute('aria-label', 'Main navigation')
@@ -165,7 +179,7 @@ describe('Navigation Component', () => {
 
     it('should have accessible button labels that change with state', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button')
       expect(button).toHaveAccessibleName('Open navigation menu')
@@ -175,14 +189,14 @@ describe('Navigation Component', () => {
     })
 
     it('should have list role for menu items', () => {
-      render(<Navigation />)
+      renderNavigation()
 
       const menu = screen.getByRole('list')
       expect(menu).toHaveAttribute('id', 'navigation-menu')
     })
 
     it('should have focusable elements in correct order', () => {
-      render(<Navigation />)
+      renderNavigation()
 
       const focusableElements = [
         screen.getByRole('button'),
@@ -197,58 +211,60 @@ describe('Navigation Component', () => {
 
   describe('Custom className', () => {
     it('should accept and apply custom className', () => {
-      render(<Navigation className="custom-nav-class" />)
+      renderNavigation({ className: "custom-nav-class" })
 
       const nav = screen.getByRole('navigation')
-      expect(nav).toHaveClass('navigation')
+      // Tailwind classes are applied via cn() utility, no longer has 'navigation' class
       expect(nav).toHaveClass('custom-nav-class')
     })
   })
 
   describe('Responsive Behavior', () => {
     it('should have menu with correct ID for ARIA controls', () => {
-      render(<Navigation />)
+      renderNavigation()
 
       const menu = document.getElementById('navigation-menu')
       expect(menu).toBeInTheDocument()
       expect(menu).toHaveAttribute('role', 'list')
     })
 
-    it('should apply open class to menu when menu is open', async () => {
+    it('should apply translation when menu is open', async () => {
       const user = userEvent.setup()
-      render(<Navigation />)
+      renderNavigation()
 
       const button = screen.getByRole('button', { name: /open navigation menu/i })
       const menu = document.getElementById('navigation-menu')
 
-      // Menu should not have open class initially
-      expect(menu).not.toHaveClass('navigation__menu--open')
+      // Menu should be translated off-screen initially
+      expect(menu).toHaveClass('max-md:translate-x-full')
 
       // Click to open
       await user.click(button)
 
-      // Menu should have open class
-      expect(menu).toHaveClass('navigation__menu--open')
+      // Menu should translate to visible position
+      expect(menu).toHaveClass('max-md:translate-x-0')
     })
   })
 
   describe('Link Structure', () => {
-    it('should render exactly 5 navigation links', () => {
-      render(<Navigation />)
+    it('should render logo link plus 5 navigation links', () => {
+      renderNavigation()
 
       const links = screen.getAllByRole('link')
-      expect(links).toHaveLength(5)
+      // Logo link (index 0) + 5 nav links = 6 total
+      expect(links).toHaveLength(6)
     })
 
-    it('should have links in correct order', () => {
-      render(<Navigation />)
+    it('should have navigation links in correct order', () => {
+      renderNavigation()
 
       const links = screen.getAllByRole('link')
-      expect(links[0]).toHaveTextContent('Home')
-      expect(links[1]).toHaveTextContent('Open Papers')
-      expect(links[2]).toHaveTextContent('Writing')
-      expect(links[3]).toHaveTextContent('CV')
-      expect(links[4]).toHaveTextContent('Theories')
+      // links[0] is the logo link, nav links start at index 1
+      expect(links[1]).toHaveTextContent('Home')
+      expect(links[2]).toHaveTextContent('Open Papers')
+      expect(links[3]).toHaveTextContent('Writing')
+      expect(links[4]).toHaveTextContent('CV')
+      expect(links[5]).toHaveTextContent('Theories')
     })
   })
 })

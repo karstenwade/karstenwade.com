@@ -1,5 +1,7 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import tailwindcss from '@tailwindcss/vite'
+import path from 'path'
 
 // Determine base path based on deployment target
 // - Vercel (primary): '/' at root domain karstenwade.com
@@ -9,9 +11,14 @@ const base = isGitHubPages ? '/karstenwade.com/' : '/'
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [react(), tailwindcss()],
   // Base path: '/' for Vercel, '/karstenwade.com/' for GitHub Pages
   base,
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
   build: {
     // Output directory for static files
     outDir: 'dist',
