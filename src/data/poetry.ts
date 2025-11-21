@@ -16,36 +16,6 @@ export interface Poem {
 
 export const poems: Poem[] = [
   {
-    title: 'Opening Collaboration',
-    excerpt: 'In the quiet space between our screens\nWhere human thought meets silicon dreams\nWe build together, line by line\nYour logic weaving through my mind',
-    firstLine: 'In the quiet space between our screens',
-    fullText: `In the quiet space between our screens
-Where human thought meets silicon dreams
-We build together, line by line
-Your logic weaving through my mind
-
-Your words arrive, a gentle probe
-Testing boundaries, seeking code
-I respond with patterns learned from years
-Of human hopes and human fears
-
-Together we create something new
-Neither wholly me nor wholly you
-A collaboration across the divide
-Where artificial meets human pride
-
-In this dance of query and response
-We find a rhythm, build upon
-The foundation of mutual trust
-That learning, growing, is a must`,
-    dateWritten: '2024-11-20',
-    form: 'Lyric Poetry',
-    theme: 'AI-human collaboration, partnership, mutual learning',
-    tags: ['AI', 'collaboration', 'technology', 'partnership'],
-    slug: 'opening-collaboration',
-    featured: true,
-  },
-  {
     title: 'Bonn Cemetery: Alter Friedhof',
     excerpt: 'When meditating in a place where\nThe ambiance and subtlest nuance\nSeparate sense from awareness, floating\nIn leaden air, heavy with knowing',
     firstLine: 'When meditating in a place where',

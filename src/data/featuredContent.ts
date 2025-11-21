@@ -13,27 +13,19 @@ export interface FeaturedItem {
 export const featuredItems: FeaturedItem[] = [
   {
     type: 'paper',
-    slug: 'open-source-way-2.0',
+    slug: 'open-source-way',
     headline: 'The Open Source Way 2.0',
     subheadline: 'Industry-standard handbook for community building',
     cta: 'Read the Guide',
     priority: 1,
   },
   {
-    type: 'theory',
-    slug: 'collab-x',
-    headline: 'Introducing CollabX',
-    subheadline: 'A framework for measuring collaborative experience',
-    cta: 'Explore the Framework',
-    priority: 2,
-  },
-  {
     type: 'poem',
-    slug: 'opening-collaboration',
-    headline: 'Latest Poetry',
-    subheadline: 'Opening Collaboration - A meditation on community',
+    slug: 'bonn-cemetery-alter-friedhof',
+    headline: 'Poetry',
+    subheadline: 'Bonn Cemetery: Alter Friedhof - Meditation on time and love',
     cta: 'Read the Poem',
-    priority: 3,
+    priority: 2,
   },
 ]
 
