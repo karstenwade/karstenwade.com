@@ -1,6 +1,31 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
 import Theories from './Theories'
+
+// Mock SEO component to avoid react-helmet-async issues in tests
+vi.mock('../components/SEO', () => ({
+  default: () => null,
+}))
+
+// Mock StructuredData component
+vi.mock('../components/StructuredData', () => ({
+  default: () => null,
+}))
+
+// Mock contentService to return theories data
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const theoriesData = await vi.importActual<typeof import('../data/theories')>('../data/theories')
+  return {
+    contentService: {
+      getTheories: vi.fn(() => Promise.resolve(theoriesData.theories)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getPoems: vi.fn(() => Promise.resolve([])),
+      getStories: vi.fn(() => Promise.resolve([])),
+      getPapers: vi.fn(() => Promise.resolve([])),
+    },
+  }
+})
 
 describe('Theories Page', () => {
   describe('Page Rendering', () => {

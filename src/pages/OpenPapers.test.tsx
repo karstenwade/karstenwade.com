@@ -1,16 +1,10 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import OpenPapers from './OpenPapers'
-import * as papersData from '../data/papers'
 
-// Mock contentService to return papers data
-vi.mock('../services/contentService', () => ({
-  contentService: {
-    getPapers: vi.fn(async () => papersData.papers),
-    getEssays: vi.fn(async () => []),
-    getPoems: vi.fn(async () => []),
-    getStories: vi.fn(async () => []),
-  },
+// Mock SEO component
+vi.mock('../components/SEO', () => ({
+  default: () => null,
 }))
 
 // Mock StructuredData component
@@ -18,8 +12,18 @@ vi.mock('../components/StructuredData', () => ({
   default: () => null,
 }))
 
-beforeEach(() => {
-  vi.clearAllMocks()
+// Mock contentService to return papers data
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const papersData = await vi.importActual<typeof import('../data/papers')>('../data/papers')
+  return {
+    contentService: {
+      getPapers: vi.fn(() => Promise.resolve(papersData.papers)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getPoems: vi.fn(() => Promise.resolve([])),
+      getStories: vi.fn(() => Promise.resolve([])),
+    },
+  }
 })
 
 describe('OpenPapers Page', () => {
@@ -115,12 +119,14 @@ describe('OpenPapers Page', () => {
       expect(githubLinks.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should link to Open Source Way 2.0 on GitHub', () => {
+    it('should link to Open Source Way 2.0 on GitHub', async () => {
       render(<OpenPapers />)
 
-      const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
-      expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
+      await waitFor(() => {
+        const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
+        expect(link).toHaveAttribute('href')
+        expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
+      })
     })
 
     it('should have external link indicators', () => {
@@ -147,13 +153,14 @@ describe('OpenPapers Page', () => {
       expect(grid).toBeInTheDocument()
     })
 
-    it('should contain paper cards in grid', () => {
+    it('should contain paper cards in grid', async () => {
       render(<OpenPapers />)
 
-      const cards = screen.getAllByRole('article')
-      const grid = document.querySelector('.cards-grid')
-
-      expect(grid).toContainElement(cards[0])
+      await waitFor(() => {
+        const cards = screen.getAllByRole('article')
+        const grid = document.querySelector('.cards-grid')
+        expect(grid).toContainElement(cards[0])
+      })
     })
   })
 
