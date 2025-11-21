@@ -266,3 +266,69 @@ export function clearPapersCache(): void {
   cachedPapers = null
   cacheTimestamp = 0
 }
+
+/**
+ * Get a single paper by its slug (filename without .md extension)
+ *
+ * @param slug - The paper slug (e.g., "open-source-way-2.0")
+ * @returns Paper object with full content
+ * @throws PaperParsingError if paper not found or parsing fails
+ */
+export async function getPaperBySlug(slug: string): Promise<{
+  paper: Paper
+  markdown: string
+}> {
+  try {
+    // Construct file path (slug + .md extension)
+    const filePath = `${slug}.md`
+
+    // Fetch markdown content
+    const markdown = await fetchFileContent(
+      PAPERS_REPO_OWNER,
+      PAPERS_REPO_NAME,
+      filePath
+    )
+
+    // Parse frontmatter
+    const { frontmatter, content } = parseFrontmatter(markdown)
+
+    // Validate and transform to Paper object
+    const paperFrontmatter = validateFrontmatter(frontmatter, filePath)
+    const paper = transformToPaper(paperFrontmatter, filePath)
+
+    // Add slug to paper object
+    const paperWithSlug: Paper = {
+      ...paper,
+      slug,
+      id: slug,
+    }
+
+    return {
+      paper: paperWithSlug,
+      markdown: content,
+    }
+  } catch (error) {
+    if (error instanceof GitHubApiError) {
+      if (error.message.includes('404') || error.message.includes('Not Found')) {
+        throw new PaperParsingError(
+          `Paper "${slug}" not found in repository`,
+          `${slug}.md`,
+          error
+        )
+      }
+      throw new PaperParsingError(
+        `Failed to fetch paper "${slug}": ${error.message}`,
+        `${slug}.md`,
+        error
+      )
+    }
+    if (error instanceof PaperParsingError) {
+      throw error
+    }
+    throw new PaperParsingError(
+      `Unexpected error loading paper "${slug}"`,
+      `${slug}.md`,
+      error
+    )
+  }
+}

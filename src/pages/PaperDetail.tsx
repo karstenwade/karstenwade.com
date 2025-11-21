@@ -7,7 +7,7 @@ import rehypeSlug from 'rehype-slug'
 import rehypeAutolinkHeadings from 'rehype-autolink-headings'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
-import { fetchFileContent } from '../services/githubApi'
+import { getPaperBySlug, PaperParsingError } from '../services/paperService'
 import type { Paper } from '../data/papers'
 import './PaperDetail.css'
 
@@ -20,9 +20,6 @@ interface PaperContent {
   markdown: string
   paper: Paper
 }
-
-const PAPERS_REPO_OWNER = 'karstenwade'
-const PAPERS_REPO_NAME = 'papers'
 
 const PaperDetail = ({ className = '', paper: preloadedPaper }: PaperDetailProps) => {
   const { slug } = useParams<{ slug: string }>()
@@ -38,29 +35,28 @@ const PaperDetail = ({ className = '', paper: preloadedPaper }: PaperDetailProps
         return
       }
 
-      // If paper data is preloaded (e.g., from static generation), use it
+      // If paper data is preloaded (e.g., from static generation or testing), use it
       if (preloadedPaper) {
-        try {
-          const markdown = await fetchFileContent(
-            PAPERS_REPO_OWNER,
-            PAPERS_REPO_NAME,
-            `${slug}.md`
-          )
-          setContent({ markdown, paper: preloadedPaper })
-          setLoading(false)
-        } catch (err) {
-          setError(
-            err instanceof Error ? err.message : 'Failed to load paper content'
-          )
-          setLoading(false)
-        }
+        setContent({ markdown: '', paper: preloadedPaper })
+        setLoading(false)
         return
       }
 
-      // TODO: For now, show error since we don't have dynamic paper loading yet
-      // In a full implementation, this would fetch the paper from the papers service
-      setError('Paper not found. Please navigate from the Papers page.')
-      setLoading(false)
+      // Dynamic loading: fetch paper by slug from GitHub
+      try {
+        const { paper, markdown } = await getPaperBySlug(slug)
+        setContent({ markdown, paper })
+        setLoading(false)
+      } catch (err) {
+        if (err instanceof PaperParsingError) {
+          setError(err.message)
+        } else if (err instanceof Error) {
+          setError(err.message)
+        } else {
+          setError('Failed to load paper. Please try again later.')
+        }
+        setLoading(false)
+      }
     }
 
     loadPaper()
