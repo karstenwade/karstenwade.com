@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { poems } from '../data/poetry'
+import { useState, useEffect } from 'react'
+import { contentService } from '../services/contentService'
+import type { Poem } from '../data/poetry'
 import StructuredData from './StructuredData'
 import './Poetry.css'
 
@@ -8,7 +9,16 @@ export interface PoetryProps {
 }
 
 const Poetry = ({ className = '' }: PoetryProps) => {
+  const [poems, setPoems] = useState<Poem[]>([])
   const [expandedPoems, setExpandedPoems] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    async function loadPoems() {
+      const data = await contentService.getPoems()
+      setPoems(data)
+    }
+    loadPoems()
+  }, [])
 
   const toggleExpanded = (slug: string) => {
     setExpandedPoems(prev => {

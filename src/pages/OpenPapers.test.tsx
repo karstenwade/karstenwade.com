@@ -1,6 +1,26 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
 import OpenPapers from './OpenPapers'
+import * as papersData from '../data/papers'
+
+// Mock contentService to return papers data
+vi.mock('../services/contentService', () => ({
+  contentService: {
+    getPapers: vi.fn(async () => papersData.papers),
+    getEssays: vi.fn(async () => []),
+    getPoems: vi.fn(async () => []),
+    getStories: vi.fn(async () => []),
+  },
+}))
+
+// Mock StructuredData component
+vi.mock('../components/StructuredData', () => ({
+  default: () => null,
+}))
+
+beforeEach(() => {
+  vi.clearAllMocks()
+})
 
 describe('OpenPapers Page', () => {
   describe('Page Rendering', () => {
@@ -44,34 +64,42 @@ describe('OpenPapers Page', () => {
   })
 
   describe('Paper Cards', () => {
-    it('should render at least one paper card', () => {
+    it('should render at least one paper card', async () => {
       render(<OpenPapers />)
 
-      const cards = screen.getAllByRole('article')
-      expect(cards.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        const cards = screen.getAllByRole('article')
+        expect(cards.length).toBeGreaterThanOrEqual(1)
+      })
     })
 
-    it('should use Card component for papers', () => {
+    it('should use Card component for papers', async () => {
       render(<OpenPapers />)
 
-      const cards = screen.getAllByRole('article')
-      cards.forEach(card => {
-        expect(card).toHaveClass('card')
+      await waitFor(() => {
+        const cards = screen.getAllByRole('article')
+        cards.forEach(card => {
+          expect(card).toHaveClass('card')
+        })
       })
     })
   })
 
   describe('Paper Content', () => {
-    it('should display "The Open Source Way 2.0" paper', () => {
+    it('should display "The Open Source Way 2.0" paper', async () => {
       render(<OpenPapers />)
 
-      expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
+      })
     })
 
-    it('should display paper descriptions', () => {
+    it('should display paper descriptions', async () => {
       render(<OpenPapers />)
 
-      expect(screen.getByText(/Comprehensive guide to building and managing/i)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/Comprehensive guide to building and managing/i)).toBeInTheDocument()
+      })
     })
   })
 
@@ -186,12 +214,14 @@ describe('OpenPapers Page', () => {
   })
 
   describe('Data Loading', () => {
-    it('should load papers from papers data', () => {
+    it('should load papers from papers data', async () => {
       render(<OpenPapers />)
 
-      // Should display papers from papers.ts
-      const cards = screen.getAllByRole('article')
-      expect(cards.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        // Should display papers from papers.ts
+        const cards = screen.getAllByRole('article')
+        expect(cards.length).toBeGreaterThanOrEqual(1)
+      })
     })
   })
 

@@ -1,7 +1,27 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Poetry from './Poetry'
+import * as poetryData from '../data/poetry'
+
+// Mock StructuredData component
+vi.mock('./StructuredData', () => ({
+  default: () => null,
+}))
+
+// Mock contentService to return poetry data
+vi.mock('../services/contentService', () => ({
+  contentService: {
+    getPoems: vi.fn(async () => poetryData.poems),
+    getEssays: vi.fn(async () => []),
+    getStories: vi.fn(async () => []),
+    getPapers: vi.fn(async () => []),
+  },
+}))
+
+beforeEach(() => {
+  vi.clearAllMocks()
+})
 
 describe('Poetry Component', () => {
   describe('Component Rendering', () => {
@@ -38,75 +58,94 @@ describe('Poetry Component', () => {
   })
 
   describe('Poem Previews', () => {
-    it('should render at least one poem preview', () => {
+    it('should render at least one poem preview', async () => {
       render(<Poetry />)
 
-      const previews = screen.getAllByTestId('poem-preview')
-      expect(previews.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        const previews = screen.getAllByTestId('poem-preview')
+        expect(previews.length).toBeGreaterThanOrEqual(1)
+      })
     })
 
-    it('should display poem titles', () => {
+    it('should display poem titles', async () => {
       render(<Poetry />)
 
-      expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+      })
     })
 
-    it('should display poem excerpts (first 4 lines)', () => {
+    it('should display poem excerpts (first 4 lines)', async () => {
       render(<Poetry />)
 
-      // First line of "Opening Collaboration"
-      expect(screen.getByText(/In the quiet space between our screens/i)).toBeInTheDocument()
+      await waitFor(() => {
+        // First line of "Opening Collaboration"
+        expect(screen.getByText(/In the quiet space between our screens/i)).toBeInTheDocument()
+      })
     })
 
-    it('should use article element for each poem', () => {
+    it('should use article element for each poem', async () => {
       render(<Poetry />)
 
-      const articles = screen.getAllByRole('article')
-      expect(articles.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        const articles = screen.getAllByRole('article')
+        expect(articles.length).toBeGreaterThanOrEqual(1)
+      })
     })
   })
 
   describe('Poem Metadata', () => {
-    it('should display poem form', () => {
+    it('should display poem form', async () => {
       render(<Poetry />)
 
-      expect(screen.getByText(/Lyric Poetry/i)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(/Lyric Poetry/i)).toBeInTheDocument()
+      })
     })
 
-    it('should display poem theme', () => {
+    it('should display poem theme', async () => {
       render(<Poetry />)
 
-      // More specific match for the theme field (includes "partnership, mutual learning")
-      expect(screen.getByText(/AI-human collaboration, partnership, mutual learning/i)).toBeInTheDocument()
+      await waitFor(() => {
+        // More specific match for the theme field (includes "partnership, mutual learning")
+        expect(screen.getByText(/AI-human collaboration, partnership, mutual learning/i)).toBeInTheDocument()
+      })
     })
 
-    it('should display date written', () => {
+    it('should display date written', async () => {
       render(<Poetry />)
 
-      // Looking for formatted date
-      const dateElements = screen.getAllByText(/2024/i)
-      expect(dateElements.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        // Looking for formatted date
+        const dateElements = screen.getAllByText(/2024/i)
+        expect(dateElements.length).toBeGreaterThanOrEqual(1)
+      })
     })
   })
 
   describe('Expand/Collapse Functionality', () => {
-    it('should have expand button for each poem', () => {
+    it('should have expand button for each poem', async () => {
       render(<Poetry />)
 
-      const expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
-      expect(expandButtons.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        const expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThanOrEqual(1)
+      })
     })
 
     it('should expand poem when button is clicked', async () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      const expandButton = screen.getByRole('button', { name: /read full poem/i })
+      let expandButton: HTMLElement
+      await waitFor(() => {
+        expandButton = screen.getByRole('button', { name: /read full poem/i })
+      })
 
       // Full poem text (beyond excerpt) should not be visible initially
       expect(screen.queryByText(/Your words arrive, a gentle probe/i)).not.toBeInTheDocument()
 
-      await user.click(expandButton)
+      await user.click(expandButton!)
 
       // Full poem should be visible after clicking
       expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
@@ -116,9 +155,12 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      const expandButton = screen.getByRole('button', { name: /read full poem/i })
+      let expandButton: HTMLElement
+      await waitFor(() => {
+        expandButton = screen.getByRole('button', { name: /read full poem/i })
+      })
 
-      await user.click(expandButton)
+      await user.click(expandButton!)
 
       expect(screen.getByRole('button', { name: /collapse/i })).toBeInTheDocument()
     })
@@ -127,9 +169,12 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      const expandButton = screen.getByRole('button', { name: /read full poem/i })
+      let expandButton: HTMLElement
+      await waitFor(() => {
+        expandButton = screen.getByRole('button', { name: /read full poem/i })
+      })
 
-      await user.click(expandButton)
+      await user.click(expandButton!)
       expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
 
       const collapseButton = screen.getByRole('button', { name: /collapse/i })
@@ -147,13 +192,14 @@ describe('Poetry Component', () => {
       expect(list).toBeInTheDocument()
     })
 
-    it('should contain poem previews in list', () => {
+    it('should contain poem previews in list', async () => {
       render(<Poetry />)
 
-      const previews = screen.getAllByTestId('poem-preview')
-      const list = document.querySelector('.poems-list')
-
-      expect(list).toContainElement(previews[0])
+      await waitFor(() => {
+        const previews = screen.getAllByTestId('poem-preview')
+        const list = document.querySelector('.poems-list')
+        expect(list).toContainElement(previews[0])
+      })
     })
   })
 
@@ -189,37 +235,45 @@ describe('Poetry Component', () => {
       expect(h2).toBeInTheDocument()
     })
 
-    it('should have accessible expand buttons', () => {
+    it('should have accessible expand buttons', async () => {
       render(<Poetry />)
 
-      const buttons = screen.getAllByRole('button')
-      buttons.forEach(button => {
-        expect(button).toHaveAccessibleName()
+      await waitFor(() => {
+        const buttons = screen.getAllByRole('button')
+        buttons.forEach(button => {
+          expect(button).toHaveAccessibleName()
+        })
       })
     })
 
-    it('should use article for each poem', () => {
+    it('should use article for each poem', async () => {
       render(<Poetry />)
 
-      const articles = screen.getAllByRole('article')
-      expect(articles.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        const articles = screen.getAllByRole('article')
+        expect(articles.length).toBeGreaterThanOrEqual(1)
+      })
     })
   })
 
   describe('Data Loading', () => {
-    it('should load poems from poetry data', () => {
+    it('should load poems from poetry data', async () => {
       render(<Poetry />)
 
-      // Should display poems from poetry.ts
-      const previews = screen.getAllByTestId('poem-preview')
-      expect(previews.length).toBeGreaterThanOrEqual(1)
+      await waitFor(() => {
+        // Should display poems from poetry.ts
+        const previews = screen.getAllByTestId('poem-preview')
+        expect(previews.length).toBeGreaterThanOrEqual(1)
+      })
     })
 
-    it('should display featured poems', () => {
+    it('should display featured poems', async () => {
       render(<Poetry />)
 
-      // "Opening Collaboration" is featured
-      expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+      await waitFor(() => {
+        // "Opening Collaboration" is featured
+        expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+      })
     })
   })
 
