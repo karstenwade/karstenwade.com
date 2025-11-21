@@ -241,20 +241,20 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 11.4: Create publishing documentation for Writing section ✅
 - Story 11.5: Create Claude development workflow guide ✅
 
-### Epic 11.5: Pre-Strapi Gap Remediation 🔲 PLANNED
-- Story 11.5.1: Fix linting errors and code quality issues 🔲
-- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) 🔲
-- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲
-- Story 11.5.4: Create content service abstraction layer 🔲
+### Epic 11.5: Pre-Strapi Gap Remediation 🔄 IN PROGRESS
+- Story 11.5.1: Fix linting errors and code quality issues 🔄 ([#100](https://github.com/karstenwade/karstenwade.com/issues/100))
+- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) 🔲 ([#101](https://github.com/karstenwade/karstenwade.com/issues/101))
+- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲 ([#102](https://github.com/karstenwade/karstenwade.com/issues/102))
+- Story 11.5.4: Create content service abstraction layer 🔲 ([#103](https://github.com/karstenwade/karstenwade.com/issues/103))
 
-### Epic 13: Tailwind CSS & Shadcn UI Integration 🔄 IN PROGRESS
-- Story 13.1: Setup Tailwind CSS and Shadcn UI infrastructure ✅
-- Story 13.2: Migrate Navigation component to Tailwind + Shadcn 🔲 ([#88](https://github.com/karstenwade/karstenwade.com/issues/88))
-- Story 13.3: Migrate Card component to Shadcn UI 🔲 ([#89](https://github.com/karstenwade/karstenwade.com/issues/89))
-- Story 13.4: Migrate Hero component to Tailwind 🔲 ([#90](https://github.com/karstenwade/karstenwade.com/issues/90))
-- Story 13.5: Update global styles for Tailwind compatibility 🔲 ([#91](https://github.com/karstenwade/karstenwade.com/issues/91))
-- Story 13.6: Add Shadcn Button component 🔲 ([#92](https://github.com/karstenwade/karstenwade.com/issues/92))
-- Story 13.7: Testing and visual regression validation 🔲 ([#93](https://github.com/karstenwade/karstenwade.com/issues/93))
+### Epic 13: Tailwind CSS & Shadcn UI Integration ✅ COMPLETE
+- Story 13.1: Setup Tailwind CSS and Shadcn UI infrastructure ✅ ([#88](https://github.com/karstenwade/karstenwade.com/issues/88))
+- Story 13.2: Migrate Navigation component to Tailwind + Shadcn ✅ ([#94](https://github.com/karstenwade/karstenwade.com/issues/94))
+- Story 13.3: Migrate Card component to Shadcn UI ✅ ([#89](https://github.com/karstenwade/karstenwade.com/issues/89))
+- Story 13.4: Migrate Hero component to Tailwind ✅ ([#90](https://github.com/karstenwade/karstenwade.com/issues/90))
+- Story 13.5: Update global styles for Tailwind compatibility ✅ ([#91](https://github.com/karstenwade/karstenwade.com/issues/91))
+- Story 13.6: Add Shadcn Button component ✅ ([#92](https://github.com/karstenwade/karstenwade.com/issues/92))
+- Story 13.7: Testing and visual regression validation ✅ ([#93](https://github.com/karstenwade/karstenwade.com/issues/93))
 
 ### Epic 12: Strapi CMS Integration & Blog 🔲 PLANNED
 - Story 12.1: Set up Strapi backend and deploy 🔲
