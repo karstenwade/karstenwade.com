@@ -91,21 +91,20 @@ describe('FeaturedContent Component', () => {
       expect(links.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should link to Open Source Way paper', () => {
+    it('should link to Open Source Way paper external URL', () => {
       render(<FeaturedContent />)
 
       const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
       expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('open-source-way')
+      expect(link.getAttribute('href')).toContain('guidebook.theopensourceway.org')
     })
 
-    it('should link to Bonn Cemetery poem', () => {
+    it('should link to Writing page for poetry', () => {
       render(<FeaturedContent />)
 
       // The link accessible name comes from the card title "Poetry"
       const link = screen.getByRole('link', { name: /Poetry/i })
-      expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('bonn-cemetery')
+      expect(link).toHaveAttribute('href', '/writing')
     })
   })
 

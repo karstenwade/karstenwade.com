@@ -47,6 +47,15 @@ describe('CV Page', () => {
       const summary = screen.getByText(/Experienced community manager, architect, and leader/i)
       expect(summary).toBeInTheDocument()
     })
+
+    it('should have download resume CTA button', () => {
+      render(<CV />)
+
+      const ctaButton = screen.getByRole('link', { name: /download resume/i })
+      expect(ctaButton).toBeInTheDocument()
+      expect(ctaButton).toHaveAttribute('href', '#downloads')
+      expect(ctaButton).toHaveClass('cv__cta-button')
+    })
   })
 
   describe('Contact Information', () => {
@@ -162,6 +171,14 @@ describe('CV Page', () => {
 
       const heading = screen.getByRole('heading', { level: 2, name: /download/i })
       expect(heading).toBeInTheDocument()
+    })
+
+    it('should have id attribute for anchor linking', () => {
+      render(<CV />)
+
+      const downloadsSection = document.getElementById('downloads')
+      expect(downloadsSection).toBeInTheDocument()
+      expect(downloadsSection).toHaveClass('cv__downloads')
     })
 
     it('should have download links for CV', () => {

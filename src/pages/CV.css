@@ -25,7 +25,7 @@
 .cv__name {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size-3xl);
+  font-size: var(--font-size-2xl);
   font-weight: var(--font-weight-bold);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
@@ -34,10 +34,41 @@
 .cv__title {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: var(--font-weight-medium);
   line-height: var(--line-height-normal);
   color: var(--color-text-secondary);
+}
+
+.cv__cta {
+  margin-top: var(--space-4);
+}
+
+.cv__cta-button {
+  display: inline-block;
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-body);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  color: var(--color-background);
+  background: var(--color-primary);
+  border: none;
+  border-radius: var(--radius-md);
+  text-decoration: none;
+  transition: all var(--transition-fast);
+  cursor: pointer;
+}
+
+.cv__cta-button:hover {
+  background: var(--color-primary-dark);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-1px);
+}
+
+.cv__cta-button:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
 }
 
 /* ===========================
@@ -53,7 +84,7 @@
 .cv__section-heading {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size-2xl);
+  font-size: var(--font-size-xl);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-tight);
   color: var(--color-text-primary);
@@ -107,7 +138,7 @@
 .cv__summary-text {
   margin: 0;
   font-family: var(--font-body);
-  font-size: var(--font-size-lg);
+  font-size: var(--font-size-base);
   line-height: var(--line-height-relaxed);
   color: var(--color-text-primary);
 }
@@ -238,15 +269,15 @@
   }
 
   .cv__name {
-    font-size: var(--font-size-4xl);
+    font-size: var(--font-size-3xl);
   }
 
   .cv__title {
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-xl);
   }
 
   .cv__section-heading {
-    font-size: var(--font-size-3xl);
+    font-size: var(--font-size-2xl);
   }
 
   .cv__download-links {
@@ -279,6 +310,10 @@
     border-bottom-color: #000;
   }
 
+  .cv__cta {
+    display: none;
+  }
+
   .cv__section-heading {
     border-bottom-color: #000;
     page-break-after: avoid;
@@ -305,10 +340,15 @@
 /* Reduced motion for users who prefer it */
 @media (prefers-reduced-motion: reduce) {
   .cv__link,
+  .cv__cta-button,
   .cv__download-link,
   .cv__download-label,
   .cv__download-meta {
     transition: none;
+  }
+
+  .cv__cta-button:hover {
+    transform: none;
   }
 }
 
