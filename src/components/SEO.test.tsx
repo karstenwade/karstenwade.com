@@ -86,10 +86,9 @@ describe('SEO Component', () => {
 
   describe('Default Values', () => {
     it('should have default title in props', () => {
-      const title = 'Karsten Wade - Collaborative Experience Consulting'
       const { container } = renderWithHelmet(<SEO />)
       expect(container).toBeTruthy()
-      // Component uses this default title
+      // Component uses default title: 'Karsten Wade - Collaborative Experience Consulting'
     })
 
     it('should have default description mentioning DevEx', () => {
