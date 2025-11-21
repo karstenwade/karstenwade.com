@@ -51,10 +51,10 @@ export class StaticContentService implements IContentService {
   /**
    * Get all papers
    *
-   * @param forceRefresh - Force refresh cache (default: false)
+   * @param _forceRefresh - Force refresh cache (default: false) - unused in static implementation
    * @returns Array of Paper objects
    */
-  async getPapers(forceRefresh = false): Promise<Paper[]> {
+  async getPapers(_forceRefresh = false): Promise<Paper[]> {
     // For static content, just return the hardcoded papers
     // In the future, this could use paperService.getPapers() for dynamic loading
     const { papers } = await import('../data/papers')
