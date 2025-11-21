@@ -39,11 +39,11 @@ describe('FeaturedContent Component', () => {
   })
 
   describe('Featured Cards', () => {
-    it('should render at least 3 cards', () => {
+    it('should render at least 2 cards', () => {
       render(<FeaturedContent />)
 
       const cards = screen.getAllByRole('article')
-      expect(cards.length).toBeGreaterThanOrEqual(3)
+      expect(cards.length).toBeGreaterThanOrEqual(2)
     })
 
     it('should render no more than 6 cards', () => {
@@ -57,7 +57,7 @@ describe('FeaturedContent Component', () => {
       render(<FeaturedContent />)
 
       const featuredCards = screen.getAllByTestId('featured-card')
-      expect(featuredCards.length).toBeGreaterThanOrEqual(3)
+      expect(featuredCards.length).toBeGreaterThanOrEqual(2)
     })
   })
 
@@ -68,16 +68,10 @@ describe('FeaturedContent Component', () => {
       expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
     })
 
-    it('should display "Introducing CollabX" theory', () => {
+    it('should display "Bonn Cemetery" poem', () => {
       render(<FeaturedContent />)
 
-      expect(screen.getByText(/Introducing CollabX/i)).toBeInTheDocument()
-    })
-
-    it('should display "Opening Collaboration" poem', () => {
-      render(<FeaturedContent />)
-
-      expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+      expect(screen.getByText(/Bonn Cemetery/i)).toBeInTheDocument()
     })
 
     it('should display subheadlines/descriptions', () => {
@@ -85,7 +79,7 @@ describe('FeaturedContent Component', () => {
 
       // From featured.yml subheadlines
       expect(screen.getByText(/Industry-standard handbook for community building/i)).toBeInTheDocument()
-      expect(screen.getByText(/framework for measuring collaborative experience/i)).toBeInTheDocument()
+      expect(screen.getByText(/Meditation on time and love/i)).toBeInTheDocument()
     })
   })
 
@@ -94,7 +88,7 @@ describe('FeaturedContent Component', () => {
       render(<FeaturedContent />)
 
       const links = screen.getAllByRole('link')
-      expect(links.length).toBeGreaterThanOrEqual(3)
+      expect(links.length).toBeGreaterThanOrEqual(2)
     })
 
     it('should link to Open Source Way paper', () => {
@@ -105,21 +99,13 @@ describe('FeaturedContent Component', () => {
       expect(link.getAttribute('href')).toContain('open-source-way')
     })
 
-    it('should link to CollabX theory', () => {
+    it('should link to Bonn Cemetery poem', () => {
       render(<FeaturedContent />)
 
-      const link = screen.getByRole('link', { name: /Introducing CollabX/i })
+      // The link accessible name comes from the card title "Poetry"
+      const link = screen.getByRole('link', { name: /Poetry/i })
       expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('collab')
-    })
-
-    it('should link to Opening Collaboration poem', () => {
-      render(<FeaturedContent />)
-
-      // The link accessible name comes from the card title "Latest Poetry"
-      const link = screen.getByRole('link', { name: /Latest Poetry/i })
-      expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('opening-collaboration')
+      expect(link.getAttribute('href')).toContain('bonn-cemetery')
     })
   })
 
@@ -191,8 +177,8 @@ describe('FeaturedContent Component', () => {
       // Verify we're displaying actual data from YAML
       const cards = screen.getAllByTestId('featured-card')
 
-      // Should have exactly 3 items as defined in featured.yml max_featured
-      expect(cards.length).toBe(3)
+      // Should have exactly 2 items as currently defined in featuredContent.ts
+      expect(cards.length).toBe(2)
     })
 
     it('should respect priority order from YAML', () => {
@@ -203,11 +189,8 @@ describe('FeaturedContent Component', () => {
       // First card should be priority 1 (Open Source Way)
       expect(cards[0]).toHaveTextContent(/The Open Source Way 2.0/i)
 
-      // Second card should be priority 2 (CollabX)
-      expect(cards[1]).toHaveTextContent(/Introducing CollabX/i)
-
-      // Third card should be priority 3 (Opening Collaboration)
-      expect(cards[2]).toHaveTextContent(/Opening Collaboration/i)
+      // Second card should be priority 2 (Bonn Cemetery poem)
+      expect(cards[1]).toHaveTextContent(/Bonn Cemetery/i)
     })
   })
 
@@ -216,7 +199,7 @@ describe('FeaturedContent Component', () => {
       render(<FeaturedContent />)
 
       expect(screen.getByRole('region')).toBeInTheDocument()
-      expect(screen.getAllByRole('article').length).toBeGreaterThanOrEqual(3)
+      expect(screen.getAllByRole('article').length).toBeGreaterThanOrEqual(2)
     })
 
     it('should accept className prop', () => {
@@ -244,11 +227,11 @@ describe('FeaturedContent Component', () => {
 
       // Check that cards have headings (title prop)
       const headings = screen.getAllByRole('heading', { level: 3 })
-      expect(headings.length).toBeGreaterThanOrEqual(3)
+      expect(headings.length).toBeGreaterThanOrEqual(2)
 
       // Check that cards have links (link prop)
       const links = screen.getAllByRole('link')
-      expect(links.length).toBeGreaterThanOrEqual(3)
+      expect(links.length).toBeGreaterThanOrEqual(2)
     })
   })
 })

@@ -44,7 +44,7 @@ describe('CV Page', () => {
     it('should render summary section', () => {
       render(<CV />)
 
-      const summary = screen.getByText(/over 20 years of experience/i)
+      const summary = screen.getByText(/Experienced community manager, architect, and leader/i)
       expect(summary).toBeInTheDocument()
     })
   })
@@ -94,9 +94,9 @@ describe('CV Page', () => {
     it('should display expertise areas', () => {
       render(<CV />)
 
-      expect(screen.getByText(/Collaborative experience consulting/i)).toBeInTheDocument()
-      expect(screen.getAllByText(/Developer experience expert/i).length).toBeGreaterThanOrEqual(1)
-      expect(screen.getByText(/Community catalyst/i)).toBeInTheDocument()
+      expect(screen.getByText(/Community Management and Best Practices/i)).toBeInTheDocument()
+      expect(screen.getByText(/Customer Developer Relations/i)).toBeInTheDocument()
+      expect(screen.getByText(/Organizational Catalyst/i)).toBeInTheDocument()
     })
 
     it('should use list for expertise items', () => {
@@ -118,7 +118,7 @@ describe('CV Page', () => {
     it('should display experience content', () => {
       render(<CV />)
 
-      const experience = screen.getByText(/Placeholder for detailed work history/i)
+      const experience = screen.getByText(/Over 25 years of professional experience/i)
       expect(experience).toBeInTheDocument()
     })
   })
@@ -134,7 +134,7 @@ describe('CV Page', () => {
     it('should display education content', () => {
       render(<CV />)
 
-      const education = screen.getByText(/Placeholder for education details/i)
+      const education = screen.getByText(/Self-directed learning and professional development/i)
       expect(education).toBeInTheDocument()
     })
   })
@@ -151,7 +151,8 @@ describe('CV Page', () => {
       render(<CV />)
 
       expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
-      expect(screen.getByText(/CollabX and ContribX frameworks/i)).toBeInTheDocument()
+      expect(screen.getByText(/Red Hat Enterprise Linux.*SELinux.*Guide/i)).toBeInTheDocument()
+      expect(screen.getByText(/Inclusive Naming Initiative/i)).toBeInTheDocument()
     })
   })
 
