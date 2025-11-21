@@ -147,7 +147,6 @@ describe('Card Component', () => {
     })
 
     it('should be activatable with Enter key', async () => {
-      const user = userEvent.setup()
       render(
         <Card
           title="Enter Test"

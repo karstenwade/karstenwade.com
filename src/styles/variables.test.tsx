@@ -4,10 +4,9 @@ import { join } from 'path'
 
 describe('Design System - CSS Variables', () => {
   const variablesPath = join(__dirname, 'variables.css')
-  let variablesContent: string
 
   // Read the CSS file once for all tests
-  variablesContent = readFileSync(variablesPath, 'utf-8')
+  const variablesContent: string = readFileSync(variablesPath, 'utf-8')
 
   describe('File Structure', () => {
     it('should exist at src/styles/variables.css', () => {
