@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Fiction from './Fiction'
-import * as fictionData from '../data/fiction'
 
 // Mock StructuredData component
 vi.mock('./StructuredData', () => ({
@@ -10,17 +9,17 @@ vi.mock('./StructuredData', () => ({
 }))
 
 // Mock contentService to return fiction data
-vi.mock('../services/contentService', () => ({
-  contentService: {
-    getStories: vi.fn(async () => fictionData.stories),
-    getEssays: vi.fn(async () => []),
-    getPoems: vi.fn(async () => []),
-    getPapers: vi.fn(async () => []),
-  },
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const fictionData = await vi.importActual<typeof import('../data/fiction')>('../data/fiction')
+  return {
+    contentService: {
+      getStories: vi.fn(() => Promise.resolve(fictionData.stories)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getPoems: vi.fn(() => Promise.resolve([])),
+      getPapers: vi.fn(() => Promise.resolve([])),
+    },
+  }
 })
 
 describe('Fiction Component', () => {

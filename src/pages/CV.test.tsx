@@ -1,6 +1,11 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen } from '@testing-library/react'
 import CV from './CV'
+
+// Mock SEO component to avoid react-helmet-async issues in tests
+vi.mock('../components/SEO', () => ({
+  default: () => null,
+}))
 
 describe('CV Page', () => {
   describe('Page Rendering', () => {
@@ -48,8 +53,8 @@ describe('CV Page', () => {
     it('should display email contact', () => {
       render(<CV />)
 
-      const email = screen.getByRole('link', { name: /karsten@redhat.com/i })
-      expect(email).toHaveAttribute('href', 'mailto:karsten@redhat.com')
+      const email = screen.getByRole('link', { name: /karsten@karstenwade.com/i })
+      expect(email).toHaveAttribute('href', 'mailto:karsten@karstenwade.com')
     })
 
     it('should display LinkedIn link', () => {
@@ -71,7 +76,9 @@ describe('CV Page', () => {
     it('should display website link', () => {
       render(<CV />)
 
-      const website = screen.getByRole('link', { name: /karstenwade.com/i })
+      const links = screen.getAllByRole('link', { name: /karstenwade.com/i })
+      const website = links.find(link => link.getAttribute('href') === 'https://karstenwade.com')
+      expect(website).toBeDefined()
       expect(website).toHaveAttribute('href', 'https://karstenwade.com')
     })
   })

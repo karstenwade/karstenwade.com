@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Poetry from './Poetry'
-import * as poetryData from '../data/poetry'
 
 // Mock StructuredData component
 vi.mock('./StructuredData', () => ({
@@ -10,17 +9,17 @@ vi.mock('./StructuredData', () => ({
 }))
 
 // Mock contentService to return poetry data
-vi.mock('../services/contentService', () => ({
-  contentService: {
-    getPoems: vi.fn(async () => poetryData.poems),
-    getEssays: vi.fn(async () => []),
-    getStories: vi.fn(async () => []),
-    getPapers: vi.fn(async () => []),
-  },
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const poetryData = await vi.importActual<typeof import('../data/poetry')>('../data/poetry')
+  return {
+    contentService: {
+      getPoems: vi.fn(() => Promise.resolve(poetryData.poems)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getStories: vi.fn(() => Promise.resolve([])),
+      getPapers: vi.fn(() => Promise.resolve([])),
+    },
+  }
 })
 
 describe('Poetry Component', () => {
@@ -137,15 +136,16 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
       // Full poem text (beyond excerpt) should not be visible initially
       expect(screen.queryByText(/Your words arrive, a gentle probe/i)).not.toBeInTheDocument()
 
-      await user.click(expandButton!)
+      await user.click(expandButtons![0])
 
       // Full poem should be visible after clicking
       expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
@@ -155,12 +155,13 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
-      await user.click(expandButton!)
+      await user.click(expandButtons![0])
 
       expect(screen.getByRole('button', { name: /collapse/i })).toBeInTheDocument()
     })
@@ -169,12 +170,13 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
-      await user.click(expandButton!)
+      await user.click(expandButtons![0])
       expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
 
       const collapseButton = screen.getByRole('button', { name: /collapse/i })
