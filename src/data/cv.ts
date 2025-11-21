@@ -30,12 +30,12 @@ export interface CVData {
 
 export const cvData: CVData = {
   name: 'Karsten Wade',
-  title: 'Open Source Community Architect & OSPO Leader',
-  summary: 'Open Source Community Architect with over 20 years of experience building and managing communities, leading OSPO initiatives, and advancing developer relations. Expert in collaborative experience (CollabX), contributor experience (ContribX), and human systems design.',
+  title: 'Open Source Community Architect, OSPO Leader & Developer Experience Expert',
+  summary: 'Open Source Community Architect with over 20 years of experience building and managing communities, leading OSPO initiatives, and advancing developer relations. Expert in collaborative experience (CollabX), contributor experience (ContribX), developer experience (DevEx), and human systems design.',
   contact: {
     email: 'karsten@karstenwade.com',
-    linkedin: 'https://linkedin.com/in/karstenwade',
-    github: 'https://github.com/karstenwade',
+    linkedin: 'https://linkedin.com/in/karsten-wade',
+    github: 'https://github.com/quaid',
     website: 'https://karstenwade.com',
   },
   expertise: [

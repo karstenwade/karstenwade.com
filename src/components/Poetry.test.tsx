@@ -48,11 +48,11 @@ describe('Poetry Component', () => {
       expect(heading).toHaveTextContent(/Poetry/i)
     })
 
-    it('should render section description', () => {
+    it('should not render section description', () => {
       render(<Poetry />)
 
-      const description = screen.getByText(/explorations of AI/i)
-      expect(description).toBeInTheDocument()
+      const description = screen.queryByText(/explorations of AI/i)
+      expect(description).not.toBeInTheDocument()
     })
   })
 

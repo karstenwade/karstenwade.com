@@ -36,7 +36,7 @@ describe('CV Page', () => {
     it('should render professional title', () => {
       render(<CV />)
 
-      const title = screen.getByText(/Open Source Community Architect & OSPO Leader/i)
+      const title = screen.getByText(/Open Source Community Architect, OSPO Leader & Developer Experience Expert/i)
       expect(title).toBeInTheDocument()
       expect(title).toHaveClass('cv__title')
     })
@@ -61,7 +61,7 @@ describe('CV Page', () => {
       render(<CV />)
 
       const linkedin = screen.getByRole('link', { name: /linkedin/i })
-      expect(linkedin).toHaveAttribute('href', 'https://linkedin.com/in/karstenwade')
+      expect(linkedin).toHaveAttribute('href', 'https://linkedin.com/in/karsten-wade')
       expect(linkedin).toHaveAttribute('target', '_blank')
     })
 
@@ -69,7 +69,7 @@ describe('CV Page', () => {
       render(<CV />)
 
       const github = screen.getByRole('link', { name: /github/i })
-      expect(github).toHaveAttribute('href', 'https://github.com/karstenwade')
+      expect(github).toHaveAttribute('href', 'https://github.com/quaid')
       expect(github).toHaveAttribute('target', '_blank')
     })
 
@@ -95,7 +95,7 @@ describe('CV Page', () => {
       render(<CV />)
 
       expect(screen.getByText(/Collaborative experience consulting/i)).toBeInTheDocument()
-      expect(screen.getByText(/Developer experience expert/i)).toBeInTheDocument()
+      expect(screen.getAllByText(/Developer experience expert/i).length).toBeGreaterThanOrEqual(1)
       expect(screen.getByText(/Community catalyst/i)).toBeInTheDocument()
     })
 

@@ -41,10 +41,6 @@ const Poetry = ({ className = '' }: PoetryProps) => {
     <section className={`poetry ${className}`} role="region" aria-label="Poetry">
       <div className="poetry__header">
         <h2 className="poetry__heading">Poetry</h2>
-        <p className="poetry__description">
-          Explorations of AI-human collaboration, consciousness, and connection
-          through verse.
-        </p>
       </div>
 
       <div className="poems-list">

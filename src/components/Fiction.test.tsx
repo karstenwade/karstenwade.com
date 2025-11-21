@@ -51,7 +51,7 @@ describe('Fiction Component', () => {
     it('should render section description', () => {
       render(<Fiction />)
 
-      const description = screen.getByText(/short stories exploring/i)
+      const description = screen.getByText(/More to come/i)
       expect(description).toBeInTheDocument()
     })
   })
