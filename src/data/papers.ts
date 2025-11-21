@@ -2,6 +2,8 @@
 // Corresponds to content in content/papers/
 
 export interface Paper {
+  id?: string // Unique identifier (typically the slug)
+  slug?: string // URL-friendly identifier (filename without .md)
   title: string
   description: string
   abstract: string
