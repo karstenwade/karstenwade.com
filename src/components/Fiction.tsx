@@ -42,7 +42,7 @@ const Fiction = ({ className = '' }: FictionProps) => {
       <div className="fiction__header">
         <h2 className="fiction__heading">Fiction</h2>
         <p className="fiction__description">
-          Short stories exploring technology, relationships, and open source culture.
+          More to come
         </p>
       </div>
 

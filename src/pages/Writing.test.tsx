@@ -119,7 +119,7 @@ describe('Writing Page', () => {
       })
     })
 
-    it('should display at least one story preview', async () => {
+    it('should show placeholder when no stories', async () => {
       const user = (await import('@testing-library/user-event')).default
       render(<Writing />)
 
@@ -128,8 +128,7 @@ describe('Writing Page', () => {
       await user.setup().click(fictionTab)
 
       await waitFor(() => {
-        const previews = screen.getAllByTestId('story-preview')
-        expect(previews.length).toBeGreaterThanOrEqual(1)
+        expect(screen.getByText(/More to come/i)).toBeInTheDocument()
       })
     })
   })

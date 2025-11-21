@@ -20,12 +20,12 @@ export interface Paper {
 
 export const papers: Paper[] = [
   {
+    slug: 'open-source-way',
     title: 'The Open Source Way 2.0: A Handbook for Community Building',
     description: 'Comprehensive guide to building and managing open source communities, based on decades of Red Hat community architecture experience.',
     abstract: 'A comprehensive guide to building and managing open source communities, based on decades of Red Hat community architecture experience. This handbook covers community-building best practices, governance models, contributor onboarding, and sustainable open source program offices (OSPOs).',
-    externalUrl: 'https://github.com/karstenwade/papers/blob/main/open-source-way-2.0.md',
-    pdfUrl: 'https://github.com/karstenwade/papers/releases/download/v2.0/open-source-way.pdf',
-    repository: 'https://github.com/karstenwade/papers',
+    externalUrl: 'https://guidebook.theopensourceway.org/',
+    repository: 'https://github.com/theopensourceway/guidebook',
     publicationDate: '2020-08-15',
     lastUpdated: '2024-03-10',
     version: '2.0',

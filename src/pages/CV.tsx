@@ -24,6 +24,11 @@ const CV = ({ className = '' }: CVProps) => {
       <header className="cv__header">
         <h1 className="cv__name">{cvData.name}</h1>
         <p className="cv__title">{cvData.title}</p>
+        <div className="cv__cta">
+          <a href="#downloads" className="cv__cta-button">
+            Download Resume
+          </a>
+        </div>
       </header>
 
       <section className="cv__section cv__contact" aria-label="Contact Information">
@@ -99,7 +104,7 @@ const CV = ({ className = '' }: CVProps) => {
         </ul>
       </section>
 
-      <section className="cv__section cv__downloads" aria-label="Download CV">
+      <section id="downloads" className="cv__section cv__downloads" aria-label="Download CV">
         <h2 className="cv__section-heading">Download CV</h2>
         <div className="cv__download-links">
           {cvData.downloadLinks.map((link, index) => (

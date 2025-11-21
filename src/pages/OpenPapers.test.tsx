@@ -55,7 +55,7 @@ describe('OpenPapers Page', () => {
     it('should render page description', () => {
       render(<OpenPapers />)
 
-      const description = screen.getByText(/research papers/i)
+      const description = screen.getByText(/papers and frameworks/i)
       expect(description).toBeInTheDocument()
     })
 
@@ -119,13 +119,13 @@ describe('OpenPapers Page', () => {
       expect(githubLinks.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should link to Open Source Way 2.0 on GitHub', async () => {
+    it('should link to Open Source Way 2.0 guidebook', async () => {
       render(<OpenPapers />)
 
       await waitFor(() => {
         const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
         expect(link).toHaveAttribute('href')
-        expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
+        expect(link.getAttribute('href')).toContain('guidebook.theopensourceway.org')
       })
     })
 

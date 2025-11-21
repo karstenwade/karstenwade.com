@@ -8,7 +8,6 @@ import './styles/App.css'
 const Home = lazy(() => import('./pages/Home'))
 const Writing = lazy(() => import('./pages/Writing'))
 const CV = lazy(() => import('./pages/CV'))
-const Theories = lazy(() => import('./pages/Theories'))
 const OpenPapers = lazy(() => import('./pages/OpenPapers'))
 const PaperDetail = lazy(() => import('./pages/PaperDetail'))
 
@@ -35,7 +34,6 @@ function AppContent() {
           <Route path="/" element={<Home />} />
           <Route path="/writing" element={<Writing />} />
           <Route path="/cv" element={<CV />} />
-          <Route path="/theories" element={<Theories />} />
           <Route path="/papers" element={<OpenPapers />} />
           <Route path="/papers/:slug" element={<PaperDetail />} />
         </Routes>

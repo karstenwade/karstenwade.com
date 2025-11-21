@@ -36,7 +36,7 @@ describe('CV Page', () => {
     it('should render professional title', () => {
       render(<CV />)
 
-      const title = screen.getByText(/Open Source Community Architect & OSPO Leader/i)
+      const title = screen.getByText(/Open Source Community Architect, OSPO Leader & Developer Experience Expert/i)
       expect(title).toBeInTheDocument()
       expect(title).toHaveClass('cv__title')
     })
@@ -44,8 +44,17 @@ describe('CV Page', () => {
     it('should render summary section', () => {
       render(<CV />)
 
-      const summary = screen.getByText(/over 20 years of experience/i)
+      const summary = screen.getByText(/Experienced community manager, architect, and leader/i)
       expect(summary).toBeInTheDocument()
+    })
+
+    it('should have download resume CTA button', () => {
+      render(<CV />)
+
+      const ctaButton = screen.getByRole('link', { name: /download resume/i })
+      expect(ctaButton).toBeInTheDocument()
+      expect(ctaButton).toHaveAttribute('href', '#downloads')
+      expect(ctaButton).toHaveClass('cv__cta-button')
     })
   })
 
@@ -61,7 +70,7 @@ describe('CV Page', () => {
       render(<CV />)
 
       const linkedin = screen.getByRole('link', { name: /linkedin/i })
-      expect(linkedin).toHaveAttribute('href', 'https://linkedin.com/in/karstenwade')
+      expect(linkedin).toHaveAttribute('href', 'https://linkedin.com/in/karsten-wade')
       expect(linkedin).toHaveAttribute('target', '_blank')
     })
 
@@ -69,7 +78,7 @@ describe('CV Page', () => {
       render(<CV />)
 
       const github = screen.getByRole('link', { name: /github/i })
-      expect(github).toHaveAttribute('href', 'https://github.com/karstenwade')
+      expect(github).toHaveAttribute('href', 'https://github.com/quaid')
       expect(github).toHaveAttribute('target', '_blank')
     })
 
@@ -94,9 +103,9 @@ describe('CV Page', () => {
     it('should display expertise areas', () => {
       render(<CV />)
 
-      expect(screen.getByText(/Collaborative experience consulting/i)).toBeInTheDocument()
-      expect(screen.getByText(/Developer experience expert/i)).toBeInTheDocument()
-      expect(screen.getByText(/Community catalyst/i)).toBeInTheDocument()
+      expect(screen.getByText(/Community Management and Best Practices/i)).toBeInTheDocument()
+      expect(screen.getByText(/Customer Developer Relations/i)).toBeInTheDocument()
+      expect(screen.getByText(/Organizational Catalyst/i)).toBeInTheDocument()
     })
 
     it('should use list for expertise items', () => {
@@ -118,7 +127,7 @@ describe('CV Page', () => {
     it('should display experience content', () => {
       render(<CV />)
 
-      const experience = screen.getByText(/Placeholder for detailed work history/i)
+      const experience = screen.getByText(/Over 25 years of professional experience/i)
       expect(experience).toBeInTheDocument()
     })
   })
@@ -134,7 +143,7 @@ describe('CV Page', () => {
     it('should display education content', () => {
       render(<CV />)
 
-      const education = screen.getByText(/Placeholder for education details/i)
+      const education = screen.getByText(/Self-directed learning and professional development/i)
       expect(education).toBeInTheDocument()
     })
   })
@@ -151,7 +160,8 @@ describe('CV Page', () => {
       render(<CV />)
 
       expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
-      expect(screen.getByText(/CollabX and ContribX frameworks/i)).toBeInTheDocument()
+      expect(screen.getByText(/Red Hat Enterprise Linux.*SELinux.*Guide/i)).toBeInTheDocument()
+      expect(screen.getByText(/Inclusive Naming Initiative/i)).toBeInTheDocument()
     })
   })
 
@@ -161,6 +171,14 @@ describe('CV Page', () => {
 
       const heading = screen.getByRole('heading', { level: 2, name: /download/i })
       expect(heading).toBeInTheDocument()
+    })
+
+    it('should have id attribute for anchor linking', () => {
+      render(<CV />)
+
+      const downloadsSection = document.getElementById('downloads')
+      expect(downloadsSection).toBeInTheDocument()
+      expect(downloadsSection).toHaveClass('cv__downloads')
     })
 
     it('should have download links for CV', () => {

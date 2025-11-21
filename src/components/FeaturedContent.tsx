@@ -1,5 +1,6 @@
 import Card from './Card'
 import { featuredItems, maxFeatured } from '../data/featuredContent'
+import { papers } from '../data/papers'
 import './FeaturedContent.css'
 
 export interface FeaturedContentProps {
@@ -12,16 +13,27 @@ const FeaturedContent = ({ className = '' }: FeaturedContentProps) => {
     .sort((a, b) => a.priority - b.priority)
     .slice(0, maxFeatured)
 
-  // Map content type to URL path
+  // Get the correct URL for each featured item
   const getItemPath = (type: string, slug: string): string => {
-    const pathMap: Record<string, string> = {
-      paper: '/papers',
-      theory: '/theories',
-      poem: '/writing',
-      writing: '/writing',
+    // For papers, use the external URL if available
+    if (type === 'paper') {
+      const paper = papers.find(p => p.slug === slug)
+      if (paper?.externalUrl) {
+        return paper.externalUrl
+      }
     }
 
-    return `${pathMap[type] || '/'}/${slug}`
+    // For poems and writing, just link to the Writing page
+    if (type === 'poem' || type === 'writing') {
+      return '/writing'
+    }
+
+    // For theories, link to theories page
+    if (type === 'theory') {
+      return '/theories'
+    }
+
+    return '/'
   }
 
   return (
