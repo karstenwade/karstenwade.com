@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { essays } from '../data/essays'
+import { useState, useEffect } from 'react'
+import { contentService } from '../services/contentService'
+import type { Essay } from '../data/essays'
 import StructuredData from './StructuredData'
 import './Essays.css'
 
@@ -8,7 +9,16 @@ export interface EssaysProps {
 }
 
 const Essays = ({ className = '' }: EssaysProps) => {
+  const [essays, setEssays] = useState<Essay[]>([])
   const [expandedEssays, setExpandedEssays] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    async function loadEssays() {
+      const data = await contentService.getEssays()
+      setEssays(data)
+    }
+    loadEssays()
+  }, [])
 
   const toggleExpanded = (slug: string) => {
     setExpandedEssays(prev => {

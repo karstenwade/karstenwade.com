@@ -1,5 +1,5 @@
-import { describe, it, expect, vi } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Essays from './Essays'
 import * as essaysData from '../data/essays'
@@ -8,6 +8,20 @@ import * as essaysData from '../data/essays'
 vi.mock('./StructuredData', () => ({
   default: () => null,
 }))
+
+// Mock contentService to return essays data
+vi.mock('../services/contentService', () => ({
+  contentService: {
+    getEssays: vi.fn(async () => essaysData.essays),
+    getPoems: vi.fn(async () => []),
+    getStories: vi.fn(async () => []),
+    getPapers: vi.fn(async () => []),
+  },
+}))
+
+beforeEach(() => {
+  vi.clearAllMocks()
+})
 
 describe('Essays Component', () => {
   describe('Component Rendering', () => {
@@ -54,27 +68,33 @@ describe('Essays Component', () => {
   })
 
   describe('Essay List Rendering', () => {
-    it('should render all essays from data file', () => {
+    it('should render all essays from data file', async () => {
       render(<Essays />)
 
-      const essayPreviews = screen.getAllByTestId('essay-preview')
-      expect(essayPreviews).toHaveLength(essaysData.essays.length)
+      await waitFor(() => {
+        const essayPreviews = screen.getAllByTestId('essay-preview')
+        expect(essayPreviews).toHaveLength(essaysData.essays.length)
+      })
     })
 
-    it('should render essay title as h3', () => {
+    it('should render essay title as h3', async () => {
       render(<Essays />)
 
       const firstEssay = essaysData.essays[0]
-      const title = screen.getByRole('heading', { name: firstEssay.title, level: 3 })
-      expect(title).toBeInTheDocument()
-      expect(title).toHaveClass('essay-preview__title')
+      await waitFor(() => {
+        const title = screen.getByRole('heading', { name: firstEssay.title, level: 3 })
+        expect(title).toBeInTheDocument()
+        expect(title).toHaveClass('essay-preview__title')
+      })
     })
 
-    it('should render essay excerpt', () => {
+    it('should render essay excerpt', async () => {
       render(<Essays />)
 
       const firstEssay = essaysData.essays[0]
-      expect(screen.getByText(firstEssay.excerpt)).toBeInTheDocument()
+      await waitFor(() => {
+        expect(screen.getByText(firstEssay.excerpt)).toBeInTheDocument()
+      })
     })
 
     it('should render essay word count', () => {

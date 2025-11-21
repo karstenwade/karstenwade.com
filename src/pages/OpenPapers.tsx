@@ -1,7 +1,9 @@
+import { useEffect, useState } from 'react'
 import SEO from '../components/SEO'
 import StructuredData from '../components/StructuredData'
 import Card from '../components/Card'
-import { papers } from '../data/papers'
+import { contentService } from '../services/contentService'
+import type { Paper } from '../data/papers'
 import './OpenPapers.css'
 
 export interface OpenPapersProps {
@@ -9,6 +11,16 @@ export interface OpenPapersProps {
 }
 
 const OpenPapers = ({ className = '' }: OpenPapersProps) => {
+  const [papers, setPapers] = useState<Paper[]>([])
+
+  useEffect(() => {
+    async function loadPapers() {
+      const data = await contentService.getPapers()
+      setPapers(data)
+    }
+    loadPapers()
+  }, [])
+
   return (
     <>
       <SEO

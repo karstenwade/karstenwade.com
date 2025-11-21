@@ -1,5 +1,6 @@
-import { useState } from 'react'
-import { stories } from '../data/fiction'
+import { useState, useEffect } from 'react'
+import { contentService } from '../services/contentService'
+import type { Story } from '../data/fiction'
 import StructuredData from './StructuredData'
 import './Fiction.css'
 
@@ -8,7 +9,16 @@ export interface FictionProps {
 }
 
 const Fiction = ({ className = '' }: FictionProps) => {
+  const [stories, setStories] = useState<Story[]>([])
   const [expandedStories, setExpandedStories] = useState<Set<string>>(new Set())
+
+  useEffect(() => {
+    async function loadStories() {
+      const data = await contentService.getStories()
+      setStories(data)
+    }
+    loadStories()
+  }, [])
 
   const toggleExpanded = (slug: string) => {
     setExpandedStories(prev => {
