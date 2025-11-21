@@ -34,7 +34,6 @@ const Navigation = ({ className = '' }: NavigationProps) => {
     { name: 'Open Papers', href: '/papers' },
     { name: 'Writing', href: '/writing' },
     { name: 'CV', href: '/cv' },
-    { name: 'Theories', href: '/theories' },
   ]
 
   return (
