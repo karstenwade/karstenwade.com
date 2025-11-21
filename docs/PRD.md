@@ -241,11 +241,11 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 11.4: Create publishing documentation for Writing section ✅
 - Story 11.5: Create Claude development workflow guide ✅
 
-### Epic 11.5: Pre-Strapi Gap Remediation 🔄 IN PROGRESS
-- Story 11.5.1: Fix linting errors and code quality issues 🔄 ([#100](https://github.com/karstenwade/karstenwade.com/issues/100))
-- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) 🔲 ([#101](https://github.com/karstenwade/karstenwade.com/issues/101))
-- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲 ([#102](https://github.com/karstenwade/karstenwade.com/issues/102))
-- Story 11.5.4: Create content service abstraction layer 🔲 ([#103](https://github.com/karstenwade/karstenwade.com/issues/103))
+### Epic 11.5: Pre-Strapi Gap Remediation ✅ COMPLETE
+- Story 11.5.1: Fix linting errors and code quality issues ✅ ([#100](https://github.com/karstenwade/karstenwade.com/issues/100))
+- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) ✅ ([#101](https://github.com/karstenwade/karstenwade.com/issues/101))
+- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) ✅ ([#102](https://github.com/karstenwade/karstenwade.com/issues/102))
+- Story 11.5.4: Create content service abstraction layer ✅ ([#103](https://github.com/karstenwade/karstenwade.com/issues/103))
 
 ### Epic 13: Tailwind CSS & Shadcn UI Integration ✅ COMPLETE
 - Story 13.1: Setup Tailwind CSS and Shadcn UI infrastructure ✅ ([#88](https://github.com/karstenwade/karstenwade.com/issues/88))
