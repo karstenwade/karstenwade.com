@@ -54,6 +54,7 @@ export class StaticContentService implements IContentService {
    * @param _forceRefresh - Force refresh cache (default: false) - unused in static implementation
    * @returns Array of Paper objects
    */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   async getPapers(_forceRefresh = false): Promise<Paper[]> {
     // For static content, just return the hardcoded papers
     // In the future, this could use paperService.getPapers() for dynamic loading

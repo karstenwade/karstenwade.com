@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Theories from './Theories'
 
 // Mock SEO component to avoid react-helmet-async issues in tests
