@@ -201,15 +201,14 @@ else
 fi
 
 # Test 6.2: GitHub Pages compatibility (base path config)
-# Check for both "base:" and shorthand "base," or "base" syntax
 if [ -f "$PROJECT_ROOT/vite.config.ts" ]; then
-    if grep -qE "base[,:]|^\s+base\s*$" "$PROJECT_ROOT/vite.config.ts"; then
+    if grep -q "base:" "$PROJECT_ROOT/vite.config.ts"; then
         test_result "Vite config contains base path for GitHub Pages" "PASS" "PASS"
     else
         test_result "Vite config contains base path for GitHub Pages" "PASS" "FAIL"
     fi
 elif [ -f "$PROJECT_ROOT/vite.config.js" ]; then
-    if grep -qE "base[,:]|^\s+base\s*$" "$PROJECT_ROOT/vite.config.js"; then
+    if grep -q "base:" "$PROJECT_ROOT/vite.config.js"; then
         test_result "Vite config contains base path for GitHub Pages" "PASS" "PASS"
     else
         test_result "Vite config contains base path for GitHub Pages" "PASS" "FAIL"
