@@ -1,8 +1,8 @@
 # Product Requirements Document (PRD)
 # karstenwade.com - Personal Website
 
-**Version:** 2.0
-**Last Updated:** 2025-11-07
+**Version:** 2.1
+**Last Updated:** 2025-12-03
 **Status:** Active Development
 
 ---
@@ -241,11 +241,11 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 11.4: Create publishing documentation for Writing section ✅
 - Story 11.5: Create Claude development workflow guide ✅
 
-### Epic 11.5: Pre-Strapi Gap Remediation 🔄 IN PROGRESS
-- Story 11.5.1: Fix linting errors and code quality issues 🔄 ([#100](https://github.com/karstenwade/karstenwade.com/issues/100))
-- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) 🔲 ([#101](https://github.com/karstenwade/karstenwade.com/issues/101))
-- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) 🔲 ([#102](https://github.com/karstenwade/karstenwade.com/issues/102))
-- Story 11.5.4: Create content service abstraction layer 🔲 ([#103](https://github.com/karstenwade/karstenwade.com/issues/103))
+### Epic 11.5: Pre-CMS Gap Remediation ✅ COMPLETE
+- Story 11.5.1: Fix linting errors and code quality issues ✅ ([#100](https://github.com/karstenwade/karstenwade.com/issues/100), PR #104)
+- Story 11.5.2: Add missing test coverage (Essays, SEO, StructuredData) ✅ ([#101](https://github.com/karstenwade/karstenwade.com/issues/101), PR #105)
+- Story 11.5.3: Implement dynamic paper loading (fix PaperDetail TODO) ✅ ([#102](https://github.com/karstenwade/karstenwade.com/issues/102), PR #106)
+- Story 11.5.4: Create content service abstraction layer ✅ ([#103](https://github.com/karstenwade/karstenwade.com/issues/103), PR #107)
 
 ### Epic 13: Tailwind CSS & Shadcn UI Integration ✅ COMPLETE
 - Story 13.1: Setup Tailwind CSS and Shadcn UI infrastructure ✅ ([#88](https://github.com/karstenwade/karstenwade.com/issues/88))
@@ -256,15 +256,21 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 13.6: Add Shadcn Button component ✅ ([#92](https://github.com/karstenwade/karstenwade.com/issues/92))
 - Story 13.7: Testing and visual regression validation ✅ ([#93](https://github.com/karstenwade/karstenwade.com/issues/93))
 
-### Epic 12: Strapi CMS Integration & Blog 🔲 PLANNED
-- Story 12.1: Set up Strapi backend and deploy 🔲
+### Epic 12: CMS Integration & Blog 📋 FUTURE ROADMAP
+*Deferred - Current architecture uses static files from Git repositories*
+- Story 12.1: Set up CMS backend and deploy 🔲
 - Story 12.2: Configure content types (Blog, Writing, Papers) 🔲
 - Story 12.3: Implement API integration with React frontend 🔲
-- Story 12.4: Migrate existing Writing content to Strapi 🔲
+- Story 12.4: Migrate existing Writing content to CMS 🔲
 - Story 12.5: Add media management and CDN integration 🔲
 - Story 12.6: Implement draft/publish workflow 🔲
-- Story 12.7: Create blog section with Strapi integration 🔲
+- Story 12.7: Create blog section with CMS integration 🔲
 - Story 12.8: Testing and content migration validation 🔲
+
+**Note:** The content service abstraction layer (Epic 11.5.4) enables future CMS migration when needed. Current content is managed via:
+- Papers: GitHub repository (karstenwade/papers) with dynamic loading
+- Poetry/Essays/Fiction: Static TypeScript data files
+- CV: Static TypeScript data file
 
 ---
 
@@ -649,7 +655,8 @@ Move essay object from `src/data/fiction.ts` to `src/data/essays.ts`
 - ❌ Database backend
 
 ### Future Considerations
-- Blog with RSS feed
+- Blog with RSS feed (requires CMS - Epic 12)
+- CMS integration (Strapi or alternative) - deferred to future roadmap
 - Comment system
 - Newsletter signup
 - Search functionality
@@ -779,10 +786,11 @@ This approach:
 **Document Version History:**
 - v1.0 (2025-11-02): Initial PRD with DreamHost
 - v2.0 (2025-11-07): Removed DreamHost, added Epic 8 for custom domain
+- v2.1 (2025-12-03): Completed Epic 11.5 (Pre-CMS Gap Remediation), moved Epic 12 (CMS Integration) to future roadmap
 
 ---
 
-## Pre-Strapi Gap Remediation Requirements (Epic 11.5)
+## Pre-CMS Gap Remediation Requirements (Epic 11.5) - COMPLETE
 
 ### Story 11.5.1: Fix Linting Errors and Code Quality Issues
 **Acceptance Criteria:**
@@ -1078,7 +1086,9 @@ Need to validate that Tailwind migration doesn't introduce visual regressions or
 
 ---
 
-## Strapi CMS Integration & Blog Requirements (Epic 12)
+## CMS Integration & Blog Requirements (Epic 12) - FUTURE ROADMAP
+
+> **Status:** Deferred to future roadmap. Current architecture uses static Git-sourced content with the content service abstraction layer ready for future CMS integration.
 
 ### Story 12.1: Set Up Strapi Backend and Deploy
 **Acceptance Criteria:**
