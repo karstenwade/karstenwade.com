@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Fiction from './Fiction'
-import * as fictionData from '../data/fiction'
 
 // Mock StructuredData component
 vi.mock('./StructuredData', () => ({
@@ -10,17 +9,17 @@ vi.mock('./StructuredData', () => ({
 }))
 
 // Mock contentService to return fiction data
-vi.mock('../services/contentService', () => ({
-  contentService: {
-    getStories: vi.fn(async () => fictionData.stories),
-    getEssays: vi.fn(async () => []),
-    getPoems: vi.fn(async () => []),
-    getPapers: vi.fn(async () => []),
-  },
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const fictionData = await vi.importActual<typeof import('../data/fiction')>('../data/fiction')
+  return {
+    contentService: {
+      getStories: vi.fn(() => Promise.resolve(fictionData.stories)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getPoems: vi.fn(() => Promise.resolve([])),
+      getPapers: vi.fn(() => Promise.resolve([])),
+    },
+  }
 })
 
 describe('Fiction Component', () => {
@@ -52,135 +51,45 @@ describe('Fiction Component', () => {
     it('should render section description', () => {
       render(<Fiction />)
 
-      const description = screen.getByText(/short stories exploring/i)
+      const description = screen.getByText(/More to come/i)
       expect(description).toBeInTheDocument()
     })
   })
 
   describe('Story Previews', () => {
-    it('should render at least one story preview', async () => {
+    it('should handle empty stories array', async () => {
       render(<Fiction />)
 
       await waitFor(() => {
-        const previews = screen.getAllByTestId('story-preview')
-        expect(previews.length).toBeGreaterThanOrEqual(1)
+        const previews = screen.queryAllByTestId('story-preview')
+        expect(previews.length).toBe(0)
       })
     })
 
-    it('should display story titles', async () => {
+    it('should show placeholder when no stories', () => {
       render(<Fiction />)
 
-      await waitFor(() => {
-        expect(screen.getByText(/The Pull Request/i)).toBeInTheDocument()
-      })
-    })
-
-    it('should display story excerpts (first paragraph)', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        // First sentence of "The Pull Request"
-        expect(screen.getByText(/The notification arrived at 2:47 AM/i)).toBeInTheDocument()
-      })
-    })
-
-    it('should use article element for each story', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        const articles = screen.getAllByRole('article')
-        expect(articles.length).toBeGreaterThanOrEqual(1)
-      })
+      expect(screen.getByText(/More to come/i)).toBeInTheDocument()
     })
   })
 
-  describe('Story Metadata', () => {
-    it('should display story genre', async () => {
+  describe('Empty State', () => {
+    it('should not display metadata when no stories', () => {
       render(<Fiction />)
 
-      await waitFor(() => {
-        expect(screen.getByText(/Tech Fiction/i)).toBeInTheDocument()
-      })
-    })
-
-    it('should display word count', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        expect(screen.getByText(/324 words/i)).toBeInTheDocument()
-      })
-    })
-
-    it('should display date written', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        // Looking for formatted date
-        const dateElements = screen.getAllByText(/2025/i)
-        expect(dateElements.length).toBeGreaterThanOrEqual(1)
-      })
+      expect(screen.queryByText(/Tech Fiction/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/words/i)).not.toBeInTheDocument()
     })
   })
 
   describe('Expand/Collapse Functionality', () => {
-    it('should have expand button for each story', async () => {
+    it('should not have expand buttons when no stories', () => {
       render(<Fiction />)
 
-      await waitFor(() => {
-        const expandButtons = screen.getAllByRole('button', { name: /read full story/i })
-        expect(expandButtons.length).toBeGreaterThanOrEqual(1)
-      })
+      const expandButtons = screen.queryAllByRole('button', { name: /read full story/i })
+      expect(expandButtons.length).toBe(0)
     })
 
-    it('should expand story when button is clicked', async () => {
-      const user = userEvent.setup()
-      render(<Fiction />)
-
-      let expandButton: HTMLElement
-      await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full story/i })
-      })
-
-      // Full story text (beyond excerpt) should not be visible initially
-      expect(screen.queryByText(/She knew she should wait until morning/i)).not.toBeInTheDocument()
-
-      await user.click(expandButton!)
-
-      // Full story should be visible after clicking
-      expect(screen.getByText(/She knew she should wait until morning/i)).toBeInTheDocument()
-    })
-
-    it('should change button text when expanded', async () => {
-      const user = userEvent.setup()
-      render(<Fiction />)
-
-      let expandButton: HTMLElement
-      await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full story/i })
-      })
-
-      await user.click(expandButton!)
-
-      expect(screen.getByRole('button', { name: /collapse/i })).toBeInTheDocument()
-    })
-
-    it('should collapse story when button is clicked again', async () => {
-      const user = userEvent.setup()
-      render(<Fiction />)
-
-      let expandButton: HTMLElement
-      await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full story/i })
-      })
-
-      await user.click(expandButton!)
-      expect(screen.getByText(/She knew she should wait until morning/i)).toBeInTheDocument()
-
-      const collapseButton = screen.getByRole('button', { name: /collapse/i })
-      await user.click(collapseButton)
-
-      expect(screen.queryByText(/She knew she should wait until morning/i)).not.toBeInTheDocument()
-    })
   })
 
   describe('Responsive Layout', () => {
@@ -191,13 +100,12 @@ describe('Fiction Component', () => {
       expect(list).toBeInTheDocument()
     })
 
-    it('should contain story previews in list', async () => {
+    it('should show empty list when no stories', async () => {
       render(<Fiction />)
 
       await waitFor(() => {
-        const previews = screen.getAllByTestId('story-preview')
-        const list = document.querySelector('.stories-list')
-        expect(list).toContainElement(previews[0])
+        const previews = screen.queryAllByTestId('story-preview')
+        expect(previews.length).toBe(0)
       })
     })
   })
@@ -234,44 +142,22 @@ describe('Fiction Component', () => {
       expect(h2).toBeInTheDocument()
     })
 
-    it('should have accessible expand buttons', async () => {
+    it('should not have articles when no stories', () => {
       render(<Fiction />)
 
-      await waitFor(() => {
-        const buttons = screen.getAllByRole('button')
-        buttons.forEach(button => {
-          expect(button).toHaveAccessibleName()
-        })
-      })
-    })
-
-    it('should use article for each story', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        const articles = screen.getAllByRole('article')
-        expect(articles.length).toBeGreaterThanOrEqual(1)
-      })
+      const articles = screen.queryAllByRole('article')
+      expect(articles.length).toBe(0)
     })
   })
 
   describe('Data Loading', () => {
-    it('should load stories from fiction data', async () => {
+    it('should load empty stories array from fiction data', async () => {
       render(<Fiction />)
 
       await waitFor(() => {
-        // Should display stories from fiction.ts
-        const previews = screen.getAllByTestId('story-preview')
-        expect(previews.length).toBeGreaterThanOrEqual(1)
-      })
-    })
-
-    it('should display featured stories', async () => {
-      render(<Fiction />)
-
-      await waitFor(() => {
-        // "The Pull Request" is featured
-        expect(screen.getByText(/The Pull Request/i)).toBeInTheDocument()
+        // fiction.ts currently has empty stories array
+        const previews = screen.queryAllByTestId('story-preview')
+        expect(previews.length).toBe(0)
       })
     })
   })

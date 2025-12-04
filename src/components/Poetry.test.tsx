@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Poetry from './Poetry'
-import * as poetryData from '../data/poetry'
 
 // Mock StructuredData component
 vi.mock('./StructuredData', () => ({
@@ -10,17 +9,17 @@ vi.mock('./StructuredData', () => ({
 }))
 
 // Mock contentService to return poetry data
-vi.mock('../services/contentService', () => ({
-  contentService: {
-    getPoems: vi.fn(async () => poetryData.poems),
-    getEssays: vi.fn(async () => []),
-    getStories: vi.fn(async () => []),
-    getPapers: vi.fn(async () => []),
-  },
-}))
-
-beforeEach(() => {
-  vi.clearAllMocks()
+// Use async factory to properly import actual data
+vi.mock('../services/contentService', async () => {
+  const poetryData = await vi.importActual<typeof import('../data/poetry')>('../data/poetry')
+  return {
+    contentService: {
+      getPoems: vi.fn(() => Promise.resolve(poetryData.poems)),
+      getEssays: vi.fn(() => Promise.resolve([])),
+      getStories: vi.fn(() => Promise.resolve([])),
+      getPapers: vi.fn(() => Promise.resolve([])),
+    },
+  }
 })
 
 describe('Poetry Component', () => {
@@ -49,11 +48,11 @@ describe('Poetry Component', () => {
       expect(heading).toHaveTextContent(/Poetry/i)
     })
 
-    it('should render section description', () => {
+    it('should not render section description', () => {
       render(<Poetry />)
 
-      const description = screen.getByText(/explorations of AI/i)
-      expect(description).toBeInTheDocument()
+      const description = screen.queryByText(/explorations of AI/i)
+      expect(description).not.toBeInTheDocument()
     })
   })
 
@@ -71,7 +70,7 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+        expect(screen.getByText(/Bonn Cemetery/i)).toBeInTheDocument()
       })
     })
 
@@ -79,8 +78,8 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        // First line of "Opening Collaboration"
-        expect(screen.getByText(/In the quiet space between our screens/i)).toBeInTheDocument()
+        // First line of "Bonn Cemetery: Alter Friedhof"
+        expect(screen.getByText(/When meditating in a place where/i)).toBeInTheDocument()
       })
     })
 
@@ -99,7 +98,7 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        expect(screen.getByText(/Lyric Poetry/i)).toBeInTheDocument()
+        expect(screen.getByText(/Meditative Poetry/i)).toBeInTheDocument()
       })
     })
 
@@ -107,8 +106,8 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        // More specific match for the theme field (includes "partnership, mutual learning")
-        expect(screen.getByText(/AI-human collaboration, partnership, mutual learning/i)).toBeInTheDocument()
+        // Bonn Cemetery theme
+        expect(screen.getByText(/Meditation, time, love, gratitude/i)).toBeInTheDocument()
       })
     })
 
@@ -116,8 +115,8 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        // Looking for formatted date
-        const dateElements = screen.getAllByText(/2024/i)
+        // Looking for formatted date (Bonn Cemetery from 2022)
+        const dateElements = screen.getAllByText(/2022/i)
         expect(dateElements.length).toBeGreaterThanOrEqual(1)
       })
     })
@@ -137,30 +136,32 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
-      // Full poem text (beyond excerpt) should not be visible initially
-      expect(screen.queryByText(/Your words arrive, a gentle probe/i)).not.toBeInTheDocument()
+      // Full poem text (beyond excerpt) should not be visible initially - from Bonn Cemetery
+      expect(screen.queryByText(/Two illimitable senses that tell/i)).not.toBeInTheDocument()
 
-      await user.click(expandButton!)
+      await user.click(expandButtons![0])
 
       // Full poem should be visible after clicking
-      expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
+      expect(screen.getByText(/Two illimitable senses that tell/i)).toBeInTheDocument()
     })
 
     it('should change button text when expanded', async () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
-      await user.click(expandButton!)
+      await user.click(expandButtons![0])
 
       expect(screen.getByRole('button', { name: /collapse/i })).toBeInTheDocument()
     })
@@ -169,18 +170,19 @@ describe('Poetry Component', () => {
       const user = userEvent.setup()
       render(<Poetry />)
 
-      let expandButton: HTMLElement
+      let expandButtons: HTMLElement[]
       await waitFor(() => {
-        expandButton = screen.getByRole('button', { name: /read full poem/i })
+        expandButtons = screen.getAllByRole('button', { name: /read full poem/i })
+        expect(expandButtons.length).toBeGreaterThan(0)
       })
 
-      await user.click(expandButton!)
-      expect(screen.getByText(/Your words arrive, a gentle probe/i)).toBeInTheDocument()
+      await user.click(expandButtons![0])
+      expect(screen.getByText(/Two illimitable senses that tell/i)).toBeInTheDocument()
 
       const collapseButton = screen.getByRole('button', { name: /collapse/i })
       await user.click(collapseButton)
 
-      expect(screen.queryByText(/Your words arrive, a gentle probe/i)).not.toBeInTheDocument()
+      expect(screen.queryByText(/Two illimitable senses that tell/i)).not.toBeInTheDocument()
     })
   })
 
@@ -271,8 +273,8 @@ describe('Poetry Component', () => {
       render(<Poetry />)
 
       await waitFor(() => {
-        // "Opening Collaboration" is featured
-        expect(screen.getByText(/Opening Collaboration/i)).toBeInTheDocument()
+        // "Bonn Cemetery" is featured
+        expect(screen.getByText(/Bonn Cemetery/i)).toBeInTheDocument()
       })
     })
   })

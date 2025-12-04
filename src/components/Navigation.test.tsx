@@ -25,14 +25,13 @@ describe('Navigation Component', () => {
       expect(nav).toBeInTheDocument()
     })
 
-    it('should render all 5 navigation links', () => {
+    it('should render all 4 navigation links', () => {
       renderNavigation()
 
       expect(screen.getByRole('link', { name: /^home$/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /open papers/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /writing/i })).toBeInTheDocument()
       expect(screen.getByRole('link', { name: /cv/i })).toBeInTheDocument()
-      expect(screen.getByRole('link', { name: /theories/i })).toBeInTheDocument()
     })
 
     it('should have correct href attributes for all links', () => {
@@ -42,7 +41,6 @@ describe('Navigation Component', () => {
       expect(screen.getByRole('link', { name: /open papers/i })).toHaveAttribute('href', '/papers')
       expect(screen.getByRole('link', { name: /writing/i })).toHaveAttribute('href', '/writing')
       expect(screen.getByRole('link', { name: /cv/i })).toHaveAttribute('href', '/cv')
-      expect(screen.getByRole('link', { name: /theories/i })).toHaveAttribute('href', '/theories')
     })
   })
 
@@ -247,12 +245,12 @@ describe('Navigation Component', () => {
   })
 
   describe('Link Structure', () => {
-    it('should render logo link plus 5 navigation links', () => {
+    it('should render logo link plus 4 navigation links', () => {
       renderNavigation()
 
       const links = screen.getAllByRole('link')
-      // Logo link (index 0) + 5 nav links = 6 total
-      expect(links).toHaveLength(6)
+      // Logo link (index 0) + 4 nav links = 5 total
+      expect(links).toHaveLength(5)
     })
 
     it('should have navigation links in correct order', () => {
@@ -264,7 +262,6 @@ describe('Navigation Component', () => {
       expect(links[2]).toHaveTextContent('Open Papers')
       expect(links[3]).toHaveTextContent('Writing')
       expect(links[4]).toHaveTextContent('CV')
-      expect(links[5]).toHaveTextContent('Theories')
     })
   })
 })

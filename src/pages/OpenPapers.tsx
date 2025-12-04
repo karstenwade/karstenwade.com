@@ -25,8 +25,8 @@ const OpenPapers = ({ className = '' }: OpenPapersProps) => {
     <>
       <SEO
         title="Open Papers - Karsten Wade"
-        description="Research papers and frameworks on open source community building, developer relations, and collaborative experience by Karsten Wade."
-        keywords="open source papers, community building, developer relations, collaborative experience, open collaboration research"
+        description="Papers and frameworks on open source community building, developer relations, and collaborative developer experience by Karsten Wade."
+        keywords="open source papers, community building, developer relations, collaborative developer experience, open collaboration"
         ogUrl="https://karstenwade.com/papers"
       />
       {papers.map((paper) => (
@@ -36,8 +36,8 @@ const OpenPapers = ({ className = '' }: OpenPapersProps) => {
       <div className="open-papers__header">
         <h1 className="open-papers__title">Open Papers</h1>
         <p className="open-papers__description">
-          Explore research papers and frameworks on open source community building,
-          developer relations, and collaborative experience.
+          Explore papers and frameworks on open source community building,
+          developer relations, and collaborative developer experience.
         </p>
         <p className="open-papers__repository">
           All papers are maintained in the{' '}

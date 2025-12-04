@@ -18,7 +18,7 @@ const Writing = ({ className = '' }: WritingProps) => {
     <>
       <SEO
         title="Writing - Karsten Wade"
-        description="Poetry, essays, and prose by Karsten Wade exploring open source communities, collaboration, and the evolving relationship between humans and AI."
+        description="Poetry, essays, and prose by Karsten Wade"
         keywords="poetry, essays, fiction, writing, open source literature, AI stories, collaboration writing"
         ogUrl="https://karstenwade.github.io/karstenwade.com/writing"
       />
@@ -26,8 +26,7 @@ const Writing = ({ className = '' }: WritingProps) => {
         <div className="writing__header">
           <h1 className="writing__title">Writing</h1>
           <p className="writing__description">
-            Poetry, essays, and prose exploring open source communities, collaboration,
-            and the evolving relationship between humans and AI.
+            Poetry, essays, and prose
           </p>
         </div>
 
