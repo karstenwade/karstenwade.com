@@ -256,6 +256,25 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 13.6: Add Shadcn Button component ✅ ([#92](https://github.com/karstenwade/karstenwade.com/issues/92))
 - Story 13.7: Testing and visual regression validation ✅ ([#93](https://github.com/karstenwade/karstenwade.com/issues/93))
 
+### Epic 14: Next.js Migration with Static Site Generation 🔲 PLANNED
+*Migrate from Vite SPA to Next.js with static export for improved SEO and performance*
+- Story 14.1: Initialize Next.js project with App Router 🔲
+- Story 14.2: Migrate shared components (Navigation, Card, Hero, Footer) 🔲
+- Story 14.3: Migrate page routes to Next.js App Router 🔲
+- Story 14.4: Implement static data fetching with generateStaticParams 🔲
+- Story 14.5: Migrate SEO to Next.js Metadata API 🔲
+- Story 14.6: Configure static export and deployment 🔲
+- Story 14.7: Migrate and update test suite 🔲
+- Story 14.8: Update CI/CD pipelines 🔲
+- Story 14.9: Final validation and cutover 🔲
+
+**Benefits:**
+- Pre-rendered HTML at build time (true SSG)
+- Better SEO - search engines see full content immediately
+- Improved Core Web Vitals (faster FCP, LCP)
+- Native Metadata API replaces react-helmet-async
+- Future-ready for SSR, API routes, or CMS integration
+
 ### Epic 12: CMS Integration & Blog 📋 FUTURE ROADMAP
 *Deferred - Current architecture uses static files from Git repositories*
 - Story 12.1: Set up CMS backend and deploy 🔲
@@ -267,7 +286,7 @@ Create a fast, accessible, and content-rich personal website that:
 - Story 12.7: Create blog section with CMS integration 🔲
 - Story 12.8: Testing and content migration validation 🔲
 
-**Note:** The content service abstraction layer (Epic 11.5.4) enables future CMS migration when needed. Current content is managed via:
+**Note:** The content service abstraction layer (Epic 11.5.4) enables future CMS migration when needed. Epic 14 (Next.js) will make CMS integration even easier with Server Components. Current content is managed via:
 - Papers: GitHub repository (karstenwade/papers) with dynamic loading
 - Poetry/Essays/Fiction: Static TypeScript data files
 - CV: Static TypeScript data file
@@ -1083,6 +1102,156 @@ Need to validate that Tailwind migration doesn't introduce visual regressions or
 **Files:**
 - All test files
 - `docs/TAILWIND_MIGRATION.md` (new)
+
+---
+
+## Next.js Migration with Static Site Generation Requirements (Epic 14)
+
+> **Status:** Planned. See [NEXTJS_MIGRATION_PLAN.md](./NEXTJS_MIGRATION_PLAN.md) for detailed implementation guide.
+
+### Story 14.1: Initialize Next.js Project with App Router
+**Acceptance Criteria:**
+- [ ] Create Next.js 15+ project with TypeScript
+- [ ] Configure `next.config.js` with `output: 'export'`
+- [ ] Set up path aliases matching current tsconfig
+- [ ] Configure Tailwind CSS (port existing config)
+- [ ] Add Shadcn UI configuration
+- [ ] Verify build produces static files
+- [ ] Deploy test build to Vercel
+
+**Files:**
+- `next.config.js` (new)
+- `app/layout.tsx` (new)
+- `app/page.tsx` (new - placeholder)
+- `tsconfig.json` (update)
+- `package.json` (update)
+
+### Story 14.2: Migrate Shared Components
+**Acceptance Criteria:**
+- [ ] Migrate Navigation component (add 'use client' for mobile menu)
+- [ ] Migrate Card component
+- [ ] Migrate Hero component
+- [ ] Migrate Footer component
+- [ ] Migrate StructuredData component
+- [ ] Copy Shadcn UI components to components/ui/
+- [ ] Update imports to use new paths
+- [ ] Verify all components render correctly
+
+**Files:**
+- `components/Navigation.tsx`
+- `components/Card.tsx`
+- `components/Hero.tsx`
+- `components/Footer.tsx`
+- `components/StructuredData.tsx`
+- `components/ui/*`
+
+### Story 14.3: Migrate Page Routes to Next.js App Router
+**Acceptance Criteria:**
+- [ ] Create app/page.tsx (Home)
+- [ ] Create app/papers/page.tsx (OpenPapers)
+- [ ] Create app/papers/[slug]/page.tsx (PaperDetail)
+- [ ] Create app/writing/page.tsx (Writing with tabs)
+- [ ] Create app/cv/page.tsx (CV)
+- [ ] Create app/theories/page.tsx (Theories)
+- [ ] Implement proper layouts
+- [ ] Verify navigation works between all pages
+
+**Files:**
+```
+app/
+├── layout.tsx
+├── page.tsx
+├── papers/
+│   ├── page.tsx
+│   └── [slug]/page.tsx
+├── writing/page.tsx
+├── cv/page.tsx
+└── theories/page.tsx
+```
+
+### Story 14.4: Implement Static Data Fetching with generateStaticParams
+**Acceptance Criteria:**
+- [ ] Migrate contentService to work with Server Components
+- [ ] Implement generateStaticParams for paper routes
+- [ ] Fetch paper data at build time from GitHub
+- [ ] Fetch poetry/essays/fiction at build time from static files
+- [ ] Ensure all pages are statically generated
+- [ ] Verify `next build` generates all HTML files
+
+**Files:**
+- `services/contentService.ts` (update for server-side)
+- `services/paperService.ts` (update)
+- `app/papers/[slug]/page.tsx` (add generateStaticParams)
+
+### Story 14.5: Migrate SEO to Next.js Metadata API
+**Acceptance Criteria:**
+- [ ] Remove react-helmet-async dependency
+- [ ] Implement generateMetadata for each page
+- [ ] Add Open Graph metadata
+- [ ] Add Twitter Card metadata
+- [ ] Add Bluesky metadata
+- [ ] Add structured data (JSON-LD)
+- [ ] Verify meta tags in page source
+- [ ] Test social media previews
+
+**Files:**
+- `app/layout.tsx` (default metadata)
+- All page.tsx files (page-specific metadata)
+
+### Story 14.6: Configure Static Export and Deployment
+**Acceptance Criteria:**
+- [ ] Configure next.config.js for static export
+- [ ] Set up basePath for GitHub Pages mirror
+- [ ] Test local static build (`next build && npx serve out`)
+- [ ] Verify all routes work with static files
+- [ ] Create 404 page (app/not-found.tsx)
+- [ ] Configure redirects if needed
+
+**Files:**
+- `next.config.js`
+- `app/not-found.tsx` (new)
+
+### Story 14.7: Migrate and Update Test Suite
+**Acceptance Criteria:**
+- [ ] Configure Vitest for Next.js
+- [ ] Update component test imports
+- [ ] Fix tests broken by Server Components
+- [ ] Add tests for new Next.js-specific code
+- [ ] Verify all existing tests pass
+- [ ] Achieve similar coverage to current
+
+**Files:**
+- `vitest.config.ts` (update)
+- All test files
+
+### Story 14.8: Update CI/CD Pipelines
+**Acceptance Criteria:**
+- [ ] Update GitHub Actions workflow for Next.js build
+- [ ] Configure Vercel project settings
+- [ ] Set up GitHub Pages deployment with Next.js output
+- [ ] Test preview deployments
+- [ ] Verify production deployment works
+
+**Files:**
+- `.github/workflows/deploy.yml`
+
+### Story 14.9: Final Validation and Cutover
+**Acceptance Criteria:**
+- [ ] Full regression testing (all pages, all features)
+- [ ] Performance comparison (Lighthouse before/after)
+- [ ] SEO validation (check meta tags, structured data)
+- [ ] Accessibility audit (axe-core)
+- [ ] Cross-browser testing
+- [ ] Remove old Vite configuration
+- [ ] Remove unused dependencies
+- [ ] Update documentation
+
+**Files:**
+- `vite.config.ts` (delete)
+- `src/` (archive/delete after validation)
+- `index.html` (delete - Next.js generates)
+- `package.json` (cleanup)
+- `README.md` (update)
 
 ---
 
