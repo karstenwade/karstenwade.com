@@ -1,5 +1,30 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import './globals.css'
+
+// Person JSON-LD for site-wide structured data
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Karsten Wade',
+  jobTitle: 'Collaborative Experience Consultant',
+  description: 'Collaboration catalyst and open collaboration expert specializing in developer experience (DevEx) and community building',
+  url: 'https://karstenwade.com',
+  image: 'https://karstenwade.com/assets/images/karsten-wade-headshot.jpg',
+  sameAs: [
+    'https://github.com/quaid',
+    'https://linkedin.com/in/karstenwade',
+    'https://fosstodon.org/@quaid',
+  ],
+  knowsAbout: [
+    'Developer Experience',
+    'Open Source',
+    'Community Architecture',
+    'Collaborative Work',
+    'OSPO',
+    'The Open Source Way',
+  ],
+}
 
 export const metadata: Metadata = {
   title: {
@@ -49,7 +74,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Script
+          id="person-jsonld"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   )
 }
