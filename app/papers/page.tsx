@@ -1,21 +1,20 @@
-'use client'
-
-import { useEffect, useState } from 'react'
+import type { Metadata } from 'next'
+import { contentService } from '@/services/contentService'
 import Navigation from '../components/Navigation'
 import Card from '../components/Card'
-import { contentService } from '@/services/contentService'
-import type { Paper } from '@/data/papers'
 
-export default function Papers() {
-  const [papers, setPapers] = useState<Paper[]>([])
+export const metadata: Metadata = {
+  title: 'Open Papers - Karsten Wade',
+  description: 'Papers and frameworks on open source community building, developer relations, and collaborative developer experience by Karsten Wade.',
+  keywords: ['open source papers', 'community building', 'developer relations', 'collaborative developer experience', 'open collaboration'],
+  openGraph: {
+    url: 'https://karstenwade.com/papers',
+  },
+}
 
-  useEffect(() => {
-    async function loadPapers() {
-      const data = await contentService.getPapers()
-      setPapers(data)
-    }
-    loadPapers()
-  }, [])
+// Server Component - data fetched at build time
+export default async function Papers() {
+  const papers = await contentService.getPapers()
 
   return (
     <>
