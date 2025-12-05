@@ -43,10 +43,10 @@ export default async function Papers() {
         <div className="cards-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {papers.map((paper) => (
             <Card
-              key={paper.externalUrl}
+              key={paper.slug || paper.externalUrl}
               title={paper.title}
               description={paper.description}
-              link={paper.externalUrl}
+              link={paper.slug ? `/papers/${paper.slug}` : paper.externalUrl}
             />
           ))}
         </div>
