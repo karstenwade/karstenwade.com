@@ -27,6 +27,10 @@ dist-ssr
 build/
 .cache/
 
+# Next.js
+.next/
+out/
+
 # Environment variables
 .env
 .env.local
