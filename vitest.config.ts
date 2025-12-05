@@ -7,12 +7,15 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),
+      '@/data': path.resolve(__dirname, './src/data'),
+      '@/services': path.resolve(__dirname, './src/services'),
     },
   },
   test: {
     globals: true,
     environment: 'jsdom',
     setupFiles: './src/test/setup.ts',
+    include: ['src/**/*.test.{ts,tsx}', 'app/**/*.test.{ts,tsx}'],
     coverage: {
       reporter: ['text', 'json', 'html'],
       exclude: [
