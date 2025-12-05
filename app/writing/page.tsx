@@ -2,9 +2,9 @@
 
 import { useState } from 'react'
 import Navigation from '../components/Navigation'
-import Poetry from '@/components/Poetry'
-import Essays from '@/components/Essays'
-import Fiction from '@/components/Fiction'
+import Poetry from '../components/Poetry'
+import Essays from '../components/Essays'
+import Fiction from '../components/Fiction'
 
 type WritingTab = 'poetry' | 'essays' | 'fiction'
 
