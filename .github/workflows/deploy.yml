@@ -31,15 +31,13 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build static site
-        run: npm run build
-        env:
-          GITHUB_PAGES: true
+      - name: Build Next.js static site
+        run: npm run build:next
 
       - name: Upload build artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          path: ./dist
+          path: ./out
 
   deploy:
     environment:
