@@ -5,11 +5,12 @@ import Navigation from './components/Navigation'
 import './styles/App.css'
 
 // Lazy load route components for code splitting
-const Home = lazy(() => import('./pages/Home'))
-const Writing = lazy(() => import('./pages/Writing'))
-const CV = lazy(() => import('./pages/CV'))
-const OpenPapers = lazy(() => import('./pages/OpenPapers'))
-const PaperDetail = lazy(() => import('./pages/PaperDetail'))
+// Note: During Next.js migration, pages are in vite-pages directory
+const Home = lazy(() => import('./vite-pages/Home'))
+const Writing = lazy(() => import('./vite-pages/Writing'))
+const CV = lazy(() => import('./vite-pages/CV'))
+const OpenPapers = lazy(() => import('./vite-pages/OpenPapers'))
+const PaperDetail = lazy(() => import('./vite-pages/PaperDetail'))
 
 // Loading fallback component
 const LoadingFallback = () => (
