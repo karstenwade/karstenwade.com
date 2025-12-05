@@ -53,6 +53,9 @@
     "src/**/*.test.tsx",
     "src/**/*.test.ts",
     "src/test",
+    "app/**/*.test.tsx",
+    "app/**/*.test.ts",
+    "app/**/__tests__",
     "node_modules"
   ]
 }
