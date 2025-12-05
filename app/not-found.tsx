@@ -1,5 +1,15 @@
+import type { Metadata } from 'next'
 import Link from 'next/link'
 import Navigation from './components/Navigation'
+
+export const metadata: Metadata = {
+  title: 'Page Not Found',
+  description: 'The requested page could not be found.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+}
 
 export default function NotFound() {
   return (
