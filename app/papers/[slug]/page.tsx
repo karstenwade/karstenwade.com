@@ -50,6 +50,13 @@ function formatDate(dateStr: string): string {
   })
 }
 
+function getExternalLinkText(url: string): string {
+  if (url.includes('github.com')) return 'View on GitHub'
+  if (url.includes('gitbook') || url.includes('guidebook')) return 'View Guidebook'
+  if (url.includes('gitlab.com')) return 'View on GitLab'
+  return 'View External'
+}
+
 export default async function PaperDetail({ params }: PaperDetailProps) {
   const { slug } = await params
   const paper = papers.find(p => p.slug === slug)
@@ -121,7 +128,7 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View on GitHub
+                {getExternalLinkText(paper.externalUrl)}
               </a>
             </div>
           </header>
