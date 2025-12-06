@@ -25,4 +25,11 @@ export default tseslint.config(
       ],
     },
   },
+  // Disable react-refresh for Next.js App Router pages (they export metadata)
+  {
+    files: ['app/**/*.{ts,tsx}'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 )
