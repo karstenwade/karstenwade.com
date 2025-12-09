@@ -19,45 +19,57 @@ Karsten Wade is a leading expert in collaborative work and developer experience.
 
 This website is built with modern web technologies focused on performance, accessibility, and developer experience:
 
+- **Next.js 16** - React framework with App Router and Turbopack
 - **React 18.3** - UI component library
 - **TypeScript 5.6** - Type-safe JavaScript
-- **Vite 6.0** - Lightning-fast build tool and dev server
+- **Tailwind CSS 4** - Utility-first CSS framework
 - **Vitest** - Unit testing framework
 - **ESLint** - Code quality and consistency
 - **GitHub Pages** - Static site hosting with custom domain
 
-### Why Vite?
+### Why Next.js?
 
-We chose Vite over Create React App because:
+We migrated from Vite to Next.js for:
 
-1. **Faster builds** - Uses esbuild for 10-100x faster builds than webpack
-2. **Better DX** - Instant HMR (Hot Module Replacement) in development
-3. **Static site generation** - Easy to configure for GitHub Pages
-4. **Modern tooling** - Native ES modules, optimized for modern browsers
-5. **TypeScript first** - Excellent TypeScript support out of the box
+1. **Static Site Generation (SSG)** - Pre-rendered pages at build time for optimal performance
+2. **App Router** - Modern routing with layouts, loading states, and error boundaries
+3. **Turbopack** - Ultra-fast development builds
+4. **Built-in SEO** - Metadata API for per-page SEO configuration
+5. **Image Optimization** - Automatic image optimization (when using server mode)
+6. **TypeScript first** - Excellent TypeScript support out of the box
+
+### Migration Status
+
+The site is in a transitional state with dual build systems:
+- **Next.js (app/)** - Production build deployed to GitHub Pages
+- **Vite (src/)** - Legacy components, still available for development
+
+Production deployment uses `npm run build:next` which outputs to `out/`.
 
 ## Project Structure
 
 ```
 karstenwade.com/
-├── src/
-│   ├── components/        # Reusable React components
-│   ├── pages/            # Page-level components
-│   ├── styles/           # CSS stylesheets
-│   ├── types/            # TypeScript type definitions
-│   ├── test/             # Test utilities and setup
-│   ├── App.tsx           # Root application component
-│   ├── main.tsx          # Application entry point
-│   └── vite-env.d.ts     # Vite type declarations
-├── public/               # Static assets (copied to dist/)
-├── content/              # Content organized by type
-│   ├── poetry/           # Poetry collection
-│   ├── fiction/          # Fiction writing
-│   ├── cv/               # Curriculum vitae
-│   ├── theories/         # CollabX, ContribX frameworks
-│   └── open-papers/      # Links to research papers
-├── tests/                # Integration and acceptance tests
-├── dist/                 # Build output (generated)
+├── app/                  # Next.js App Router (production)
+│   ├── components/       # Next.js-specific components
+│   ├── cv/              # CV page route
+│   ├── papers/          # Papers pages with dynamic routes
+│   ├── writing/         # Writing page route
+│   ├── layout.tsx       # Root layout with metadata
+│   ├── page.tsx         # Home page
+│   ├── not-found.tsx    # 404 page
+│   └── globals.css      # Global styles
+├── src/                  # Legacy Vite components (shared)
+│   ├── components/       # Reusable React components
+│   ├── data/            # Static content data
+│   ├── services/        # API and content services
+│   ├── styles/          # CSS stylesheets
+│   ├── types/           # TypeScript type definitions
+│   └── test/            # Test utilities and setup
+├── public/               # Static assets (copied to out/)
+├── scripts/              # Build scripts (sitemap generation)
+├── .github/workflows/    # CI/CD pipelines
+├── out/                  # Next.js static export (generated)
 └── node_modules/         # Dependencies (generated)
 ```
 
@@ -84,35 +96,45 @@ karstenwade.com/
 
 ### Development Workflow
 
-#### Start Development Server
+#### Start Development Server (Next.js - Recommended)
 
-Run the local development server with hot module replacement:
+Run the Next.js development server with Turbopack:
+
+```bash
+npm run dev:next
+```
+
+The site will be available at `http://localhost:3001`
+
+#### Start Development Server (Vite - Legacy)
+
+For working with legacy src/ components:
 
 ```bash
 npm run dev
 ```
 
-The site will be available at `http://localhost:5173`
+The Vite dev server runs at `http://localhost:5173`
 
 #### Build for Production
 
-Create an optimized production build:
+Create an optimized static export for GitHub Pages:
 
 ```bash
-npm run build
+npm run build:next
 ```
 
-Output will be in the `dist/` directory as static HTML, CSS, and JavaScript.
+Output will be in the `out/` directory as static HTML, CSS, and JavaScript.
 
 #### Preview Production Build
 
-Test the production build locally:
+Serve the static export locally:
 
 ```bash
-npm run preview
+npx serve out -p 3001
 ```
 
-The production preview will be available at `http://localhost:4173`
+The production preview will be available at `http://localhost:3001`
 
 ### Testing
 
