@@ -14,6 +14,7 @@
 import { writeFileSync } from 'fs'
 import { join } from 'path'
 import { fetchPapersFromGitHub } from '../src/services/paperService'
+import { papers as staticPapers } from '../src/data/papers'
 
 const BASE_URL = 'https://karstenwade.com'
 
@@ -52,12 +53,7 @@ const staticPages: SitemapURL[] = [
     changefreq: 'monthly',
     priority: 0.7,
   },
-  {
-    loc: `${BASE_URL}/theories`,
-    lastmod: new Date().toISOString().split('T')[0],
-    changefreq: 'monthly',
-    priority: 0.8,
-  },
+  // Note: /theories page not yet migrated to Next.js
 ]
 
 /**
@@ -94,11 +90,12 @@ async function main() {
 
     // Fetch papers from GitHub and add individual paper pages
     console.log('📄 Fetching papers from GitHub...')
+    let papersAdded = 0
     try {
       const papers = await fetchPapersFromGitHub()
 
       if (papers.length > 0) {
-        console.log(`✅ Found ${papers.length} papers`)
+        console.log(`✅ Found ${papers.length} papers from GitHub`)
 
         papers.forEach((paper) => {
           // Generate slug from paper's external URL
@@ -112,13 +109,31 @@ async function main() {
             changefreq: 'monthly',
             priority: 0.8,
           })
+          papersAdded++
         })
-      } else {
-        console.warn('⚠️  No papers found in repository')
       }
     } catch (error) {
       console.warn('⚠️  Failed to fetch papers from GitHub:', error)
-      console.warn('   Continuing with static pages only')
+    }
+
+    // Add static papers as fallback
+    if (papersAdded === 0 && staticPapers.length > 0) {
+      console.log(`📄 Using ${staticPapers.length} static papers as fallback`)
+      staticPapers.forEach((paper) => {
+        if (paper.slug) {
+          allUrls.push({
+            loc: `${BASE_URL}/papers/${paper.slug}`,
+            lastmod: paper.lastUpdated || paper.publicationDate,
+            changefreq: 'monthly',
+            priority: 0.8,
+          })
+          papersAdded++
+        }
+      })
+    }
+
+    if (papersAdded === 0) {
+      console.warn('⚠️  No papers found from any source')
     }
 
     // Generate XML

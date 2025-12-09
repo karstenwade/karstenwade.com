@@ -59,19 +59,19 @@ export default function PoetryList({ poems, className = '' }: PoetryListProps) {
               <div className="poem-preview__theme text-gray-600 italic mb-4">{poem.theme}</div>
 
               <div className="poem-preview__content">
-                <div className="poem-preview__excerpt text-gray-700 whitespace-pre-line leading-relaxed">
+                <div className="poem-preview__excerpt text-gray-700 leading-relaxed">
                   {poem.excerpt.split('\n').map((line, idx) => (
-                    <div key={idx} className="poem-line">
-                      {line}
+                    <div key={idx} className="poem-line whitespace-pre-wrap min-h-[1.75em]">
+                      {line || '\u00A0'}{/* Non-breaking space for empty lines (stanza breaks) */}
                     </div>
                   ))}
                 </div>
 
                 {isExpanded && (
-                  <div className="poem-preview__full-text mt-4 pt-4 border-t border-gray-200 text-gray-700 whitespace-pre-line leading-relaxed">
+                  <div className="poem-preview__full-text mt-4 pt-4 border-t border-gray-200 text-gray-700 leading-relaxed">
                     {poem.fullText.split('\n').map((line, idx) => (
-                      <div key={idx} className="poem-line">
-                        {line}
+                      <div key={idx} className="poem-line whitespace-pre-wrap min-h-[1.75em]">
+                        {line || '\u00A0'}{/* Non-breaking space for empty lines (stanza breaks) */}
                       </div>
                     ))}
                   </div>
