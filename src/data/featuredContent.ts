@@ -13,11 +13,19 @@ export interface FeaturedItem {
 export const featuredItems: FeaturedItem[] = [
   {
     type: 'paper',
-    slug: 'open-source-way',
-    headline: 'The Open Source Way 2.0',
-    subheadline: 'Industry-standard handbook for community building',
-    cta: 'Read the Guide',
+    slug: 'Understanding_Collaborative_Experience--CollabX--and_Contributor_Experience--ContribX',
+    headline: 'Understanding Collaborative Experience (CollabX) and Contributor Experience (ContribX)',
+    subheadline: 'A granular framework for understanding and improving how humans work together',
+    cta: 'Read the Paper',
     priority: 1,
+  },
+  {
+    type: 'paper',
+    slug: 'Karsten_BIG_TOE',
+    headline: "Karsten's BIG-TOE",
+    subheadline: 'Big, Inclusive, and General Theory Of Everything - index of open papers',
+    cta: 'Explore BIG-TOE',
+    priority: 2,
   },
   {
     type: 'poem',
@@ -25,7 +33,7 @@ export const featuredItems: FeaturedItem[] = [
     headline: 'Poetry',
     subheadline: 'Bonn Cemetery: Alter Friedhof - Meditation on time and love',
     cta: 'Read the Poem',
-    priority: 2,
+    priority: 3,
   },
 ]
 

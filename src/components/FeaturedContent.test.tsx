@@ -62,23 +62,23 @@ describe('FeaturedContent Component', () => {
   })
 
   describe('Card Content from YAML', () => {
-    it('should display "The Open Source Way 2.0" paper', () => {
+    it('should display CollabX/ContribX paper', () => {
       render(<FeaturedContent />)
 
-      expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
+      expect(screen.getByText(/Understanding Collaborative Experience/i)).toBeInTheDocument()
     })
 
-    it('should display "Bonn Cemetery" poem', () => {
+    it('should display BIG-TOE paper', () => {
       render(<FeaturedContent />)
 
-      expect(screen.getByText(/Bonn Cemetery/i)).toBeInTheDocument()
+      expect(screen.getByText(/BIG-TOE/i)).toBeInTheDocument()
     })
 
     it('should display subheadlines/descriptions', () => {
       render(<FeaturedContent />)
 
       // From featured.yml subheadlines
-      expect(screen.getByText(/Industry-standard handbook for community building/i)).toBeInTheDocument()
+      expect(screen.getByText(/granular framework for understanding and improving/i)).toBeInTheDocument()
       expect(screen.getByText(/Meditation on time and love/i)).toBeInTheDocument()
     })
   })
@@ -91,12 +91,12 @@ describe('FeaturedContent Component', () => {
       expect(links.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should link to Open Source Way paper external URL', () => {
+    it('should link to featured paper on GitHub', () => {
       render(<FeaturedContent />)
 
-      const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
+      const link = screen.getByRole('link', { name: /Understanding Collaborative Experience/i })
       expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('guidebook.theopensourceway.org')
+      expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
     })
 
     it('should link to Writing page for poetry', () => {
@@ -176,8 +176,8 @@ describe('FeaturedContent Component', () => {
       // Verify we're displaying actual data from YAML
       const cards = screen.getAllByTestId('featured-card')
 
-      // Should have exactly 2 items as currently defined in featuredContent.ts
-      expect(cards.length).toBe(2)
+      // Should have exactly 3 items as currently defined in featuredContent.ts
+      expect(cards.length).toBe(3)
     })
 
     it('should respect priority order from YAML', () => {
@@ -185,11 +185,14 @@ describe('FeaturedContent Component', () => {
 
       const cards = screen.getAllByTestId('featured-card')
 
-      // First card should be priority 1 (Open Source Way)
-      expect(cards[0]).toHaveTextContent(/The Open Source Way 2.0/i)
+      // First card should be priority 1 (CollabX/ContribX paper)
+      expect(cards[0]).toHaveTextContent(/Understanding Collaborative Experience/i)
 
-      // Second card should be priority 2 (Bonn Cemetery poem)
-      expect(cards[1]).toHaveTextContent(/Bonn Cemetery/i)
+      // Second card should be priority 2 (BIG-TOE)
+      expect(cards[1]).toHaveTextContent(/BIG-TOE/i)
+
+      // Third card should be priority 3 (Poetry)
+      expect(cards[2]).toHaveTextContent(/Poetry/i)
     })
   })
 

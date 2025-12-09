@@ -25,8 +25,26 @@
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://karstenwade.com/papers/open-source-way</loc>
-    <lastmod>2024-03-10</lastmod>
+    <loc>https://karstenwade.com/papers/Framework_The-Collaborative-Experience_CollabX_</loc>
+    <lastmod>2025-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://karstenwade.com/papers/Framework_The-Contributor-Experience_ContribX_</loc>
+    <lastmod>2025-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://karstenwade.com/papers/Karsten_BIG_TOE</loc>
+    <lastmod>2025-10-01</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://karstenwade.com/papers/Understanding_Collaborative_Experience--CollabX--and_Contributor_Experience--ContribX</loc>
+    <lastmod>2025-10-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
