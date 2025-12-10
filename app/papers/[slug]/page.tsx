@@ -7,6 +7,7 @@ import { papers } from '@/data/papers'
 import { getPaperBySlug } from '@/services/paperService'
 import Navigation from '../../components/Navigation'
 import StructuredData from '../../components/StructuredData'
+import PdfDownloadButton from '../../components/PdfDownloadButton'
 
 interface PaperDetailProps {
   params: Promise<{ slug: string }>
@@ -124,7 +125,7 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
             </div>
 
             <div className="paper-detail__actions flex flex-wrap gap-4">
-              {paper.pdfUrl && (
+              {paper.pdfUrl ? (
                 <a
                   href={paper.pdfUrl}
                   className="paper-detail__action px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
@@ -133,7 +134,12 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
                 >
                   Download PDF
                 </a>
-              )}
+              ) : markdownContent ? (
+                <PdfDownloadButton
+                  paperTitle={paper.title}
+                  contentSelector=".paper-detail__article"
+                />
+              ) : null}
               <a
                 href={paper.externalUrl}
                 className="paper-detail__action px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
