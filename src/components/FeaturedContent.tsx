@@ -1,6 +1,5 @@
 import Card from './Card'
 import { featuredItems, maxFeatured } from '../data/featuredContent'
-import { papers } from '../data/papers'
 import './FeaturedContent.css'
 
 export interface FeaturedContentProps {
@@ -13,18 +12,20 @@ const FeaturedContent = ({ className = '' }: FeaturedContentProps) => {
     .sort((a, b) => a.priority - b.priority)
     .slice(0, maxFeatured)
 
-  // Get the correct URL for each featured item
+  // Get the internal URL for each featured item
   const getItemPath = (type: string, slug: string): string => {
-    // For papers, use the external URL if available
+    // For papers, link to internal paper page
     if (type === 'paper') {
-      const paper = papers.find(p => p.slug === slug)
-      if (paper?.externalUrl) {
-        return paper.externalUrl
-      }
+      return `/papers/${slug}`
     }
 
-    // For poems and writing, just link to the Writing page
-    if (type === 'poem' || type === 'writing') {
+    // For poems, link to Writing page with anchor
+    if (type === 'poem') {
+      return `/writing#${slug}`
+    }
+
+    // For general writing, link to Writing page
+    if (type === 'writing') {
       return '/writing'
     }
 
