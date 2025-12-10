@@ -190,13 +190,13 @@ describe('Essays Component', () => {
         expect(toggleButtons.length).toBeGreaterThan(0)
       })
 
-      // Full text (beyond excerpt) should not be visible initially
-      expect(screen.queryByText(/Sharing it rough and raw, sharing it polished and poised/i)).not.toBeInTheDocument()
+      // Text from paragraph 3+ (beyond the 2-paragraph preview) should not be visible initially
+      expect(screen.queryByText(/A long time ago maybe, I decided/i)).not.toBeInTheDocument()
 
       await user.click(toggleButtons![0])
 
-      // Full text should now be visible
-      expect(screen.getByText(/Sharing it rough and raw, sharing it polished and poised/i)).toBeInTheDocument()
+      // Full text (including paragraph 3+) should now be visible
+      expect(screen.getByText(/A long time ago maybe, I decided/i)).toBeInTheDocument()
     })
 
     it('should allow expanding multiple essays simultaneously', async () => {

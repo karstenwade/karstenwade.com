@@ -62,12 +62,17 @@ export default function EssaysList({ essays, className = '' }: EssaysListProps) 
               <div className="essay-preview__theme text-gray-600 italic mb-4">{essay.theme}</div>
 
               <div className="essay-preview__content">
-                <div className="essay-preview__excerpt text-gray-700 leading-relaxed">
-                  {essay.excerpt}
-                </div>
-
-                {isExpanded && (
-                  <div className="essay-preview__full-text mt-4 pt-4 border-t border-gray-200 space-y-4">
+                {!isExpanded ? (
+                  <div className="essay-preview__excerpt text-gray-700 leading-relaxed space-y-4">
+                    {/* Show first 2 paragraphs as preview with original formatting */}
+                    {essay.fullText.split('\n\n').slice(0, 2).map((paragraph, idx) => (
+                      <p key={idx} className="essay-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="essay-preview__full-text space-y-4">
                     {essay.fullText.split('\n\n').map((paragraph, idx) => (
                       <p key={idx} className="essay-paragraph text-gray-700 leading-relaxed">
                         {paragraph}

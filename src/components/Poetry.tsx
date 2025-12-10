@@ -67,19 +67,19 @@ const Poetry = ({ className = '' }: PoetryProps) => {
               <div className="poem-preview__theme">{poem.theme}</div>
 
               <div className="poem-preview__content">
-                <div className="poem-preview__excerpt">
-                  {poem.excerpt.split('\n').map((line, idx) => (
-                    <div key={idx} className="poem-line">
-                      {line}
-                    </div>
-                  ))}
-                </div>
-
-                {isExpanded && (
+                {!isExpanded ? (
+                  <div className="poem-preview__excerpt">
+                    {poem.excerpt.split('\n').map((line, idx) => (
+                      <div key={idx} className="poem-line">
+                        {line || '\u00A0'}{/* Non-breaking space for empty lines (stanza breaks) */}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
                   <div className="poem-preview__full-text">
                     {poem.fullText.split('\n').map((line, idx) => (
                       <div key={idx} className="poem-line">
-                        {line}
+                        {line || '\u00A0'}{/* Non-breaking space for empty lines (stanza breaks) */}
                       </div>
                     ))}
                   </div>

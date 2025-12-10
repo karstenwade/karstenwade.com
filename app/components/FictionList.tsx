@@ -62,12 +62,17 @@ export default function FictionList({ stories, className = '' }: FictionListProp
               </div>
 
               <div className="story-preview__content">
-                <div className="story-preview__excerpt text-gray-700 leading-relaxed">
-                  {story.excerpt}
-                </div>
-
-                {isExpanded && (
-                  <div className="story-preview__full-text mt-4 pt-4 border-t border-gray-200 space-y-4">
+                {!isExpanded ? (
+                  <div className="story-preview__excerpt text-gray-700 leading-relaxed space-y-4">
+                    {/* Show first 2 paragraphs as preview with original formatting */}
+                    {story.fullText.split('\n\n').slice(0, 2).map((paragraph, idx) => (
+                      <p key={idx} className="story-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="story-preview__full-text space-y-4">
                     {story.fullText.split('\n\n').map((paragraph, idx) => (
                       <p key={idx} className="story-paragraph text-gray-700 leading-relaxed">
                         {paragraph}
