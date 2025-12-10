@@ -70,11 +70,16 @@ const Essays = ({ className = '' }: EssaysProps) => {
               <div className="essay-preview__theme">{essay.theme}</div>
 
               <div className="essay-preview__content">
-                <div className="essay-preview__excerpt">
-                  {essay.excerpt}
-                </div>
-
-                {isExpanded && (
+                {!isExpanded ? (
+                  <div className="essay-preview__excerpt">
+                    {/* Show first 2 paragraphs as preview with original formatting */}
+                    {essay.fullText.split('\n\n').slice(0, 2).map((paragraph, idx) => (
+                      <p key={idx} className="essay-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
                   <div className="essay-preview__full-text">
                     {essay.fullText.split('\n\n').map((paragraph, idx) => (
                       <p key={idx} className="essay-paragraph">

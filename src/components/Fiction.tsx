@@ -70,11 +70,16 @@ const Fiction = ({ className = '' }: FictionProps) => {
               </div>
 
               <div className="story-preview__content">
-                <div className="story-preview__excerpt">
-                  {story.excerpt}
-                </div>
-
-                {isExpanded && (
+                {!isExpanded ? (
+                  <div className="story-preview__excerpt">
+                    {/* Show first 2 paragraphs as preview with original formatting */}
+                    {story.fullText.split('\n\n').slice(0, 2).map((paragraph, idx) => (
+                      <p key={idx} className="story-paragraph">
+                        {paragraph}
+                      </p>
+                    ))}
+                  </div>
+                ) : (
                   <div className="story-preview__full-text">
                     {story.fullText.split('\n\n').map((paragraph, idx) => (
                       <p key={idx} className="story-paragraph">
