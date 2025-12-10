@@ -90,11 +90,11 @@ describe('OpenPapers Page', () => {
   })
 
   describe('Paper Content', () => {
-    it('should display "The Open Source Way 2.0" paper', async () => {
+    it('should display CollabX and ContribX paper', async () => {
       render(<OpenPapers />)
 
       await waitFor(() => {
-        expect(screen.getByText(/The Open Source Way 2.0/i)).toBeInTheDocument()
+        expect(screen.getByText(/Understanding Collaborative Experience/i)).toBeInTheDocument()
       })
     })
 
@@ -102,7 +102,7 @@ describe('OpenPapers Page', () => {
       render(<OpenPapers />)
 
       await waitFor(() => {
-        expect(screen.getByText(/Comprehensive guide to building and managing/i)).toBeInTheDocument()
+        expect(screen.getByText(/granular framework for understanding and improving/i)).toBeInTheDocument()
       })
     })
   })
@@ -119,13 +119,13 @@ describe('OpenPapers Page', () => {
       expect(githubLinks.length).toBeGreaterThanOrEqual(1)
     })
 
-    it('should link to Open Source Way 2.0 guidebook', async () => {
+    it('should link to papers on GitHub', async () => {
       render(<OpenPapers />)
 
       await waitFor(() => {
-        const link = screen.getByRole('link', { name: /The Open Source Way 2.0/i })
+        const link = screen.getByRole('link', { name: /Understanding Collaborative Experience/i })
         expect(link).toHaveAttribute('href')
-        expect(link.getAttribute('href')).toContain('guidebook.theopensourceway.org')
+        expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
       })
     })
 
