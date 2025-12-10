@@ -91,20 +91,21 @@ describe('FeaturedContent Component', () => {
       expect(links.length).toBeGreaterThanOrEqual(2)
     })
 
-    it('should link to featured paper on GitHub', () => {
+    it('should link to internal paper page', () => {
       render(<FeaturedContent />)
 
       const link = screen.getByRole('link', { name: /Understanding Collaborative Experience/i })
       expect(link).toHaveAttribute('href')
-      expect(link.getAttribute('href')).toContain('github.com/karstenwade/papers')
+      // Should link to internal paper page, not external GitHub
+      expect(link.getAttribute('href')).toBe('/papers/Understanding_Collaborative_Experience--CollabX--and_Contributor_Experience--ContribX')
     })
 
-    it('should link to Writing page for poetry', () => {
+    it('should link to Writing page with anchor for poetry', () => {
       render(<FeaturedContent />)
 
       // The link accessible name comes from the card title "Poetry"
       const link = screen.getByRole('link', { name: /Poetry/i })
-      expect(link).toHaveAttribute('href', '/writing')
+      expect(link).toHaveAttribute('href', '/writing#bonn-cemetery-alter-friedhof')
     })
   })
 
