@@ -10,6 +10,7 @@ import StructuredData from '../../components/StructuredData'
 import PdfDownloadButton from '../../components/PdfDownloadButton'
 import PaperHeader from '../../components/PaperHeader'
 import CitationBlock from '../../components/CitationBlock'
+import ShareButtons from '../../components/ShareButtons'
 import PrintButton from '../../components/PrintButton'
 import './print.css'
 
@@ -26,7 +27,7 @@ export async function generateStaticParams() {
     }))
 }
 
-// Generate metadata for each paper
+// Generate metadata for each paper with enhanced SEO
 export async function generateMetadata({ params }: PaperDetailProps): Promise<Metadata> {
   const { slug } = await params
   const paper = papers.find(p => p.slug === slug)
@@ -37,14 +38,52 @@ export async function generateMetadata({ params }: PaperDetailProps): Promise<Me
     }
   }
 
+  const paperUrl = `https://karstenwade.com/papers/${slug}`
+  const publicationYear = new Date(paper.publicationDate).getFullYear()
+
   return {
     title: `${paper.title} - Karsten Wade`,
     description: paper.abstract,
-    keywords: [...paper.tags, 'research paper', paper.category],
+    keywords: [...paper.tags, 'research paper', paper.category, 'Karsten Wade'],
+    authors: [{ name: 'Karsten Wade', url: 'https://karstenwade.com' }],
+    creator: 'Karsten Wade',
+    publisher: 'Karsten Wade',
     openGraph: {
+      type: 'article',
       title: paper.title,
       description: paper.abstract,
-      url: `https://karstenwade.com/papers/${slug}`,
+      url: paperUrl,
+      siteName: 'Karsten Wade',
+      locale: 'en_US',
+      publishedTime: paper.publicationDate,
+      modifiedTime: paper.lastUpdated,
+      authors: ['Karsten Wade'],
+      tags: paper.tags,
+      images: [
+        {
+          url: 'https://karstenwade.com/og-image-papers.png',
+          width: 1200,
+          height: 630,
+          alt: `${paper.title} - Paper by Karsten Wade`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: paper.title,
+      description: paper.abstract,
+      creator: '@karstenwade',
+      images: ['https://karstenwade.com/og-image-papers.png'],
+    },
+    alternates: {
+      canonical: paperUrl,
+    },
+    other: {
+      'citation_title': paper.title,
+      'citation_author': 'Karsten Wade',
+      'citation_publication_date': paper.publicationDate,
+      'citation_year': publicationYear.toString(),
+      ...(paper.doi && { 'citation_doi': paper.doi }),
     },
   }
 }
@@ -223,6 +262,15 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
 
           {/* Citation block - hidden in print */}
           <CitationBlock paper={paper} author="Karsten Wade" />
+
+          {/* Social sharing buttons - hidden in print */}
+          <div className="mt-6">
+            <ShareButtons
+              url={`https://karstenwade.com/papers/${paper.slug}`}
+              title={paper.title}
+              description={paper.abstract}
+            />
+          </div>
 
           {/* Footer */}
           <footer className="paper-detail__footer pt-6 border-t border-gray-200 mt-8">
