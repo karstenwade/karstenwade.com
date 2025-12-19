@@ -1,0 +1,146 @@
+/**
+ * Print Stylesheet for Paper Pages
+ * Story 16.7a: Print-friendly styling for CV presentation
+ *
+ * This stylesheet is imported into the paper detail page layout
+ * to provide professional print output suitable for academic/CV use.
+ */
+
+@media print {
+  /* Page setup */
+  @page {
+    size: letter;
+    margin: 1in;
+  }
+
+  /* Hide non-essential elements */
+  nav,
+  .paper-detail__breadcrumb,
+  .paper-detail__actions,
+  .paper-citation,
+  button,
+  [class*="print:hidden"] {
+    display: none !important;
+  }
+
+  /* Typography enhancements for print */
+  body {
+    font-family: 'Georgia', 'Times New Roman', serif;
+    font-size: 11pt;
+    line-height: 1.5;
+    color: #000;
+    background: #fff;
+  }
+
+  /* Header styling */
+  .paper-header__title {
+    font-size: 18pt;
+    font-weight: bold;
+    margin-bottom: 0.5em;
+    page-break-after: avoid;
+  }
+
+  .paper-header__author {
+    font-size: 12pt;
+    margin-bottom: 0.25em;
+  }
+
+  .paper-header__meta {
+    font-size: 10pt;
+    color: #333;
+    margin-bottom: 1em;
+  }
+
+  /* Abstract styling */
+  .paper-header__abstract {
+    border-left: 3px solid #666;
+    padding-left: 1em;
+    margin: 1em 0;
+    font-style: italic;
+  }
+
+  /* Content styling */
+  .paper-detail__content {
+    font-size: 11pt;
+  }
+
+  .paper-detail__content h2,
+  .paper-detail__content h3,
+  .paper-detail__content h4 {
+    page-break-after: avoid;
+    margin-top: 1.5em;
+  }
+
+  .paper-detail__content p {
+    orphans: 3;
+    widows: 3;
+  }
+
+  /* Links - show URL for important links */
+  .paper-detail__content a[href^="http"]::after {
+    content: " (" attr(href) ")";
+    font-size: 9pt;
+    color: #666;
+    word-break: break-all;
+  }
+
+  /* Don't show URL for internal links */
+  .paper-detail__content a[href^="/"]::after {
+    content: none;
+  }
+
+  /* Code blocks */
+  .paper-detail__content code {
+    background: #f5f5f5;
+    border: 1px solid #ddd;
+    font-size: 9pt;
+  }
+
+  /* Tables */
+  .paper-detail__content table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 10pt;
+  }
+
+  .paper-detail__content th,
+  .paper-detail__content td {
+    border: 1px solid #333;
+    padding: 0.5em;
+  }
+
+  /* Footer */
+  .paper-detail__footer {
+    margin-top: 2em;
+    padding-top: 1em;
+    border-top: 1px solid #999;
+    font-size: 10pt;
+  }
+
+  /* Page breaks */
+  .paper-detail__article {
+    page-break-inside: avoid;
+  }
+
+  .paper-detail__content section {
+    page-break-inside: avoid;
+  }
+
+  /* Tags - more compact for print */
+  .paper-header__tags {
+    font-size: 9pt;
+  }
+
+  .paper-header__tag {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 0.1em 0.5em;
+  }
+
+  /* Category badge */
+  .paper-header__category {
+    background: #e8e8e8;
+    border: 1px solid #999;
+    color: #333;
+  }
+}
