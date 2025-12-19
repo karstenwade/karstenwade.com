@@ -29,7 +29,7 @@ vi.mock('next/script', () => ({
 // We'll test the presentational components that make up the paper detail page
 
 import PaperHeader from '../../components/PaperHeader'
-import PaperCitation from '../../components/PaperCitation'
+import CitationBlock from '../../components/CitationBlock'
 import PrintButton from '../../components/PrintButton'
 import type { Paper } from '../../../src/data/papers'
 
@@ -122,34 +122,45 @@ describe('PaperHeader Component', () => {
   })
 })
 
-describe('PaperCitation Component', () => {
+describe('CitationBlock Component', () => {
+  beforeEach(() => {
+    // Mock clipboard API for copy tests
+    Object.defineProperty(navigator, 'clipboard', {
+      value: {
+        writeText: vi.fn().mockResolvedValue(undefined),
+      },
+      writable: true,
+      configurable: true,
+    })
+  })
+
   it('generates a proper citation format', () => {
-    render(<PaperCitation paper={mockPaper} author="Karsten Wade" />)
+    render(<CitationBlock paper={mockPaper} author="Karsten Wade" />)
 
     // Should show a citation block
     expect(screen.getByText(/Cite this paper/i)).toBeInTheDocument()
   })
 
-  it('displays citation in APA-like format', () => {
-    render(<PaperCitation paper={mockPaper} author="Karsten Wade" />)
+  it('displays citation in APA format by default', () => {
+    render(<CitationBlock paper={mockPaper} author="Karsten Wade" />)
 
-    // APA-like: Author (Year). Title. Retrieved from URL
-    const citation = screen.getByTestId('paper-citation-text')
-    expect(citation).toHaveTextContent('Wade, K.')
-    expect(citation).toHaveTextContent('2025')
-    expect(citation).toHaveTextContent('Test Paper Title')
+    // APA format: Author (Year). Title. URL
+    const citationPanel = screen.getByRole('tabpanel')
+    expect(citationPanel).toHaveTextContent('Wade, K.')
+    expect(citationPanel).toHaveTextContent('2025')
+    expect(citationPanel).toHaveTextContent('Test Paper Title')
   })
 
   it('provides a copy citation button', () => {
-    render(<PaperCitation paper={mockPaper} author="Karsten Wade" />)
+    render(<CitationBlock paper={mockPaper} author="Karsten Wade" />)
 
     expect(screen.getByRole('button', { name: /copy citation/i })).toBeInTheDocument()
   })
 
   it('hides citation in print mode', () => {
-    render(<PaperCitation paper={mockPaper} author="Karsten Wade" />)
+    render(<CitationBlock paper={mockPaper} author="Karsten Wade" />)
 
-    const citationSection = screen.getByTestId('paper-citation')
+    const citationSection = screen.getByTestId('citation-block')
     expect(citationSection).toHaveClass('print:hidden')
   })
 })

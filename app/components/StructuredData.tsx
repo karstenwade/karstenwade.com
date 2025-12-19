@@ -132,6 +132,14 @@ const StructuredData = ({ type, data }: StructuredDataProps) => {
       keywords: paper.tags.join(', '),
       inLanguage: 'en-US',
       version: paper.version,
+      ...(paper.doi && {
+        identifier: {
+          '@type': 'PropertyValue',
+          propertyID: 'DOI',
+          value: paper.doi,
+        },
+        sameAs: `https://doi.org/${paper.doi}`,
+      }),
     }
   } else if (type === 'blog' && data) {
     // Schema.org BlogPosting for blog posts
