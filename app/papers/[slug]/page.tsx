@@ -9,7 +9,7 @@ import Navigation from '../../components/Navigation'
 import StructuredData from '../../components/StructuredData'
 import PdfDownloadButton from '../../components/PdfDownloadButton'
 import PaperHeader from '../../components/PaperHeader'
-import PaperCitation from '../../components/PaperCitation'
+import CitationBlock from '../../components/CitationBlock'
 import PrintButton from '../../components/PrintButton'
 import './print.css'
 
@@ -222,7 +222,7 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
           )}
 
           {/* Citation block - hidden in print */}
-          <PaperCitation paper={paper} author="Karsten Wade" />
+          <CitationBlock paper={paper} author="Karsten Wade" />
 
           {/* Footer */}
           <footer className="paper-detail__footer pt-6 border-t border-gray-200 mt-8">

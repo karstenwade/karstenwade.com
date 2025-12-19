@@ -9,6 +9,7 @@ export interface Paper {
   abstract: string
   externalUrl: string
   pdfUrl?: string
+  doi?: string // Digital Object Identifier (e.g., "10.1234/example.2025.001")
   repository: string
   publicationDate: string
   lastUpdated: string
