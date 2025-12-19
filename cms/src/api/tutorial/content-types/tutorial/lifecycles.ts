@@ -43,6 +43,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncTutorial({
         id: result.id,
         title: result.title,
@@ -58,6 +59,22 @@ export default {
         category: result.category,
         tags: result.tags,
       });
+
+      // Sync embeddings for semantic search (if enabled)
+      await zeroDBService.syncTutorialEmbeddings({
+        id: result.id,
+        title: result.title,
+        slug: result.slug,
+        description: result.description,
+        content: result.content,
+        difficulty: result.difficulty,
+        tags: result.tags,
+        author: result.author,
+        category: result.category,
+      });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('tutorial', result.id, 'created');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync tutorial after create:', error);
     }
@@ -71,6 +88,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncTutorial({
         id: result.id,
         title: result.title,
@@ -86,6 +104,22 @@ export default {
         category: result.category,
         tags: result.tags,
       });
+
+      // Sync embeddings for semantic search (if enabled)
+      await zeroDBService.syncTutorialEmbeddings({
+        id: result.id,
+        title: result.title,
+        slug: result.slug,
+        description: result.description,
+        content: result.content,
+        difficulty: result.difficulty,
+        tags: result.tags,
+        author: result.author,
+        category: result.category,
+      });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('tutorial', result.id, 'updated');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync tutorial after update:', error);
     }
@@ -100,6 +134,8 @@ export default {
 
     try {
       await zeroDBService.deleteTutorial(result.id);
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('tutorial', result.id, 'deleted');
     } catch (error) {
       console.error('[ZeroDB] Failed to delete tutorial:', error);
     }
