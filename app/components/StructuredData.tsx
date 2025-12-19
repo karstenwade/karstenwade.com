@@ -3,6 +3,7 @@ import type { Poem } from '@/data/poetry'
 import type { Essay } from '@/data/essays'
 import type { Story } from '@/data/fiction'
 import type { Paper } from '@/data/papers'
+import type { BlogPost } from '@/lib/strapi'
 
 export interface PersonData {
   name: string
@@ -15,8 +16,8 @@ export interface PersonData {
 }
 
 export interface StructuredDataProps {
-  type: 'person' | 'poem' | 'essay' | 'story' | 'paper'
-  data?: PersonData | Poem | Essay | Story | Paper
+  type: 'person' | 'poem' | 'essay' | 'story' | 'paper' | 'blog'
+  data?: PersonData | Poem | Essay | Story | Paper | BlogPost
 }
 
 const StructuredData = ({ type, data }: StructuredDataProps) => {
@@ -131,6 +132,27 @@ const StructuredData = ({ type, data }: StructuredDataProps) => {
       keywords: paper.tags.join(', '),
       inLanguage: 'en-US',
       version: paper.version,
+    }
+  } else if (type === 'blog' && data) {
+    // Schema.org BlogPosting for blog posts
+    const post = data as BlogPost
+    jsonLd = {
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      headline: post.title,
+      articleBody: post.content,
+      author: {
+        '@type': 'Person',
+        name: post.author || 'Karsten Wade',
+        url: 'https://karstenwade.com',
+      },
+      datePublished: post.published_at,
+      dateModified: post.updated_at,
+      url: `https://karstenwade.com/blog/${post.slug}`,
+      keywords: post.tags?.join(', '),
+      inLanguage: 'en-US',
+      abstract: post.excerpt,
+      articleSection: post.category,
     }
   }
 
