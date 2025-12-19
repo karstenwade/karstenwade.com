@@ -8,6 +8,10 @@ import { getPaperBySlug } from '@/services/paperService'
 import Navigation from '../../components/Navigation'
 import StructuredData from '../../components/StructuredData'
 import PdfDownloadButton from '../../components/PdfDownloadButton'
+import PaperHeader from '../../components/PaperHeader'
+import PaperCitation from '../../components/PaperCitation'
+import PrintButton from '../../components/PrintButton'
+import './print.css'
 
 interface PaperDetailProps {
   params: Promise<{ slug: string }>
@@ -45,15 +49,6 @@ export async function generateMetadata({ params }: PaperDetailProps): Promise<Me
   }
 }
 
-function formatDate(dateStr: string): string {
-  const date = new Date(dateStr)
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  })
-}
-
 export default async function PaperDetail({ params }: PaperDetailProps) {
   const { slug } = await params
 
@@ -81,8 +76,9 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
       <Navigation />
       <StructuredData type="paper" data={paper} />
 
-      <main className="paper-detail max-w-4xl mx-auto px-4 py-8">
-        <nav className="paper-detail__breadcrumb mb-6">
+      <main className="paper-detail max-w-4xl mx-auto px-4 py-8 print:max-w-none print:px-8">
+        {/* Breadcrumb - hidden in print */}
+        <nav className="paper-detail__breadcrumb mb-6 print:hidden">
           <Link
             href="/papers"
             className="text-blue-600 hover:underline"
@@ -92,109 +88,86 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
         </nav>
 
         <article className="paper-detail__article">
-          <header className="paper-detail__header mb-8">
-            <h1 className="paper-detail__title text-3xl md:text-4xl font-bold text-gray-900 mb-4">
-              {paper.title}
-            </h1>
+          {/* Enhanced CV-quality header */}
+          <PaperHeader
+            paper={paper}
+            author="Karsten Wade"
+            showAbstract={!markdownContent}
+            showTags
+          />
 
-            <div className="paper-detail__meta flex flex-wrap gap-4 text-sm text-gray-600 mb-4">
-              <span className="paper-detail__category bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
-                {paper.category}
-              </span>
-              <span className="paper-detail__version">v{paper.version}</span>
-              <time className="paper-detail__date" dateTime={paper.publicationDate}>
-                {formatDate(paper.publicationDate)}
-              </time>
-            </div>
-
-            {!markdownContent && (
-              <p className="paper-detail__abstract text-lg text-gray-700 leading-relaxed mb-6">
-                {paper.abstract}
-              </p>
-            )}
-
-            <div className="paper-detail__tags flex flex-wrap gap-2 mb-6">
-              {paper.tags.map((tag) => (
-                <span
-                  key={tag}
-                  className="paper-detail__tag bg-gray-100 text-gray-700 px-3 py-1 rounded-full text-sm"
-                >
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="paper-detail__actions flex flex-wrap gap-4">
-              {paper.pdfUrl ? (
-                <a
-                  href={paper.pdfUrl}
-                  className="paper-detail__action px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Download PDF
-                </a>
-              ) : markdownContent ? (
-                <PdfDownloadButton
-                  paperTitle={paper.title}
-                  contentSelector=".paper-detail__article"
-                />
-              ) : null}
+          {/* Action buttons - separate section, hidden in print */}
+          <div className="paper-detail__actions flex flex-wrap gap-4 mb-8 print:hidden">
+            {paper.pdfUrl ? (
               <a
-                href={paper.externalUrl}
-                className="paper-detail__action px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+                href={paper.pdfUrl}
+                className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                View on GitHub
+                Download PDF
               </a>
-            </div>
-          </header>
+            ) : markdownContent ? (
+              <PdfDownloadButton
+                paperTitle={paper.title}
+                contentSelector=".paper-detail__article"
+              />
+            ) : null}
+            <a
+              href={paper.externalUrl}
+              className="px-6 py-3 bg-gray-800 text-white rounded-lg hover:bg-gray-900 transition-colors"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              View on GitHub
+            </a>
+            <PrintButton />
+          </div>
 
           {/* Full paper content rendered from markdown */}
           {markdownContent && (
-            <section className="paper-detail__content prose prose-lg max-w-none mb-8">
+            <section className="paper-detail__content prose prose-lg max-w-none mb-8 print:prose-sm">
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 components={{
-                  // Style headings
+                  // Style headings - use serif for academic look
                   h1: ({ children }) => (
-                    <h2 className="text-2xl font-bold text-gray-900 mt-8 mb-4 border-b pb-2">
+                    <h2 className="text-2xl font-bold font-serif text-gray-900 mt-8 mb-4 border-b pb-2 print:mt-6 print:mb-3">
                       {children}
                     </h2>
                   ),
                   h2: ({ children }) => (
-                    <h3 className="text-xl font-semibold text-gray-800 mt-6 mb-3">
+                    <h3 className="text-xl font-semibold font-serif text-gray-800 mt-6 mb-3 print:mt-4 print:mb-2">
                       {children}
                     </h3>
                   ),
                   h3: ({ children }) => (
-                    <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2">
+                    <h4 className="text-lg font-medium text-gray-700 mt-4 mb-2 print:mt-3">
                       {children}
                     </h4>
                   ),
                   // Style paragraphs
                   p: ({ children }) => (
-                    <p className="text-gray-700 leading-relaxed mb-4">
+                    <p className="text-gray-700 leading-relaxed mb-4 print:mb-3 print:text-sm">
                       {children}
                     </p>
                   ),
                   // Style lists
                   ul: ({ children }) => (
-                    <ul className="list-disc list-inside mb-4 space-y-1 text-gray-700">
+                    <ul className="list-disc list-inside mb-4 space-y-1 text-gray-700 print:mb-3 print:text-sm">
                       {children}
                     </ul>
                   ),
                   ol: ({ children }) => (
-                    <ol className="list-decimal list-inside mb-4 space-y-1 text-gray-700">
+                    <ol className="list-decimal list-inside mb-4 space-y-1 text-gray-700 print:mb-3 print:text-sm">
                       {children}
                     </ol>
                   ),
-                  // Style links
+                  // Style links - show URL in print
                   a: ({ href, children }) => (
                     <a
                       href={href}
-                      className="text-blue-600 hover:underline"
+                      className="text-blue-600 hover:underline print:text-gray-900 print:underline"
                       target={href?.startsWith('http') ? '_blank' : undefined}
                       rel={href?.startsWith('http') ? 'noopener noreferrer' : undefined}
                     >
@@ -203,7 +176,7 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
                   ),
                   // Style blockquotes
                   blockquote: ({ children }) => (
-                    <blockquote className="border-l-4 border-blue-500 pl-4 my-4 italic text-gray-600">
+                    <blockquote className="border-l-4 border-blue-500 pl-4 my-4 italic text-gray-600 print:border-gray-400">
                       {children}
                     </blockquote>
                   ),
@@ -212,13 +185,13 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
                     const isInline = !className
                     if (isInline) {
                       return (
-                        <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono">
+                        <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono print:bg-gray-50">
                           {children}
                         </code>
                       )
                     }
                     return (
-                      <code className="block bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono">
+                      <code className="block bg-gray-100 p-4 rounded-lg overflow-x-auto text-sm font-mono print:bg-gray-50 print:text-xs">
                         {children}
                       </code>
                     )
@@ -226,18 +199,18 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
                   // Style tables
                   table: ({ children }) => (
                     <div className="overflow-x-auto mb-4">
-                      <table className="min-w-full border-collapse border border-gray-300">
+                      <table className="min-w-full border-collapse border border-gray-300 print:text-sm">
                         {children}
                       </table>
                     </div>
                   ),
                   th: ({ children }) => (
-                    <th className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold text-left">
+                    <th className="border border-gray-300 px-4 py-2 bg-gray-100 font-semibold text-left print:px-2 print:py-1">
                       {children}
                     </th>
                   ),
                   td: ({ children }) => (
-                    <td className="border border-gray-300 px-4 py-2">
+                    <td className="border border-gray-300 px-4 py-2 print:px-2 print:py-1">
                       {children}
                     </td>
                   ),
@@ -248,27 +221,27 @@ export default async function PaperDetail({ params }: PaperDetailProps) {
             </section>
           )}
 
-          <footer className="paper-detail__footer pt-6 border-t border-gray-200">
-            <p className="paper-detail__repository text-gray-600">
+          {/* Citation block - hidden in print */}
+          <PaperCitation paper={paper} author="Karsten Wade" />
+
+          {/* Footer */}
+          <footer className="paper-detail__footer pt-6 border-t border-gray-200 mt-8">
+            <p className="paper-detail__repository text-gray-600 print:text-sm">
               This paper is maintained in the{' '}
               <a
                 href={paper.repository}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline"
+                className="text-blue-600 hover:underline print:text-gray-900"
               >
                 karstenwade/papers
               </a>{' '}
               repository.
             </p>
-            {paper.lastUpdated && paper.lastUpdated !== paper.publicationDate && (
-              <p className="paper-detail__updated text-sm text-gray-500 mt-2">
-                Last updated:{' '}
-                <time dateTime={paper.lastUpdated}>
-                  {formatDate(paper.lastUpdated)}
-                </time>
-              </p>
-            )}
+            {/* Print-only: Show URL */}
+            <p className="hidden print:block text-xs text-gray-500 mt-2">
+              URL: https://karstenwade.com/papers/{paper.slug}
+            </p>
           </footer>
         </article>
       </main>

@@ -43,6 +43,7 @@ const Navigation = ({ className = '' }: NavigationProps) => {
       className={cn(
         "relative flex flex-col md:flex-col p-4",
         "bg-[var(--color-bg-primary)] border-b border-[var(--color-border-light)]",
+        "print:hidden",
         className
       )}
       aria-label="Main navigation"
