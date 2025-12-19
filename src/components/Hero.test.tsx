@@ -242,4 +242,52 @@ describe('Hero Component', () => {
       expect(hero).toHaveClass('home-hero')
     })
   })
+
+  describe('Call to Action Section', () => {
+    it('should render CV download button', () => {
+      render(<Hero />)
+
+      const cvButton = screen.getByRole('link', { name: /download cv/i })
+      expect(cvButton).toBeInTheDocument()
+    })
+
+    it('should link CV button to PDF file', () => {
+      render(<Hero />)
+
+      const cvButton = screen.getByRole('link', { name: /download cv/i })
+      expect(cvButton).toHaveAttribute('href', expect.stringContaining('karsten-wade-full-cv.pdf'))
+    })
+
+    it('should render social links', () => {
+      render(<Hero />)
+
+      // Should have social profile links
+      expect(screen.getByRole('link', { name: /github/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /linkedin/i })).toBeInTheDocument()
+    })
+
+    it('should render all five social profile links', () => {
+      render(<Hero />)
+
+      expect(screen.getByRole('link', { name: /github/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /linkedin/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /bluesky/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /mastodon/i })).toBeInTheDocument()
+      expect(screen.getByRole('link', { name: /twitter/i })).toBeInTheDocument()
+    })
+
+    it('should render CTA section below bio text', () => {
+      render(<Hero />)
+
+      const ctaSection = document.querySelector('.hero__cta')
+      expect(ctaSection).toBeInTheDocument()
+    })
+
+    it('should hide CTA section in print mode', () => {
+      render(<Hero />)
+
+      const ctaSection = document.querySelector('.hero__cta')
+      expect(ctaSection).toHaveClass('print:hidden')
+    })
+  })
 })

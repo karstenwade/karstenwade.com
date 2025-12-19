@@ -1,4 +1,5 @@
 import { cn } from '@/lib/utils'
+import SocialLinks from './SocialLinks'
 
 export interface HeroProps {
   className?: string
@@ -53,6 +54,26 @@ const Hero = ({ className = '' }: HeroProps) => {
             <strong className="text-gray-900 font-semibold">contribution enablement</strong>, Karsten helps organizations
             unlock the power of collaborative work.
           </p>
+        </div>
+
+        {/* Call to Action section */}
+        <div className="hero__cta print:hidden flex flex-col sm:flex-row items-center gap-4 mt-4 justify-center md:justify-start">
+          <a
+            href={`${import.meta.env.BASE_URL}assets/docs/karsten-wade-full-cv.pdf`}
+            className={cn(
+              'inline-flex items-center gap-2 px-6 py-3',
+              'bg-blue-600 text-white font-semibold rounded-lg',
+              'hover:bg-blue-700 transition-colors',
+              'shadow-md hover:shadow-lg'
+            )}
+            download
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Download CV
+          </a>
+          <SocialLinks />
         </div>
       </div>
     </header>
