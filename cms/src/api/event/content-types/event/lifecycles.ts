@@ -56,6 +56,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncEvent({
         id: result.id,
         title: result.title,
@@ -84,6 +85,9 @@ export default {
         organizer: result.organizer,
         category: result.category,
       });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('event', result.id, 'created');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync event after create:', error);
     }
@@ -97,6 +101,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncEvent({
         id: result.id,
         title: result.title,
@@ -125,6 +130,9 @@ export default {
         organizer: result.organizer,
         category: result.category,
       });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('event', result.id, 'updated');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync event after update:', error);
     }
@@ -139,6 +147,8 @@ export default {
 
     try {
       await zeroDBService.deleteEvent(result.id);
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('event', result.id, 'deleted');
     } catch (error) {
       console.error('[ZeroDB] Failed to delete event:', error);
     }

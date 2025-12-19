@@ -42,6 +42,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncBlogPost({
         id: result.id,
         title: result.title,
@@ -56,6 +57,21 @@ export default {
         category: result.category,
         tags: result.tags,
       });
+
+      // Sync embeddings for semantic search (if enabled)
+      await zeroDBService.syncBlogPostEmbeddings({
+        id: result.id,
+        title: result.title,
+        slug: result.slug,
+        description: result.description,
+        content: result.content,
+        tags: result.tags,
+        author: result.author,
+        category: result.category,
+      });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('blog-post', result.id, 'created');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync blog post after create:', error);
       // Don't throw - we don't want to fail the Strapi operation
@@ -70,6 +86,7 @@ export default {
     if (!result) return;
 
     try {
+      // Sync to Tables API
       await zeroDBService.syncBlogPost({
         id: result.id,
         title: result.title,
@@ -84,6 +101,21 @@ export default {
         category: result.category,
         tags: result.tags,
       });
+
+      // Sync embeddings for semantic search (if enabled)
+      await zeroDBService.syncBlogPostEmbeddings({
+        id: result.id,
+        title: result.title,
+        slug: result.slug,
+        description: result.description,
+        content: result.content,
+        tags: result.tags,
+        author: result.author,
+        category: result.category,
+      });
+
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('blog-post', result.id, 'updated');
     } catch (error) {
       console.error('[ZeroDB] Failed to sync blog post after update:', error);
     }
@@ -98,6 +130,8 @@ export default {
 
     try {
       await zeroDBService.deleteBlogPost(result.id);
+      // Track content sync event (if enabled)
+      await zeroDBService.trackContentSync('blog-post', result.id, 'deleted');
     } catch (error) {
       console.error('[ZeroDB] Failed to delete blog post:', error);
     }

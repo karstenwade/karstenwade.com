@@ -1259,10 +1259,85 @@ app/
 
 > **Status:** Deferred to future roadmap. Current architecture uses static Git-sourced content with the content service abstraction layer ready for future CMS integration.
 
+## ZeroDB Integration Architecture
+
+> **Status:** Implemented. This section documents the actual ZeroDB integration that syncs Strapi content for production reads.
+
+### Architecture Overview
+
+```
+Strapi (SQLite) → Lifecycle Hooks → ZeroDB HTTP API → Next.js Frontend
+                                         ↓
+                 ┌────────────────────────┼────────────────────────┐
+                 ↓                        ↓                        ↓
+         Tables API              Embeddings API            Events API
+    (strapi_blog_posts)      (blog_embeddings)         (analytics_events)
+    (strapi_tutorials)       (tutorial_embeddings)      content_sync
+    (strapi_events)          384-dim vectors            search_query
+    (strapi_content_sync)    semantic search
+```
+
+### How It Works
+
+1. **Strapi (SQLite)** - Manages content via admin interface
+2. **Lifecycle Hooks** - Trigger on content create/update/delete
+3. **ZeroDB Tables API** - Stores structured content for fast reads
+4. **ZeroDB Embeddings API** - Stores vectors for semantic search (optional)
+5. **ZeroDB Events API** - Tracks analytics events (optional)
+6. **Next.js Frontend** - Reads from ZeroDB for performance
+
+### ZeroDB Tables
+
+| Table | Purpose |
+|-------|---------|
+| `strapi_blog_posts` | Blog post content and metadata |
+| `strapi_tutorials` | Tutorial content with difficulty levels |
+| `strapi_events` | Calendar events (webinars, workshops) |
+| `strapi_content_sync` | Sync metadata tracking |
+
+### Embeddings (Semantic Search)
+
+When `ZERODB_EMBEDDINGS_ENABLED=true`:
+- **Model:** BAAI/bge-small-en-v1.5
+- **Dimensions:** 384 (NOT 1536)
+- **Namespaces:** `blog_embeddings`, `tutorial_embeddings`
+- **Use Case:** Semantic search for "related posts", natural language queries
+
+### Event Tracking (Analytics)
+
+When `ZERODB_EVENTS_ENABLED=true`:
+- **Event Types:** `content_sync`, `content_view`, `search_query`
+- **Tracked Data:** content_type, content_id, action, timestamp
+
+### Environment Variables
+
+```bash
+# Required
+ZERODB_API_URL=https://api.ainative.studio
+ZERODB_PROJECT_ID=your-project-id
+ZERODB_USERNAME=your-username
+ZERODB_PASSWORD=your-password
+
+# Optional features
+ZERODB_EMBEDDINGS_ENABLED=false
+ZERODB_EVENTS_ENABLED=false
+```
+
+### Key Files
+
+| File | Purpose |
+|------|---------|
+| `cms/src/services/zerodb.ts` | HTTP service for ZeroDB API |
+| `cms/src/api/blog-post/.../lifecycles.ts` | Blog post sync hooks |
+| `cms/src/api/tutorial/.../lifecycles.ts` | Tutorial sync hooks |
+| `cms/src/api/event/.../lifecycles.ts` | Event sync hooks |
+
+---
+
 ### Story 12.1: Set Up Strapi Backend and Deploy
 **Acceptance Criteria:**
-- [ ] Initialize Strapi project
-- [ ] Configure database (PostgreSQL on Vercel/Railway)
+- [x] Initialize Strapi project
+- [x] Configure database (SQLite for local, ZeroDB for production reads)
 - [ ] Deploy Strapi to hosting platform
 - [ ] Set up admin panel access
 - [ ] Configure CORS for React frontend
