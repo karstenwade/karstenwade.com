@@ -74,6 +74,72 @@ export interface Event {
   category: string | null
 }
 
+// Paper type matching ZeroDB schema
+export interface Paper {
+  id: string
+  strapi_id: number
+  title: string
+  slug: string
+  abstract: string
+  content: string
+  version: string
+  publication_date: string | null
+  pdf_url: string | null
+  external_url: string | null
+  github_path: string | null
+  source: 'github-papers' | 'github-tosw' | 'manual'
+  featured: boolean
+  created_at: string
+  updated_at: string
+  author: string | null
+  category: string | null
+  tags: string[]
+}
+
+// Writing type matching ZeroDB schema
+export interface Writing {
+  id: string
+  strapi_id: number
+  title: string
+  slug: string
+  writing_type: 'poem' | 'essay' | 'story'
+  excerpt: string
+  content: string
+  date_written: string | null
+  word_count: number
+  form: string | null  // for poems
+  genre: string | null  // for stories
+  theme: string | null
+  first_line: string | null  // for poems
+  source: 'manual' | 'migrated'
+  featured: boolean
+  created_at: string
+  updated_at: string
+  author: string | null
+  tags: string[]
+}
+
+// TOSW Chapter type matching ZeroDB schema
+export interface ToswChapter {
+  id: string
+  strapi_id: number
+  title: string
+  slug: string
+  description: string
+  content: string
+  section: string
+  section_order: number
+  chapter_order: number
+  github_path: string | null
+  source: 'github-tosw' | 'manual'
+  license: string
+  external_url: string | null
+  created_at: string
+  updated_at: string
+  category: string | null
+  tags: string[]
+}
+
 interface ZeroDBConfig {
   apiUrl: string
   projectId: string
@@ -429,6 +495,262 @@ class StrapiClient {
       console.error('[Strapi] Failed to fetch event:', error)
       return null
     }
+  }
+
+  // ==========================================
+  // Paper Operations
+  // ==========================================
+
+  /**
+   * Get all papers with optional filtering
+   */
+  async getPapers(options?: {
+    limit?: number
+    offset?: number
+    featured?: boolean
+  }): Promise<{ papers: Paper[]; total: number }> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured, returning empty results')
+      return { papers: [], total: 0 }
+    }
+
+    const filters: Record<string, unknown> = {}
+
+    if (options?.featured !== undefined) {
+      filters.featured = options.featured
+    }
+
+    try {
+      const result = await this.request<QueryResult<Paper>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_papers/rows/query`,
+        'POST',
+        {
+          filter: filters,
+          limit: options?.limit || 20,
+          offset: options?.offset || 0,
+          sort: { publication_date: -1, created_at: -1 },
+        }
+      )
+
+      return {
+        papers: result.rows,
+        total: result.total_count,
+      }
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch papers:', error)
+      return { papers: [], total: 0 }
+    }
+  }
+
+  /**
+   * Get a single paper by slug
+   */
+  async getPaperBySlug(slug: string): Promise<Paper | null> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured')
+      return null
+    }
+
+    try {
+      const result = await this.request<QueryResult<Paper>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_papers/rows/query`,
+        'POST',
+        {
+          filter: { slug },
+          limit: 1,
+        }
+      )
+
+      return result.rows[0] || null
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch paper:', error)
+      return null
+    }
+  }
+
+  // ==========================================
+  // Writing Operations
+  // ==========================================
+
+  /**
+   * Get all writings with optional filtering
+   */
+  async getWritings(options?: {
+    limit?: number
+    offset?: number
+    type?: 'poem' | 'essay' | 'story'
+  }): Promise<{ writings: Writing[]; total: number }> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured, returning empty results')
+      return { writings: [], total: 0 }
+    }
+
+    const filters: Record<string, unknown> = {}
+
+    if (options?.type) {
+      filters.writing_type = options.type
+    }
+
+    try {
+      const result = await this.request<QueryResult<Writing>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_writings/rows/query`,
+        'POST',
+        {
+          filter: filters,
+          limit: options?.limit || 20,
+          offset: options?.offset || 0,
+          sort: { date_written: -1, created_at: -1 },
+        }
+      )
+
+      return {
+        writings: result.rows,
+        total: result.total_count,
+      }
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch writings:', error)
+      return { writings: [], total: 0 }
+    }
+  }
+
+  /**
+   * Get a single writing by slug
+   */
+  async getWritingBySlug(slug: string): Promise<Writing | null> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured')
+      return null
+    }
+
+    try {
+      const result = await this.request<QueryResult<Writing>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_writings/rows/query`,
+        'POST',
+        {
+          filter: { slug },
+          limit: 1,
+        }
+      )
+
+      return result.rows[0] || null
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch writing:', error)
+      return null
+    }
+  }
+
+  /**
+   * Get all poems
+   */
+  async getPoems(options?: { limit?: number }): Promise<Writing[]> {
+    const { writings } = await this.getWritings({
+      limit: options?.limit,
+      type: 'poem',
+    })
+    return writings
+  }
+
+  /**
+   * Get all essays
+   */
+  async getEssays(options?: { limit?: number }): Promise<Writing[]> {
+    const { writings } = await this.getWritings({
+      limit: options?.limit,
+      type: 'essay',
+    })
+    return writings
+  }
+
+  /**
+   * Get all stories
+   */
+  async getStories(options?: { limit?: number }): Promise<Writing[]> {
+    const { writings } = await this.getWritings({
+      limit: options?.limit,
+      type: 'story',
+    })
+    return writings
+  }
+
+  // ==========================================
+  // TOSW Chapter Operations
+  // ==========================================
+
+  /**
+   * Get all TOSW chapters with optional filtering
+   */
+  async getToswChapters(options?: {
+    limit?: number
+    section?: string
+  }): Promise<{ chapters: ToswChapter[]; total: number }> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured, returning empty results')
+      return { chapters: [], total: 0 }
+    }
+
+    const filters: Record<string, unknown> = {}
+
+    if (options?.section) {
+      filters.section = options.section
+    }
+
+    try {
+      const result = await this.request<QueryResult<ToswChapter>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_tosw_chapters/rows/query`,
+        'POST',
+        {
+          filter: filters,
+          limit: options?.limit || 100,
+          sort: { section_order: 1, chapter_order: 1 },
+        }
+      )
+
+      return {
+        chapters: result.rows,
+        total: result.total_count,
+      }
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch TOSW chapters:', error)
+      return { chapters: [], total: 0 }
+    }
+  }
+
+  /**
+   * Get a single TOSW chapter by slug
+   */
+  async getToswChapterBySlug(slug: string): Promise<ToswChapter | null> {
+    if (!this.isConfigured()) {
+      console.warn('[Strapi] Client not configured')
+      return null
+    }
+
+    try {
+      const result = await this.request<QueryResult<ToswChapter>>(
+        `/v1/projects/${this.config.projectId}/tables/strapi_tosw_chapters/rows/query`,
+        'POST',
+        {
+          filter: { slug },
+          limit: 1,
+        }
+      )
+
+      return result.rows[0] || null
+    } catch (error) {
+      console.error('[Strapi] Failed to fetch TOSW chapter:', error)
+      return null
+    }
+  }
+
+  /**
+   * Get all unique sections from TOSW chapters
+   */
+  async getToswSections(): Promise<string[]> {
+    const { chapters } = await this.getToswChapters({ limit: 1000 })
+    const sections = new Set<string>()
+    chapters.forEach(chapter => {
+      if (chapter.section) sections.add(chapter.section)
+    })
+    return Array.from(sections).sort()
   }
 }
 

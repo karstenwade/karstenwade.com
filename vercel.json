@@ -1,8 +1,10 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist",
-  "framework": "vite",
+  "buildCommand": "npm run build:next",
+  "outputDirectory": ".next",
+  "framework": "nextjs",
+  "installCommand": "npm install",
+  "ignoreCommand": "git diff HEAD^ HEAD --quiet -- . ':!cms/**'",
   "redirects": [
     {
       "source": "/2022/09/20/bonn-cemetery-alter-friedhof/",
