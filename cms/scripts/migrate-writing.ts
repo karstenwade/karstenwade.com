@@ -1,6 +1,9 @@
 /**
  * Migration script to import writing content (poems, essays, stories) into Strapi
  *
+ * This script uses the unified 'api::writing.writing' content type with writing_type field.
+ * The writing_type enum determines whether content is a 'poem', 'essay', or 'story'.
+ *
  * Usage: npx ts-node scripts/migrate-writing.ts
  */
 
@@ -158,8 +161,16 @@ const stories: Array<{
   featured: boolean;
 }> = [];
 
+// Helper to get documents service with any type (migration scripts are not type-safe)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function getDocuments(strapi: Core.Strapi): any {
+  return strapi.documents('api::writing.writing');
+}
+
 export async function migrateWritingContent(strapi: Core.Strapi): Promise<void> {
   strapi.log.info('[Writing Migration] Starting writing content migration...');
+
+  const writingDocs = getDocuments(strapi);
 
   // Find Karsten Wade author
   const authors = await strapi.documents('api::author.author').findMany({
@@ -172,49 +183,51 @@ export async function migrateWritingContent(strapi: Core.Strapi): Promise<void> 
     strapi.log.warn('[Writing Migration] Karsten Wade author not found. Content will be created without author.');
   }
 
-  // Migrate poems
+  // Migrate poems - using unified 'writing' content type with writing_type='poem'
   strapi.log.info(`[Writing Migration] Migrating ${poems.length} poems...`);
   for (const poem of poems) {
     try {
       // Check if poem already exists
-      const existing = await strapi.documents('api::poem.poem').findMany({
-        filters: { slug: poem.slug },
+      const existing = await writingDocs.findMany({
+        filters: { slug: poem.slug, writing_type: 'poem' },
       });
 
       if (existing.length > 0) {
         strapi.log.info(`[Writing Migration] Poem "${poem.title}" already exists, updating...`);
-        await strapi.documents('api::poem.poem').update({
+        await writingDocs.update({
           documentId: existing[0].documentId,
           data: {
             title: poem.title,
             slug: poem.slug,
             excerpt: poem.excerpt,
             first_line: poem.firstLine,
-            full_text: poem.fullText,
+            content: poem.fullText,
             date_written: poem.dateWritten,
             form: poem.form,
             theme: poem.theme,
-            tags: poem.tags,
             featured: poem.featured,
             author: authorId,
+            writing_type: 'poem',
+            source: 'migrated',
           },
           status: 'published',
         });
       } else {
         strapi.log.info(`[Writing Migration] Creating poem "${poem.title}"...`);
-        await strapi.documents('api::poem.poem').create({
+        await writingDocs.create({
           data: {
             title: poem.title,
             slug: poem.slug,
             excerpt: poem.excerpt,
             first_line: poem.firstLine,
-            full_text: poem.fullText,
+            content: poem.fullText,
             date_written: poem.dateWritten,
             form: poem.form,
             theme: poem.theme,
-            tags: poem.tags,
             featured: poem.featured,
             author: authorId,
+            writing_type: 'poem',
+            source: 'migrated',
           },
           status: 'published',
         });
@@ -224,47 +237,49 @@ export async function migrateWritingContent(strapi: Core.Strapi): Promise<void> 
     }
   }
 
-  // Migrate essays
+  // Migrate essays - using unified 'writing' content type with writing_type='essay'
   strapi.log.info(`[Writing Migration] Migrating ${essays.length} essays...`);
   for (const essay of essays) {
     try {
       // Check if essay already exists
-      const existing = await strapi.documents('api::essay.essay').findMany({
-        filters: { slug: essay.slug },
+      const existing = await writingDocs.findMany({
+        filters: { slug: essay.slug, writing_type: 'essay' },
       });
 
       if (existing.length > 0) {
         strapi.log.info(`[Writing Migration] Essay "${essay.title}" already exists, updating...`);
-        await strapi.documents('api::essay.essay').update({
+        await writingDocs.update({
           documentId: existing[0].documentId,
           data: {
             title: essay.title,
             slug: essay.slug,
             excerpt: essay.excerpt,
-            full_text: essay.fullText,
+            content: essay.fullText,
             date_written: essay.dateWritten,
             theme: essay.theme,
             word_count: essay.wordCount,
-            tags: essay.tags,
             featured: essay.featured,
             author: authorId,
+            writing_type: 'essay',
+            source: 'migrated',
           },
           status: 'published',
         });
       } else {
         strapi.log.info(`[Writing Migration] Creating essay "${essay.title}"...`);
-        await strapi.documents('api::essay.essay').create({
+        await writingDocs.create({
           data: {
             title: essay.title,
             slug: essay.slug,
             excerpt: essay.excerpt,
-            full_text: essay.fullText,
+            content: essay.fullText,
             date_written: essay.dateWritten,
             theme: essay.theme,
             word_count: essay.wordCount,
-            tags: essay.tags,
             featured: essay.featured,
             author: authorId,
+            writing_type: 'essay',
+            source: 'migrated',
           },
           status: 'published',
         });
@@ -274,50 +289,52 @@ export async function migrateWritingContent(strapi: Core.Strapi): Promise<void> 
     }
   }
 
-  // Migrate stories (fiction)
+  // Migrate stories (fiction) - using unified 'writing' content type with writing_type='story'
   if (stories.length > 0) {
     strapi.log.info(`[Writing Migration] Migrating ${stories.length} stories...`);
     for (const story of stories) {
       try {
         // Check if story already exists
-        const existing = await strapi.documents('api::story.story').findMany({
-          filters: { slug: story.slug },
+        const existing = await writingDocs.findMany({
+          filters: { slug: story.slug, writing_type: 'story' },
         });
 
         if (existing.length > 0) {
           strapi.log.info(`[Writing Migration] Story "${story.title}" already exists, updating...`);
-          await strapi.documents('api::story.story').update({
+          await writingDocs.update({
             documentId: existing[0].documentId,
             data: {
               title: story.title,
               slug: story.slug,
               excerpt: story.excerpt,
-              full_text: story.fullText,
+              content: story.fullText,
               date_written: story.dateWritten,
               genre: story.genre,
               theme: story.theme,
               word_count: story.wordCount,
-              tags: story.tags,
               featured: story.featured,
               author: authorId,
+              writing_type: 'story',
+              source: 'migrated',
             },
             status: 'published',
           });
         } else {
           strapi.log.info(`[Writing Migration] Creating story "${story.title}"...`);
-          await strapi.documents('api::story.story').create({
+          await writingDocs.create({
             data: {
               title: story.title,
               slug: story.slug,
               excerpt: story.excerpt,
-              full_text: story.fullText,
+              content: story.fullText,
               date_written: story.dateWritten,
               genre: story.genre,
               theme: story.theme,
               word_count: story.wordCount,
-              tags: story.tags,
               featured: story.featured,
               author: authorId,
+              writing_type: 'story',
+              source: 'migrated',
             },
             status: 'published',
           });
