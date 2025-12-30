@@ -487,6 +487,92 @@ class ZeroDBService {
   }
 
   // ==========================================
+  // Writing Operations
+  // ==========================================
+
+  /**
+   * Sync a writing to ZeroDB
+   */
+  async syncWriting(writing: {
+    id: number;
+    title: string;
+    slug: string;
+    writing_type?: string;
+    excerpt?: string;
+    content?: string;
+    date_written?: string;
+    word_count?: number;
+    form?: string;
+    genre?: string;
+    theme?: string;
+    first_line?: string;
+    source?: string;
+    featured?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    author?: { name: string } | null;
+    tags?: Array<{ name: string }> | null;
+  }): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping sync');
+      return;
+    }
+
+    const tableId = 'strapi_writings';
+
+    // Check if writing exists
+    const existing = await this.queryRows(tableId, { strapi_id: writing.id });
+
+    const row: ZeroDBRow = {
+      strapi_id: writing.id,
+      title: writing.title,
+      slug: writing.slug,
+      writing_type: writing.writing_type || 'essay',
+      excerpt: writing.excerpt || '',
+      content: writing.content || '',
+      date_written: writing.date_written || null,
+      word_count: writing.word_count || 0,
+      form: writing.form || '',
+      genre: writing.genre || '',
+      theme: writing.theme || '',
+      first_line: writing.first_line || '',
+      source: writing.source || 'manual',
+      featured: writing.featured ?? false,
+      created_at: writing.createdAt || new Date().toISOString(),
+      updated_at: writing.updatedAt || new Date().toISOString(),
+      author: writing.author?.name || null,
+      tags: writing.tags?.map(t => t.name) || [],
+    };
+
+    if (existing.total_count > 0) {
+      // Update existing
+      await this.updateRows(tableId, { strapi_id: writing.id }, row);
+      console.log(`[ZeroDB] Updated writing: ${writing.slug}`);
+    } else {
+      // Insert new
+      await this.insertRows(tableId, [row]);
+      console.log(`[ZeroDB] Created writing: ${writing.slug}`);
+    }
+
+    // Update sync metadata
+    await this.updateSyncMetadata('writing', writing.id);
+  }
+
+  /**
+   * Delete a writing from ZeroDB
+   */
+  async deleteWriting(strapiId: number): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping delete');
+      return;
+    }
+
+    const tableId = 'strapi_writings';
+    await this.deleteRows(tableId, { strapi_id: strapiId });
+    console.log(`[ZeroDB] Deleted writing with strapi_id: ${strapiId}`);
+  }
+
+  // ==========================================
   // Legacy Article Support (deprecated)
   // ==========================================
 
@@ -715,6 +801,31 @@ class ZeroDBService {
   }
 
   /**
+   * Generate embedding text for a writing
+   * Includes writing type, genre, and theme for better search relevance
+   */
+  private generateWritingEmbeddingText(writing: {
+    title: string;
+    excerpt?: string;
+    content?: string;
+    writing_type?: string;
+    genre?: string;
+    theme?: string;
+    first_line?: string;
+    tags?: Array<{ name: string }> | null;
+  }): string {
+    const parts = [writing.title];
+    if (writing.writing_type) parts.push(`Type: ${writing.writing_type}`);
+    if (writing.first_line) parts.push(writing.first_line);
+    if (writing.excerpt) parts.push(writing.excerpt);
+    if (writing.genre) parts.push(`Genre: ${writing.genre}`);
+    if (writing.theme) parts.push(`Theme: ${writing.theme}`);
+    if (writing.content) parts.push(writing.content);
+    if (writing.tags?.length) parts.push(`Tags: ${writing.tags.map(t => t.name).join(', ')}`);
+    return parts.join('. ');
+  }
+
+  /**
    * Sync blog post embeddings to ZeroDB
    * Called from syncBlogPost lifecycle hook
    */
@@ -802,6 +913,56 @@ class ZeroDBService {
       console.log(`[ZeroDB] Synced embeddings for tutorial: ${tutorial.slug}`);
     } catch (error) {
       console.error(`[ZeroDB] Failed to sync tutorial embeddings:`, error);
+      // Don't throw - embedding sync failure shouldn't fail content sync
+    }
+  }
+
+  /**
+   * Sync writing embeddings to ZeroDB
+   * Called from syncWriting lifecycle hook
+   */
+  async syncWritingEmbeddings(writing: {
+    id: number;
+    title: string;
+    slug: string;
+    excerpt?: string;
+    content?: string;
+    writing_type?: string;
+    genre?: string;
+    theme?: string;
+    first_line?: string;
+    tags?: Array<{ name: string }> | null;
+    author?: { name: string } | null;
+  }): Promise<void> {
+    if (!this.isEmbeddingsEnabled()) {
+      return;
+    }
+
+    try {
+      const embeddingText = this.generateWritingEmbeddingText(writing);
+
+      await this.embedAndStoreContent(
+        [{
+          id: `writing_${writing.id}`,
+          text: embeddingText,
+          metadata: {
+            content_type: 'writing',
+            strapi_id: writing.id,
+            slug: writing.slug,
+            title: writing.title,
+            writing_type: writing.writing_type || 'essay',
+            genre: writing.genre || '',
+            theme: writing.theme || '',
+            author: writing.author?.name || null,
+            tags: writing.tags?.map(t => t.name) || [],
+          },
+        }],
+        'writing_embeddings'
+      );
+
+      console.log(`[ZeroDB] Synced embeddings for writing: ${writing.slug}`);
+    } catch (error) {
+      console.error(`[ZeroDB] Failed to sync writing embeddings:`, error);
       // Don't throw - embedding sync failure shouldn't fail content sync
     }
   }
