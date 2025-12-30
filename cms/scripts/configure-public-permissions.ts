@@ -35,6 +35,14 @@ interface StrapiPermission {
   conditions?: any[];
 }
 
+interface StrapiRolesResponse {
+  data: StrapiRole[];
+}
+
+interface StrapiPermissionsResponse {
+  data: StrapiPermission[];
+}
+
 /**
  * Authenticate with Strapi admin API
  */
@@ -57,7 +65,7 @@ async function authenticateAdmin(email: string, password: string): Promise<strin
     throw new Error(`Authentication failed: ${response.status} ${error}`);
   }
 
-  const data: StrapiAuthResponse = await response.json();
+  const data = await response.json() as StrapiAuthResponse;
   console.log('✅ Successfully authenticated as:', data.data.user.email);
 
   return data.data.token;
@@ -81,7 +89,7 @@ async function getRoles(token: string): Promise<StrapiRole[]> {
     throw new Error(`Failed to fetch roles: ${response.status} ${error}`);
   }
 
-  const data = await response.json();
+  const data = await response.json() as StrapiRolesResponse;
   console.log('✅ Found roles:', data.data.map((r: StrapiRole) => r.name));
 
   return data.data;
@@ -126,7 +134,7 @@ async function getAllPermissions(token: string): Promise<any[]> {
     throw new Error(`Failed to fetch permissions: ${response.status} ${error}`);
   }
 
-  const data = await response.json();
+  const data = await response.json() as StrapiPermissionsResponse;
   return data.data;
 }
 
