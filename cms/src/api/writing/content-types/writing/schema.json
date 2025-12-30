@@ -1,0 +1,78 @@
+{
+  "kind": "collectionType",
+  "collectionName": "writings",
+  "info": {
+    "singularName": "writing",
+    "pluralName": "writings",
+    "displayName": "Writing",
+    "description": "Creative writing: poetry, essays, and fiction"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "writing_type": {
+      "type": "enumeration",
+      "enum": ["poem", "essay", "story"],
+      "required": true
+    },
+    "excerpt": {
+      "type": "text",
+      "maxLength": 500
+    },
+    "content": {
+      "type": "richtext",
+      "required": true
+    },
+    "date_written": {
+      "type": "date"
+    },
+    "word_count": {
+      "type": "integer",
+      "min": 0
+    },
+    "form": {
+      "type": "string"
+    },
+    "genre": {
+      "type": "string"
+    },
+    "theme": {
+      "type": "text"
+    },
+    "first_line": {
+      "type": "string"
+    },
+    "source": {
+      "type": "enumeration",
+      "enum": ["manual", "migrated"],
+      "default": "manual"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "writings"
+    },
+    "tags": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tag.tag",
+      "inversedBy": "writings"
+    }
+  }
+}
