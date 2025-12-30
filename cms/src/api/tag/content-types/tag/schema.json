@@ -36,6 +36,24 @@
       "relation": "manyToMany",
       "target": "api::tutorial.tutorial",
       "mappedBy": "tags"
+    },
+    "tosw_chapters": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::tosw-chapter.tosw-chapter",
+      "mappedBy": "tags"
+    },
+    "writings": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::writing.writing",
+      "mappedBy": "tags"
+    },
+    "papers": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::paper.paper",
+      "mappedBy": "tags"
     }
   }
 }

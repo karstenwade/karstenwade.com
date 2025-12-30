@@ -51,6 +51,36 @@
       "relation": "oneToMany",
       "target": "api::event.event",
       "mappedBy": "organizer"
+    },
+    "writings": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::writing.writing",
+      "mappedBy": "author"
+    },
+    "papers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::paper.paper",
+      "mappedBy": "author"
+    },
+    "poems": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::poem.poem",
+      "mappedBy": "author"
+    },
+    "essays": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::essay.essay",
+      "mappedBy": "author"
+    },
+    "stories": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::story.story",
+      "mappedBy": "author"
     }
   }
 }

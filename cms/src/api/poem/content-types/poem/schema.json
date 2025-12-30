@@ -1,0 +1,60 @@
+{
+  "kind": "collectionType",
+  "collectionName": "poems",
+  "info": {
+    "singularName": "poem",
+    "pluralName": "poems",
+    "displayName": "Poem",
+    "description": "Poetry content with form, theme, and full text"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text",
+      "required": true
+    },
+    "first_line": {
+      "type": "string"
+    },
+    "full_text": {
+      "type": "richtext",
+      "required": true
+    },
+    "date_written": {
+      "type": "date",
+      "required": true
+    },
+    "form": {
+      "type": "string",
+      "required": true
+    },
+    "theme": {
+      "type": "text"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "poems"
+    }
+  }
+}

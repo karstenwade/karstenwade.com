@@ -1,0 +1,56 @@
+{
+  "kind": "collectionType",
+  "collectionName": "essays",
+  "info": {
+    "singularName": "essay",
+    "pluralName": "essays",
+    "displayName": "Essay",
+    "description": "Personal essays and reflections"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "slug": {
+      "type": "uid",
+      "targetField": "title",
+      "required": true
+    },
+    "excerpt": {
+      "type": "text",
+      "required": true
+    },
+    "full_text": {
+      "type": "richtext",
+      "required": true
+    },
+    "date_written": {
+      "type": "date",
+      "required": true
+    },
+    "theme": {
+      "type": "text"
+    },
+    "word_count": {
+      "type": "integer"
+    },
+    "tags": {
+      "type": "json"
+    },
+    "featured": {
+      "type": "boolean",
+      "default": false
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::author.author",
+      "inversedBy": "essays"
+    }
+  }
+}
