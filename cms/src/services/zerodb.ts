@@ -487,6 +487,94 @@ class ZeroDBService {
   }
 
   // ==========================================
+  // Paper Operations
+  // ==========================================
+
+  /**
+   * Sync a paper to ZeroDB
+   */
+  async syncPaper(paper: {
+    id: number;
+    title: string;
+    slug: string;
+    abstract?: string;
+    content?: string;
+    version?: string;
+    publication_date?: string;
+    pdf_url?: string;
+    external_url?: string;
+    github_path?: string;
+    github_sha?: string;
+    source?: string;
+    sync_locked?: boolean;
+    featured?: boolean;
+    createdAt?: string;
+    updatedAt?: string;
+    author?: { name: string } | null;
+    category?: { name: string } | null;
+    tags?: Array<{ name: string }> | null;
+  }): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping sync');
+      return;
+    }
+
+    const tableId = 'strapi_papers';
+
+    // Check if paper exists
+    const existing = await this.queryRows(tableId, { strapi_id: paper.id });
+
+    const row: ZeroDBRow = {
+      strapi_id: paper.id,
+      title: paper.title,
+      slug: paper.slug,
+      abstract: paper.abstract || '',
+      content: paper.content || '',
+      version: paper.version || '1.0',
+      publication_date: paper.publication_date || null,
+      pdf_url: paper.pdf_url || '',
+      external_url: paper.external_url || '',
+      github_path: paper.github_path || '',
+      github_sha: paper.github_sha || '',
+      source: paper.source || 'manual',
+      sync_locked: paper.sync_locked ?? false,
+      featured: paper.featured ?? false,
+      created_at: paper.createdAt || new Date().toISOString(),
+      updated_at: paper.updatedAt || new Date().toISOString(),
+      author: paper.author?.name || null,
+      category: paper.category?.name || null,
+      tags: paper.tags?.map(t => t.name) || [],
+    };
+
+    if (existing.total_count > 0) {
+      // Update existing
+      await this.updateRows(tableId, { strapi_id: paper.id }, row);
+      console.log(`[ZeroDB] Updated paper: ${paper.slug}`);
+    } else {
+      // Insert new
+      await this.insertRows(tableId, [row]);
+      console.log(`[ZeroDB] Created paper: ${paper.slug}`);
+    }
+
+    // Update sync metadata
+    await this.updateSyncMetadata('paper', paper.id);
+  }
+
+  /**
+   * Delete a paper from ZeroDB
+   */
+  async deletePaper(strapiId: number): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping delete');
+      return;
+    }
+
+    const tableId = 'strapi_papers';
+    await this.deleteRows(tableId, { strapi_id: strapiId });
+    console.log(`[ZeroDB] Deleted paper with strapi_id: ${strapiId}`);
+  }
+
+  // ==========================================
   // Writing Operations
   // ==========================================
 
@@ -570,6 +658,92 @@ class ZeroDBService {
     const tableId = 'strapi_writings';
     await this.deleteRows(tableId, { strapi_id: strapiId });
     console.log(`[ZeroDB] Deleted writing with strapi_id: ${strapiId}`);
+  }
+
+  // ==========================================
+  // TOSW Chapter Operations
+  // ==========================================
+
+  /**
+   * Sync a TOSW chapter to ZeroDB
+   */
+  async syncToswChapter(chapter: {
+    id: number;
+    title: string;
+    slug: string;
+    description?: string;
+    content?: string;
+    section?: string;
+    section_order?: number;
+    chapter_order?: number;
+    github_path?: string;
+    github_sha?: string;
+    source?: string;
+    sync_locked?: boolean;
+    license?: string;
+    external_url?: string;
+    createdAt?: string;
+    updatedAt?: string;
+    category?: { name: string } | null;
+    tags?: Array<{ name: string }> | null;
+  }): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping sync');
+      return;
+    }
+
+    const tableId = 'strapi_tosw_chapters';
+
+    // Check if chapter exists
+    const existing = await this.queryRows(tableId, { strapi_id: chapter.id });
+
+    const row: ZeroDBRow = {
+      strapi_id: chapter.id,
+      title: chapter.title,
+      slug: chapter.slug,
+      description: chapter.description || '',
+      content: chapter.content || '',
+      section: chapter.section || '',
+      section_order: chapter.section_order || 0,
+      chapter_order: chapter.chapter_order || 0,
+      github_path: chapter.github_path || '',
+      github_sha: chapter.github_sha || '',
+      source: chapter.source || 'manual',
+      sync_locked: chapter.sync_locked ?? false,
+      license: chapter.license || 'CC BY-SA 4.0',
+      external_url: chapter.external_url || '',
+      created_at: chapter.createdAt || new Date().toISOString(),
+      updated_at: chapter.updatedAt || new Date().toISOString(),
+      category: chapter.category?.name || null,
+      tags: chapter.tags?.map(t => t.name) || [],
+    };
+
+    if (existing.total_count > 0) {
+      // Update existing
+      await this.updateRows(tableId, { strapi_id: chapter.id }, row);
+      console.log(`[ZeroDB] Updated TOSW chapter: ${chapter.slug}`);
+    } else {
+      // Insert new
+      await this.insertRows(tableId, [row]);
+      console.log(`[ZeroDB] Created TOSW chapter: ${chapter.slug}`);
+    }
+
+    // Update sync metadata
+    await this.updateSyncMetadata('tosw-chapter', chapter.id);
+  }
+
+  /**
+   * Delete a TOSW chapter from ZeroDB
+   */
+  async deleteToswChapter(strapiId: number): Promise<void> {
+    if (!this.isConfigured()) {
+      console.warn('[ZeroDB] Service not configured, skipping delete');
+      return;
+    }
+
+    const tableId = 'strapi_tosw_chapters';
+    await this.deleteRows(tableId, { strapi_id: strapiId });
+    console.log(`[ZeroDB] Deleted TOSW chapter with strapi_id: ${strapiId}`);
   }
 
   // ==========================================
@@ -801,8 +975,27 @@ class ZeroDBService {
   }
 
   /**
+   * Generate embedding text for a paper
+   * Combines title, abstract, and content for better semantic search
+   */
+  private generatePaperEmbeddingText(paper: {
+    title: string;
+    abstract?: string;
+    content?: string;
+    version?: string;
+    tags?: Array<{ name: string }> | null;
+  }): string {
+    const parts = [paper.title];
+    if (paper.abstract) parts.push(paper.abstract);
+    if (paper.version) parts.push(`Version: ${paper.version}`);
+    if (paper.content) parts.push(paper.content);
+    if (paper.tags?.length) parts.push(`Tags: ${paper.tags.map(t => t.name).join(', ')}`);
+    return parts.join('. ');
+  }
+
+  /**
    * Generate embedding text for a writing
-   * Includes writing type, genre, and theme for better search relevance
+   * Includes type, genre, and theme for better search relevance
    */
   private generateWritingEmbeddingText(writing: {
     title: string;
@@ -822,6 +1015,25 @@ class ZeroDBService {
     if (writing.theme) parts.push(`Theme: ${writing.theme}`);
     if (writing.content) parts.push(writing.content);
     if (writing.tags?.length) parts.push(`Tags: ${writing.tags.map(t => t.name).join(', ')}`);
+    return parts.join('. ');
+  }
+
+  /**
+   * Generate embedding text for a TOSW chapter
+   * Includes section and description for better search relevance
+   */
+  private generateToswChapterEmbeddingText(chapter: {
+    title: string;
+    description?: string;
+    content?: string;
+    section?: string;
+    tags?: Array<{ name: string }> | null;
+  }): string {
+    const parts = [chapter.title];
+    if (chapter.section) parts.push(`Section: ${chapter.section}`);
+    if (chapter.description) parts.push(chapter.description);
+    if (chapter.content) parts.push(chapter.content);
+    if (chapter.tags?.length) parts.push(`Tags: ${chapter.tags.map(t => t.name).join(', ')}`);
     return parts.join('. ');
   }
 
@@ -918,6 +1130,53 @@ class ZeroDBService {
   }
 
   /**
+   * Sync paper embeddings to ZeroDB
+   * Called from syncPaper lifecycle hook
+   */
+  async syncPaperEmbeddings(paper: {
+    id: number;
+    title: string;
+    slug: string;
+    abstract?: string;
+    content?: string;
+    version?: string;
+    tags?: Array<{ name: string }> | null;
+    author?: { name: string } | null;
+    category?: { name: string } | null;
+  }): Promise<void> {
+    if (!this.isEmbeddingsEnabled()) {
+      return;
+    }
+
+    try {
+      const embeddingText = this.generatePaperEmbeddingText(paper);
+
+      await this.embedAndStoreContent(
+        [{
+          id: `paper_${paper.id}`,
+          text: embeddingText,
+          metadata: {
+            content_type: 'paper',
+            strapi_id: paper.id,
+            slug: paper.slug,
+            title: paper.title,
+            version: paper.version || '1.0',
+            author: paper.author?.name || null,
+            category: paper.category?.name || null,
+            tags: paper.tags?.map(t => t.name) || [],
+          },
+        }],
+        'paper_embeddings'
+      );
+
+      console.log(`[ZeroDB] Synced embeddings for paper: ${paper.slug}`);
+    } catch (error) {
+      console.error(`[ZeroDB] Failed to sync paper embeddings:`, error);
+      // Don't throw - embedding sync failure shouldn't fail content sync
+    }
+  }
+
+  /**
    * Sync writing embeddings to ZeroDB
    * Called from syncWriting lifecycle hook
    */
@@ -963,6 +1222,51 @@ class ZeroDBService {
       console.log(`[ZeroDB] Synced embeddings for writing: ${writing.slug}`);
     } catch (error) {
       console.error(`[ZeroDB] Failed to sync writing embeddings:`, error);
+      // Don't throw - embedding sync failure shouldn't fail content sync
+    }
+  }
+
+  /**
+   * Sync TOSW chapter embeddings to ZeroDB
+   * Called from syncToswChapter lifecycle hook
+   */
+  async syncToswChapterEmbeddings(chapter: {
+    id: number;
+    title: string;
+    slug: string;
+    description?: string;
+    content?: string;
+    section?: string;
+    tags?: Array<{ name: string }> | null;
+    category?: { name: string } | null;
+  }): Promise<void> {
+    if (!this.isEmbeddingsEnabled()) {
+      return;
+    }
+
+    try {
+      const embeddingText = this.generateToswChapterEmbeddingText(chapter);
+
+      await this.embedAndStoreContent(
+        [{
+          id: `tosw_${chapter.id}`,
+          text: embeddingText,
+          metadata: {
+            content_type: 'tosw-chapter',
+            strapi_id: chapter.id,
+            slug: chapter.slug,
+            title: chapter.title,
+            section: chapter.section || '',
+            category: chapter.category?.name || null,
+            tags: chapter.tags?.map(t => t.name) || [],
+          },
+        }],
+        'tosw_embeddings'
+      );
+
+      console.log(`[ZeroDB] Synced embeddings for TOSW chapter: ${chapter.slug}`);
+    } catch (error) {
+      console.error(`[ZeroDB] Failed to sync TOSW chapter embeddings:`, error);
       // Don't throw - embedding sync failure shouldn't fail content sync
     }
   }

@@ -481,7 +481,6 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     email: Schema.Attribute.String;
-    essays: Schema.Attribute.Relation<'oneToMany', 'api::essay.essay'>;
     events: Schema.Attribute.Relation<'oneToMany', 'api::event.event'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -491,10 +490,8 @@ export interface ApiAuthorAuthor extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     papers: Schema.Attribute.Relation<'oneToMany', 'api::paper.paper'>;
-    poems: Schema.Attribute.Relation<'oneToMany', 'api::poem.poem'>;
     publishedAt: Schema.Attribute.DateTime;
     social_links: Schema.Attribute.JSON;
-    stories: Schema.Attribute.Relation<'oneToMany', 'api::story.story'>;
     tutorials: Schema.Attribute.Relation<'oneToMany', 'api::tutorial.tutorial'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -595,41 +592,6 @@ export interface ApiCategoryCategory extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiEssayEssay extends Struct.CollectionTypeSchema {
-  collectionName: 'essays';
-  info: {
-    description: 'Personal essays and reflections';
-    displayName: 'Essay';
-    pluralName: 'essays';
-    singularName: 'essay';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date_written: Schema.Attribute.Date & Schema.Attribute.Required;
-    excerpt: Schema.Attribute.Text & Schema.Attribute.Required;
-    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    full_text: Schema.Attribute.RichText & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::essay.essay'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    tags: Schema.Attribute.JSON;
-    theme: Schema.Attribute.Text;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    word_count: Schema.Attribute.Integer;
   };
 }
 
@@ -802,78 +764,6 @@ export interface ApiPaperPaper extends Struct.CollectionTypeSchema {
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     version: Schema.Attribute.String & Schema.Attribute.DefaultTo<'1.0'>;
-  };
-}
-
-export interface ApiPoemPoem extends Struct.CollectionTypeSchema {
-  collectionName: 'poems';
-  info: {
-    description: 'Poetry content with form, theme, and full text';
-    displayName: 'Poem';
-    pluralName: 'poems';
-    singularName: 'poem';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date_written: Schema.Attribute.Date & Schema.Attribute.Required;
-    excerpt: Schema.Attribute.Text & Schema.Attribute.Required;
-    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    first_line: Schema.Attribute.String;
-    form: Schema.Attribute.String & Schema.Attribute.Required;
-    full_text: Schema.Attribute.RichText & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::poem.poem'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    tags: Schema.Attribute.JSON;
-    theme: Schema.Attribute.Text;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiStoryStory extends Struct.CollectionTypeSchema {
-  collectionName: 'stories';
-  info: {
-    description: 'Fiction and short stories';
-    displayName: 'Story';
-    pluralName: 'stories';
-    singularName: 'story';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    author: Schema.Attribute.Relation<'manyToOne', 'api::author.author'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date_written: Schema.Attribute.Date & Schema.Attribute.Required;
-    excerpt: Schema.Attribute.Text & Schema.Attribute.Required;
-    featured: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    full_text: Schema.Attribute.RichText & Schema.Attribute.Required;
-    genre: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::story.story'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    slug: Schema.Attribute.UID<'title'> & Schema.Attribute.Required;
-    tags: Schema.Attribute.JSON;
-    theme: Schema.Attribute.Text;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    word_count: Schema.Attribute.Integer;
   };
 }
 
@@ -1604,12 +1494,9 @@ declare module '@strapi/strapi' {
       'api::author.author': ApiAuthorAuthor;
       'api::blog-post.blog-post': ApiBlogPostBlogPost;
       'api::category.category': ApiCategoryCategory;
-      'api::essay.essay': ApiEssayEssay;
       'api::event.event': ApiEventEvent;
       'api::global.global': ApiGlobalGlobal;
       'api::paper.paper': ApiPaperPaper;
-      'api::poem.poem': ApiPoemPoem;
-      'api::story.story': ApiStoryStory;
       'api::tag.tag': ApiTagTag;
       'api::tosw-chapter.tosw-chapter': ApiToswChapterToswChapter;
       'api::tutorial.tutorial': ApiTutorialTutorial;
