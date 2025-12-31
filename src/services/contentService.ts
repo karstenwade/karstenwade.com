@@ -6,6 +6,7 @@ import type { Essay } from '../data/essays'
 import type { Poem } from '../data/poetry'
 import type { Story } from '../data/fiction'
 import type { Paper } from '../data/papers'
+import { strapiClient, type Writing } from '../lib/strapi'
 
 /**
  * Content service interface contracts
@@ -75,6 +76,135 @@ export class StaticContentService implements IContentService {
 export const contentService: IContentService = new StaticContentService()
 
 /**
+ * Strapi-based content service
+ * Implementation that fetches content from ZeroDB (synced from Strapi)
+ */
+export class StrapiContentService implements IContentService {
+  /**
+   * Convert ZeroDB Writing to Essay format
+   */
+  private writingToEssay(writing: Writing): Essay {
+    return {
+      title: writing.title,
+      excerpt: writing.excerpt || '',
+      fullText: writing.content || '',
+      dateWritten: writing.date_written || writing.created_at,
+      theme: writing.theme || '',
+      wordCount: writing.word_count || 0,
+      tags: writing.tags || [],
+      slug: writing.slug,
+      featured: writing.featured || false,
+    }
+  }
+
+  /**
+   * Convert ZeroDB Writing to Poem format
+   */
+  private writingToPoem(writing: Writing): Poem {
+    return {
+      title: writing.title,
+      excerpt: writing.excerpt || '',
+      firstLine: writing.first_line || '',
+      fullText: writing.content || '',
+      dateWritten: writing.date_written || writing.created_at,
+      form: writing.form || 'Free Verse',
+      theme: writing.theme || '',
+      tags: writing.tags || [],
+      slug: writing.slug,
+      featured: writing.featured || false,
+    }
+  }
+
+  /**
+   * Convert ZeroDB Writing to Story format
+   */
+  private writingToStory(writing: Writing): Story {
+    return {
+      title: writing.title,
+      excerpt: writing.excerpt || '',
+      fullText: writing.content || '',
+      dateWritten: writing.date_written || writing.created_at,
+      genre: writing.genre || 'Fiction',
+      theme: writing.theme || '',
+      wordCount: writing.word_count || 0,
+      tags: writing.tags || [],
+      slug: writing.slug,
+      featured: writing.featured || false,
+    }
+  }
+
+  /**
+   * Get all essays from ZeroDB
+   */
+  async getEssays(): Promise<Essay[]> {
+    try {
+      const writings = await strapiClient.getEssays()
+      return writings.map(w => this.writingToEssay(w))
+    } catch (error) {
+      console.error('[StrapiContentService] Failed to fetch essays:', error)
+      // Fallback to static data
+      const { essays } = await import('../data/essays')
+      return essays
+    }
+  }
+
+  /**
+   * Get all poems from ZeroDB
+   */
+  async getPoems(): Promise<Poem[]> {
+    try {
+      const writings = await strapiClient.getPoems()
+      return writings.map(w => this.writingToPoem(w))
+    } catch (error) {
+      console.error('[StrapiContentService] Failed to fetch poems:', error)
+      // Fallback to static data
+      const { poems } = await import('../data/poetry')
+      return poems
+    }
+  }
+
+  /**
+   * Get all stories from ZeroDB
+   */
+  async getStories(): Promise<Story[]> {
+    try {
+      const writings = await strapiClient.getStories()
+      return writings.map(w => this.writingToStory(w))
+    } catch (error) {
+      console.error('[StrapiContentService] Failed to fetch stories:', error)
+      // Fallback to static data
+      const { stories } = await import('../data/fiction')
+      return stories
+    }
+  }
+
+  /**
+   * Get all papers from ZeroDB
+   */
+  async getPapers(): Promise<Paper[]> {
+    try {
+      const { papers } = await strapiClient.getPapers({ limit: 100 })
+      return papers.map(p => ({
+        id: p.slug,
+        title: p.title,
+        abstract: p.abstract,
+        pdfUrl: p.pdf_url || '',
+        version: p.version,
+        date: p.publication_date || p.created_at,
+        authors: p.author ? [p.author] : [],
+        tags: p.tags,
+        content: p.content,
+      }))
+    } catch (error) {
+      console.error('[StrapiContentService] Failed to fetch papers:', error)
+      // Fallback to static data
+      const { papers } = await import('../data/papers')
+      return papers
+    }
+  }
+}
+
+/**
  * Factory function to create content service instances
  * Useful for testing or switching between different implementations
  *
@@ -88,8 +218,7 @@ export function createContentService(
     case 'static':
       return new StaticContentService()
     case 'strapi':
-      // TODO: Implement StrapiContentService when migrating to Strapi
-      throw new Error('Strapi content service not yet implemented')
+      return new StrapiContentService()
     default:
       return new StaticContentService()
   }

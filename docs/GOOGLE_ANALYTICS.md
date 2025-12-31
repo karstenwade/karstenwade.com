@@ -23,6 +23,8 @@ Replace the placeholder `G-XXXXXXXXXX` in `index.html` with your actual Measurem
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
+
+
   gtag('config', 'G-YOUR-ID-HERE');
 </script>
 ```
