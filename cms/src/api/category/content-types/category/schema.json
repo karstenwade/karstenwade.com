@@ -47,6 +47,18 @@
       "relation": "oneToMany",
       "target": "api::event.event",
       "mappedBy": "category"
+    },
+    "tosw_chapters": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::tosw-chapter.tosw-chapter",
+      "mappedBy": "category"
+    },
+    "papers": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::paper.paper",
+      "mappedBy": "category"
     }
   }
 }
