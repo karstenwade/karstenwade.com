@@ -186,14 +186,21 @@ export class StrapiContentService implements IContentService {
       const { papers } = await strapiClient.getPapers({ limit: 100 })
       return papers.map(p => ({
         id: p.slug,
+        slug: p.slug,
         title: p.title,
+        description: p.abstract, // Use abstract as description
         abstract: p.abstract,
-        pdfUrl: p.pdf_url || '',
+        externalUrl: p.external_url || '',
+        pdfUrl: p.pdf_url || undefined,
+        repository: p.github_path
+          ? `https://github.com/karstenwade/papers/blob/main/${p.github_path}`
+          : '',
+        publicationDate: p.publication_date || p.created_at,
+        lastUpdated: p.updated_at,
         version: p.version,
-        date: p.publication_date || p.created_at,
-        authors: p.author ? [p.author] : [],
-        tags: p.tags,
-        content: p.content,
+        category: p.category || 'Uncategorized',
+        tags: p.tags || [],
+        featured: p.featured,
       }))
     } catch (error) {
       console.error('[StrapiContentService] Failed to fetch papers:', error)
