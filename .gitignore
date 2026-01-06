@@ -37,3 +37,8 @@ out/
 .env.production.local
 .env.development.local
 .env.test.local
+.claude/
+.claude.backup/
+
+# MCP server config (contains credentials)
+.mcp.json
