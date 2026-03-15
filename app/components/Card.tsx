@@ -1,4 +1,4 @@
-import { Card as ShadcnCard, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card as ShadcnCard, CardContent, CardDescription, CardHeader, CardTitle } from './ui/card'
 import { cn } from '@/lib/utils'
 
 export interface CardProps {

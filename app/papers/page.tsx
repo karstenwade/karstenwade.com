@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-import { contentService } from '@/services/contentService'
+import { contentService } from '@/lib/services/contentService'
 import Navigation from '../components/Navigation'
 import Card from '../components/Card'
 
