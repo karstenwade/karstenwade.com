@@ -6,7 +6,7 @@
 
 | Service | Port | URL |
 |---------|------|-----|
-| Vite/Static serve | **3001** | http://localhost:3001 |
+| Next.js dev server | **3001** | http://localhost:3001 |
 | Strapi CMS | **1337** | http://localhost:1337/admin |
 
 **Forbidden ports:** 3000, 5173, or any unlisted port.
@@ -31,7 +31,7 @@ Personal professional website for Karsten Wade - a static Next.js site with Stra
 ### Getting Started
 ```bash
 npm install
-npm run dev:next
+npm run dev
 ```
 
 The dev server runs at: http://localhost:3001
@@ -72,24 +72,33 @@ Before committing, ensure:
 ## Project Structure
 ```
 karstenwade.com/
-├── app/                  # Next.js App Router pages
+├── app/                  # Next.js App Router (pages + components)
+│   ├── components/      # React components (including ui/)
 │   ├── blog/            # Blog listing and detail pages
-│   ├── papers/          # Papers section
-│   ├── components/      # React components
+│   ├── papers/          # Papers section with dynamic routes
+│   ├── writing/         # Writing page
+│   ├── cv/              # CV page
 │   └── page.tsx         # Homepage
-├── cms/                  # Strapi CMS (separate npm project)
-├── lib/                  # Shared utilities
+├── data/                 # Static content data files
+├── lib/                  # Shared utilities and services
+│   ├── services/        # contentService, paperService, githubApi
 │   ├── strapi.ts        # Strapi API client
-│   └── types.ts         # TypeScript types
+│   └── utils.ts         # cn() utility
+├── types/                # TypeScript type definitions
+├── styles/               # Design system (CSS variables)
+├── test/                 # Test setup and utilities
+├── cms/                  # Strapi CMS (separate npm project)
 ├── public/              # Static assets
-├── styles/              # Global styles
+├── scripts/             # Build scripts
 └── out/                 # Static export output
 ```
 
 ## Key Directories
 - `app/` - Next.js pages and components
+- `data/` - Static content data files
+- `lib/` - Shared utilities, services, and API clients
+- `types/` - TypeScript type definitions
 - `cms/` - Strapi CMS backend
-- `lib/` - Shared utilities and API clients
 
 ## Environment Variables
 Copy `.env.example` to `.env.local`:
