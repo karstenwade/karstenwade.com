@@ -9,7 +9,7 @@
     ],
     "module": "ESNext",
     "skipLibCheck": true,
-    /* Bundler mode - compatible with both Vite and Next.js */
+    /* Bundler mode */
     "moduleResolution": "bundler",
     "allowImportingTsExtensions": true,
     "isolatedModules": true,
@@ -42,28 +42,24 @@
     ]
   },
   "include": [
-    "src",
     "app",
     "data",
     "lib",
     "types",
+    "styles",
+    "test",
     "next-env.d.ts",
     "next.config.ts",
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [
-    "src/**/*.test.tsx",
-    "src/**/*.test.ts",
-    "src/test",
-    "src/components",
-    "src/vite-pages",
-    "src/hooks",
-    "src/App.tsx",
-    "src/main.tsx",
     "app/**/*.test.tsx",
     "app/**/*.test.ts",
     "app/**/__tests__",
+    "styles/**/*.test.tsx",
+    "styles/**/*.test.ts",
+    "test",
     "node_modules"
   ]
 }

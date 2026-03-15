@@ -9,7 +9,7 @@ describe('Design System - CSS Variables', () => {
   const variablesContent: string = readFileSync(variablesPath, 'utf-8')
 
   describe('File Structure', () => {
-    it('should exist at src/styles/variables.css', () => {
+    it('should exist at styles/variables.css', () => {
       expect(variablesContent).toBeTruthy()
       expect(variablesContent.length).toBeGreaterThan(0)
     })

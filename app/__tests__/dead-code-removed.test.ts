@@ -69,18 +69,33 @@ describe('Epic 1.4: Dead code removed from src/', () => {
     })
   })
 
-  // Ensure active test infrastructure is preserved
-  describe('Active test infrastructure still exists', () => {
-    it('src/test/setup.ts still exists', () => {
-      expect(fs.existsSync(path.join(projectRoot, 'src', 'test', 'setup.ts'))).toBe(true)
+  // Ensure active test infrastructure is preserved (migrated from src/)
+  describe('Active test infrastructure exists at new locations', () => {
+    it('test/setup.ts exists at project root', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'test', 'setup.ts'))).toBe(true)
     })
 
-    it('src/styles/variables.css still exists', () => {
-      expect(fs.existsSync(path.join(projectRoot, 'src', 'styles', 'variables.css'))).toBe(true)
+    it('styles/variables.css exists at project root', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'styles', 'variables.css'))).toBe(true)
     })
 
-    it('src/styles/index.css still exists', () => {
-      expect(fs.existsSync(path.join(projectRoot, 'src', 'styles', 'index.css'))).toBe(true)
+    it('app/globals.css exists (merged base styles)', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'app', 'globals.css'))).toBe(true)
+    })
+  })
+
+  // Ensure old src/ test/styles locations are gone
+  describe('Old src/ test infrastructure locations are removed', () => {
+    it('src/test/setup.ts does not exist at old location', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'src', 'test', 'setup.ts'))).toBe(false)
+    })
+
+    it('src/styles/variables.css does not exist at old location', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'src', 'styles', 'variables.css'))).toBe(false)
+    })
+
+    it('src/styles/index.css does not exist at old location', () => {
+      expect(fs.existsSync(path.join(projectRoot, 'src', 'styles', 'index.css'))).toBe(false)
     })
   })
 })

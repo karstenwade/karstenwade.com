@@ -4,7 +4,7 @@ import * as matchers from '@testing-library/jest-dom/matchers';
 
 // Import CSS variables for testing
 import '../styles/variables.css';
-import '../styles/index.css';
+import '../app/globals.css';
 
 // Extend Vitest's expect method with jest-dom matchers
 expect.extend(matchers);
