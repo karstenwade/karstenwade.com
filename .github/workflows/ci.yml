@@ -60,7 +60,7 @@ jobs:
         run: npm ci
 
       - name: Build Next.js
-        run: npm run build:next
+        run: npm run build
 
       - name: Verify static export
         run: |
