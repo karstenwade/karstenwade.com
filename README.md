@@ -19,39 +19,21 @@ Karsten Wade is a leading expert in collaborative work and developer experience.
 
 This website is built with modern web technologies focused on performance, accessibility, and developer experience:
 
-- **Next.js 16** - React framework with App Router and Turbopack
+- **Next.js 16** - React framework with App Router and static export
 - **React 18.3** - UI component library
 - **TypeScript 5.6** - Type-safe JavaScript
 - **Tailwind CSS 4** - Utility-first CSS framework
+- **Strapi CMS** - Headless CMS for blog content
 - **Vitest** - Unit testing framework
 - **ESLint** - Code quality and consistency
-- **GitHub Pages** - Static site hosting with custom domain
-
-### Why Next.js?
-
-We migrated from Vite to Next.js for:
-
-1. **Static Site Generation (SSG)** - Pre-rendered pages at build time for optimal performance
-2. **App Router** - Modern routing with layouts, loading states, and error boundaries
-3. **Turbopack** - Ultra-fast development builds
-4. **Built-in SEO** - Metadata API for per-page SEO configuration
-5. **Image Optimization** - Automatic image optimization (when using server mode)
-6. **TypeScript first** - Excellent TypeScript support out of the box
-
-### Migration Status
-
-The site is in a transitional state with dual build systems:
-- **Next.js (app/)** - Production build deployed to GitHub Pages
-- **Vite (src/)** - Legacy components, still available for development
-
-Production deployment uses `npm run build:next` which outputs to `out/`.
 
 ## Project Structure
 
 ```
 karstenwade.com/
-├── app/                  # Next.js App Router (production)
-│   ├── components/       # Next.js-specific components
+├── app/                  # Next.js App Router (pages + components)
+│   ├── components/       # React components (including ui/)
+│   ├── blog/            # Blog pages (Strapi-powered)
 │   ├── cv/              # CV page route
 │   ├── papers/          # Papers pages with dynamic routes
 │   ├── writing/         # Writing page route
@@ -59,18 +41,21 @@ karstenwade.com/
 │   ├── page.tsx         # Home page
 │   ├── not-found.tsx    # 404 page
 │   └── globals.css      # Global styles
-├── src/                  # Legacy Vite components (shared)
-│   ├── components/       # Reusable React components
-│   ├── data/            # Static content data
-│   ├── services/        # API and content services
-│   ├── styles/          # CSS stylesheets
-│   ├── types/           # TypeScript type definitions
-│   └── test/            # Test utilities and setup
-├── public/               # Static assets (copied to out/)
+├── data/                 # Static content data files
+├── lib/                  # Shared utilities and services
+│   ├── services/        # contentService, paperService, githubApi
+│   ├── strapi.ts        # Strapi API client
+│   ├── utils.ts         # cn() utility
+│   └── zerodb-client.ts # ZeroDB search client
+├── types/                # TypeScript type definitions
+├── styles/               # Design system (CSS variables)
+├── test/                 # Test setup and utilities
+├── cms/                  # Strapi CMS (separate npm project)
+├── public/               # Static assets
 ├── scripts/              # Build scripts (sitemap generation)
+├── docs/                 # Project documentation
 ├── .github/workflows/    # CI/CD pipelines
-├── out/                  # Next.js static export (generated)
-└── node_modules/         # Dependencies (generated)
+└── out/                  # Static export output (generated)
 ```
 
 ## Getting Started
@@ -96,32 +81,29 @@ karstenwade.com/
 
 ### Development Workflow
 
-#### Start Development Server (Next.js - Recommended)
-
-Run the Next.js development server with Turbopack:
-
-```bash
-npm run dev:next
-```
-
-The site will be available at `http://localhost:3001`
-
-#### Start Development Server (Vite - Legacy)
-
-For working with legacy src/ components:
+#### Start Development Server
 
 ```bash
 npm run dev
 ```
 
-The Vite dev server runs at `http://localhost:5173`
+The site will be available at `http://localhost:3001`
+
+#### Start Strapi CMS
+
+```bash
+cd cms
+npm run develop
+```
+
+Strapi admin runs at `http://localhost:1337/admin`
 
 #### Build for Production
 
-Create an optimized static export for GitHub Pages:
+Create an optimized static export:
 
 ```bash
-npm run build:next
+npm run build
 ```
 
 Output will be in the `out/` directory as static HTML, CSS, and JavaScript.
@@ -134,29 +116,9 @@ Serve the static export locally:
 npx serve out -p 3001
 ```
 
-The production preview will be available at `http://localhost:3001`
-
 ### Testing
 
-#### Run TDD Integration Tests
-
-Story 1.1 includes comprehensive TDD tests:
-
-```bash
-npm test
-```
-
-This runs the bash test suite that validates:
-- ✅ Package configuration (package.json, dependencies)
-- ✅ Build configuration (Vite, TypeScript)
-- ✅ Folder structure (src/, content/, public/)
-- ✅ Build output generation (dist/)
-- ✅ Entry point files (index.html, App.tsx)
-- ✅ Static site generation compatibility
-
 #### Run Unit Tests
-
-Component-level tests with Vitest:
 
 ```bash
 npm run test:unit
@@ -164,19 +126,13 @@ npm run test:unit
 
 #### Test Coverage
 
-Generate code coverage reports:
-
 ```bash
 npm run test:coverage
 ```
 
-Coverage reports will be available in the `coverage/` directory.
-
 ### Code Quality
 
 #### Linting
-
-Check code quality with ESLint:
 
 ```bash
 npm run lint
@@ -184,145 +140,68 @@ npm run lint
 
 #### Type Checking
 
-Verify TypeScript types without building:
-
 ```bash
 npm run type-check
 ```
 
 ## Deployment
 
-### GitHub Pages with Custom Domain
+### Vercel (Primary)
 
-The site is automatically deployed to GitHub Pages via GitHub Actions:
+The site is automatically deployed to Vercel:
 
 1. Push changes to the `main` branch
-2. GitHub Actions builds the site
-3. Static files deploy to `gh-pages` branch
-4. Available at `https://karstenwade.com` (custom domain)
+2. Vercel builds the site with `npm run build`
+3. Static files deploy automatically
+4. Available at `https://karstenwade.com`
+
+### GitHub Pages (Mirror)
+
+A mirror deployment to GitHub Pages runs via GitHub Actions on push to main.
 
 ### Custom Domain Configuration
 
 - **Primary Domain:** karstenwade.com
-- **DNS:** A records point to GitHub Pages IPs
-- **HTTPS:** Enforced via GitHub Pages (automatic SSL)
-- **CDN:** GitHub's global CDN for fast delivery
-
-See `docs/PRD.md` for detailed DNS configuration.
-
-### Legacy URL Redirects
-
-The site includes permanent redirects for content migrated from the previous WordPress site:
-
-- `/2022/09/20/bonn-cemetery-alter-friedhof/` → `/writing#bonn-cemetery-alter-friedhof`
-- `/2022/09/19/time-banking-on-the-rhine/` → `/writing#time-banking-on-the-rhine`
-- `/2021/05/14/pardon-me-while-i-leak-some-life-onto-this-page/` → `/writing#pardon-me-while-i-leak-some-life-onto-this-page`
-
-Redirects are configured in `vercel.json`. See `docs/VERCEL_DEPLOYMENT.md` for details.
+- **HTTPS:** Enforced automatically
+- **CDN:** Global CDN for fast delivery
 
 ### Automated Paper Syncing
 
 The site automatically syncs papers from the [karstenwade/papers](https://github.com/karstenwade/papers) repository:
 
-**Scheduled Sync:**
 - Runs daily at 00:00 UTC via GitHub Actions
 - Fetches latest papers from GitHub
 - Regenerates sitemap with new papers
-- Rebuilds and deploys site if papers changed
 - Vercel auto-deploys from main branch
-
-**Manual Sync:**
-- Trigger workflow manually from GitHub Actions UI
-- Run `npm run generate-sitemap` locally
-
-**Workflow:** `.github/workflows/sync-papers.yml`
-
-**Features:**
-- Automatic sitemap updates
-- Conditional deployment (only if papers changed)
-- Error notifications
-- Dual deployment (GitHub Pages + Vercel)
 
 ## SEO & Analytics
 
 ### Google Analytics 4
-- Tracking enabled with Measurement ID: `G-58CYSGNJ8X`
 - Automatic page view tracking on route changes
 - See `docs/GOOGLE_ANALYTICS.md` for configuration details
 
 ### Google Search Console
 - Sitemap submitted at `https://karstenwade.com/sitemap.xml`
-- Performance monitoring and indexing status
-- See `docs/GOOGLE_SEARCH_CONSOLE.md` for setup and usage guide
+- See `docs/GOOGLE_SEARCH_CONSOLE.md` for setup guide
 
 ### Structured Data
 - Schema.org Person markup for Karsten Wade
 - Schema.org CreativeWork for poems and essays
 - Schema.org ScholarlyArticle for papers
-- Validates with Google Rich Results Test
 
 ### Meta Tags
 - Open Graph tags for social media sharing
 - Twitter Cards for Twitter/X previews
-- Bluesky creator tag for Bluesky social network
-- Custom meta tags per page
+- Bluesky creator tag
+- Custom meta tags per page via Next.js Metadata API
 
 ## Development Methodology
 
 This project follows **Test-Driven Development (TDD)** principles:
 
-### TDD Cycle: RED → GREEN → REFACTOR
-
-1. **RED Phase** - Write failing tests first
-   - Define expected behavior with tests
-   - Confirm tests fail (proving they work)
-   - Document requirements through test cases
-
-2. **GREEN Phase** - Implement minimal code to pass tests
-   - Write simplest code that makes tests pass
-   - Don't over-engineer or add untested features
-   - Focus on making tests green
-
-3. **REFACTOR Phase** - Improve code quality without changing behavior
-   - Optimize TypeScript types
-   - Extract reusable components
-   - Improve naming and organization
-   - Add documentation
-   - Ensure tests still pass
-
-### Story 1.1 Implementation Summary
-
-**User Story**: As a developer, I want a working React application scaffold so that I can begin building site components.
-
-**Test Results**: ✅ **23/23 tests passing**
-
-#### What We Tested (RED Phase)
-
-- Package.json exists with React dependency
-- Build scripts configured (dev, build, test)
-- Vite and TypeScript configuration files present
-- Required folder structure created
-- Build output directory generated
-- Entry point files exist (index.html, App.tsx, main.tsx)
-- Static site generation configured for GitHub Pages
-
-#### What We Built (GREEN Phase)
-
-- Initialized React 18.3 with TypeScript 5.6
-- Configured Vite 6.0 for static site generation
-- Created folder structure for content organization
-- Built working App component with Karsten's professional identity
-- Generated production-ready static HTML output
-- Set up development server with HMR
-
-#### What We Optimized (REFACTOR Phase)
-
-- Added TypeScript type definitions (`src/types/`)
-- Created Vitest configuration for unit testing
-- Added React Testing Library setup
-- Enhanced package.json scripts (lint, type-check, coverage)
-- Optimized Vite build configuration (esbuild minification)
-- Documented architecture decisions in README
+1. **RED** - Write failing tests first
+2. **GREEN** - Implement minimal code to pass tests
+3. **REFACTOR** - Improve code quality while keeping tests green
 
 ## Contributing
 
