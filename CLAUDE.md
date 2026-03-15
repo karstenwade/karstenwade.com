@@ -6,7 +6,7 @@
 
 | Service | Port | URL |
 |---------|------|-----|
-| Vite/Static serve | **3001** | http://localhost:3001 |
+| Next.js dev server | **3001** | http://localhost:3001 |
 | Strapi CMS | **1337** | http://localhost:1337/admin |
 
 **Forbidden ports:** 3000, 5173, or any unlisted port.
@@ -31,7 +31,7 @@ Personal professional website for Karsten Wade - a static Next.js site with Stra
 ### Getting Started
 ```bash
 npm install
-npm run dev:next
+npm run dev
 ```
 
 The dev server runs at: http://localhost:3001
@@ -72,24 +72,33 @@ Before committing, ensure:
 ## Project Structure
 ```
 karstenwade.com/
-├── app/                  # Next.js App Router pages
+├── app/                  # Next.js App Router (pages + components)
+│   ├── components/      # React components (including ui/)
 │   ├── blog/            # Blog listing and detail pages
-│   ├── papers/          # Papers section
-│   ├── components/      # React components
+│   ├── papers/          # Papers section with dynamic routes
+│   ├── writing/         # Writing page
+│   ├── cv/              # CV page
 │   └── page.tsx         # Homepage
-├── cms/                  # Strapi CMS (separate npm project)
-├── lib/                  # Shared utilities
+├── data/                 # Static content data files
+├── lib/                  # Shared utilities and services
+│   ├── services/        # contentService, paperService, githubApi
 │   ├── strapi.ts        # Strapi API client
-│   └── types.ts         # TypeScript types
+│   └── utils.ts         # cn() utility
+├── types/                # TypeScript type definitions
+├── styles/               # Design system (CSS variables)
+├── test/                 # Test setup and utilities
+├── cms/                  # Strapi CMS (separate npm project)
 ├── public/              # Static assets
-├── styles/              # Global styles
+├── scripts/             # Build scripts
 └── out/                 # Static export output
 ```
 
 ## Key Directories
 - `app/` - Next.js pages and components
+- `data/` - Static content data files
+- `lib/` - Shared utilities, services, and API clients
+- `types/` - TypeScript type definitions
 - `cms/` - Strapi CMS backend
-- `lib/` - Shared utilities and API clients
 
 ## Environment Variables
 Copy `.env.example` to `.env.local`:
@@ -106,8 +115,9 @@ ZERODB_API_KEY=<your-key>
 - **Type safety**: Full TypeScript with strict mode
 
 ## Important Notes
-- This site showcases AI collaboration work with Claude Code
-- **Keep Claude co-author attribution** on commits - this demonstrates AI-assisted development
+- This project follows **AINative Studio coding standards** (see `.ainative/` symlink)
+- **ZERO TOLERANCE**: No third-party AI tool attribution in commits, PRs, or code comments
+- Use AINative branding only: "Built by AINative Dev Team", "Built Using AINative Studio", etc.
 - Copyright belongs to Karsten Wade unless content is explicitly open licensed
 - Blog content comes from Strapi CMS via API
 - All pages must work with `output: 'export'` (static site)

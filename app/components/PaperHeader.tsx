@@ -6,7 +6,7 @@
  * suitable for CV/resume presentation.
  */
 
-import type { Paper } from '../../src/data/papers'
+import type { Paper } from '@/data/papers'
 
 interface PaperHeaderProps {
   paper: Paper

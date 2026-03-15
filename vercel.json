@@ -1,6 +1,6 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "buildCommand": "npm run build:next",
+  "buildCommand": "npm run build",
   "outputDirectory": ".next",
   "framework": "nextjs",
   "installCommand": "npm install",
@@ -20,12 +20,6 @@
       "source": "/2021/05/14/pardon-me-while-i-leak-some-life-onto-this-page/",
       "destination": "/writing#pardon-me-while-i-leak-some-life-onto-this-page",
       "permanent": true
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/index.html"
     }
   ],
   "headers": [

@@ -31,7 +31,7 @@ vi.mock('next/script', () => ({
 import PaperHeader from '../../components/PaperHeader'
 import CitationBlock from '../../components/CitationBlock'
 import PrintButton from '../../components/PrintButton'
-import type { Paper } from '../../../src/data/papers'
+import type { Paper } from '@/data/papers'
 
 const mockPaper: Paper = {
   slug: 'test-paper',

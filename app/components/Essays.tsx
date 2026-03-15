@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { contentService } from '@/services/contentService'
+import { contentService } from '@/lib/services/contentService'
 import type { Essay } from '@/data/essays'
 import StructuredData from './StructuredData'
 
