@@ -42,3 +42,6 @@ out/
 
 # MCP server config (contains credentials)
 .mcp.json
+
+# AINative Studio standards (local symlink)
+.ainative
