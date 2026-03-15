@@ -16,7 +16,7 @@ import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
 import CitationBlock from '../../components/CitationBlock'
-import type { Paper } from '../../../src/data/papers'
+import type { Paper } from '@/data/papers'
 
 const mockPaper: Paper = {
   slug: 'test-paper',

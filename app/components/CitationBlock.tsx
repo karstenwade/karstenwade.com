@@ -8,7 +8,7 @@
  */
 
 import { useState } from 'react'
-import type { Paper } from '../../src/data/papers'
+import type { Paper } from '@/data/papers'
 
 type CitationFormat = 'apa' | 'mla' | 'bibtex'
 
