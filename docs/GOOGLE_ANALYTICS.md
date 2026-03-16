@@ -12,21 +12,27 @@ This site includes Google Analytics 4 (GA4) tracking to understand site usage an
 4. Create or select a web data stream
 5. Copy your Measurement ID (format: `G-XXXXXXXXXX`)
 
-### 2. Update index.html
+### 2. Update app/layout.tsx
 
-Replace the placeholder `G-XXXXXXXXXX` in `index.html` with your actual Measurement ID:
+Replace the placeholder `G-XXXXXXXXXX` in `app/layout.tsx` with your actual Measurement ID. GA4 is implemented via Next.js `<Script>` tags in the root layout:
 
-```html
-<!-- Google Analytics 4 -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ID-HERE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+```tsx
+// app/layout.tsx
+import Script from 'next/script'
 
-
-  gtag('config', 'G-YOUR-ID-HERE');
-</script>
+// Inside the <body>, before closing tag:
+<Script
+  src="https://www.googletagmanager.com/gtag/js?id=G-YOUR-ID-HERE"
+  strategy="afterInteractive"
+/>
+<Script id="google-analytics" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-YOUR-ID-HERE');
+  `}
+</Script>
 ```
 
 **Update in two places:**
@@ -43,9 +49,9 @@ Replace the placeholder `G-XXXXXXXXXX` in `index.html` with your actual Measurem
 
 ### Automatic Page View Tracking
 
-The site automatically tracks page views when users navigate between routes using the `usePageTracking` hook in `src/hooks/usePageTracking.ts`.
+The site automatically tracks page views. Next.js App Router handles navigation, and GA4 receives page view events on each route change via the script loaded in `app/layout.tsx`.
 
-Each route change sends a `page_view` event to GA4 with:
+Each page view sends a `page_view` event to GA4 with:
 - `page_path`: The route path (e.g., `/papers`, `/cv`)
 - `page_location`: Full URL
 - `page_title`: Page title from SEO component
@@ -59,7 +65,7 @@ The footer includes a privacy notice informing visitors that Google Analytics is
 In development mode (localhost), GA4 tracking is loaded but may show warnings in the console. This is normal.
 
 To verify tracking in production:
-1. Deploy to GitHub Pages
+1. Deploy to Vercel
 2. Visit the live site
 3. Open Google Analytics > Reports > Realtime
 4. Navigate between pages and verify events appear
@@ -73,8 +79,7 @@ To verify tracking in production:
 - Wait a few minutes for data to appear in GA4 Real-Time reports
 
 **Q: How do I disable tracking in development?**
-- The hook checks for `window.gtag` existence before tracking
-- Most browsers will load the script even on localhost, but you can use ad blockers during development
+- The `<Script strategy="afterInteractive">` tag loads on localhost, but you can use ad blockers during development to suppress GA4 calls
 
 ## Data Retention
 

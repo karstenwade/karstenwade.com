@@ -36,28 +36,31 @@ Create a fast, accessible, and content-rich personal website that:
 ## Technical Architecture
 
 ### Technology Stack
-- **Frontend:** React 18.3 + TypeScript 5.6
-- **Build Tool:** Vite 6.0 (chosen for speed and modern DX)
-- **Hosting:** GitHub Pages (primary and only deployment)
-- **DNS:** Custom domain (karstenwade.com) via GitHub Pages
+- **Frontend:** Next.js 16 (App Router) + TypeScript
+- **Build Tool:** Next.js (static export via `output: 'export'`)
+- **Hosting:** Vercel (primary), GitHub Pages (mirror)
+- **DNS:** Custom domain (karstenwade.com) via Vercel
 - **Testing:** Vitest + React Testing Library
 - **CI/CD:** GitHub Actions
 
 ### Why These Choices?
 
-**Vite over Create React App:**
-- 10-100x faster builds with esbuild
-- Instant HMR in development
-- Native ES modules
+**Next.js with App Router:**
+- Static export for fast, portable deployments
+- File-based routing with App Router conventions
 - Excellent TypeScript support
-- Optimized for static site generation
+- Native image optimization and font handling
+- First-class Vercel integration
 
-**GitHub Pages:**
-- Free hosting with HTTPS
-- Seamless Git integration
-- Custom domain support
-- Global CDN
-- Zero infrastructure management
+**Vercel (Primary):**
+- Zero-config deployment for Next.js projects
+- Automatic HTTPS with custom domains
+- Global CDN for fast content delivery
+- Deploy previews for pull requests
+
+**GitHub Pages (Mirror):**
+- Public mirror for organization visibility and fallback
+- Seamless Git integration via GitHub Actions
 
 ---
 
@@ -754,28 +757,27 @@ A live, accessible website at karstenwade.com featuring:
 - Large ecosystem
 - Excellent tooling
 
-**Vite:**
-- Fastest build times
-- Modern development experience
-- Optimized for static sites
-- Better than CRA for this use case
+**Next.js (App Router):**
+- Static export for fast, portable deployments
+- File-based routing with App Router conventions
+- Native image optimization and font handling
+- First-class Vercel integration
 
-**GitHub Pages:**
-- Free hosting with custom domains
-- HTTPS included
-- Global CDN
-- Zero infrastructure management
-- Perfect for static sites
+**Vercel:**
+- Zero-config deployment for Next.js projects
+- Free tier supports custom domains with HTTPS
+- Global CDN for fast content delivery
+- Automatic deploy previews for pull requests
 
 ### B. Content Strategy
 
 Content is organized by type in data files:
-- `src/data/featuredContent.ts` - Home page featured items
-- `src/data/papers.ts` - Research papers
-- `src/data/poetry.ts` - Poetry collection
-- `src/data/fiction.ts` - Fiction stories
-- `src/data/cv.ts` - Professional CV
-- `src/data/theories.ts` - Frameworks and theories
+- `data/featuredContent.ts` - Home page featured items
+- `data/papers.ts` - Research papers
+- `data/poetry.ts` - Poetry collection
+- `data/fiction.ts` - Fiction stories
+- `data/cv.ts` - Professional CV
+- `data/theories.ts` - Frameworks and theories
 
 This approach:
 - Separates content from presentation
@@ -785,20 +787,19 @@ This approach:
 
 ### C. Deployment Strategy
 
-**Single Deployment Target:** GitHub Pages only
+**Primary Deployment Target:** Vercel (with GitHub Pages as mirror)
 
 **Deployment Flow:**
 1. Developer pushes to main
-2. GitHub Actions triggered
-3. npm run build executed
-4. Static files to gh-pages branch
-5. GitHub Pages serves content
-6. CDN distributes globally
+2. Vercel auto-detects changes via webhook
+3. `npm run build` executed (Next.js static export)
+4. Static files deployed to Vercel edge network
+5. Live at https://karstenwade.com
 
 **Rollback Strategy:**
 - Revert commit on main branch
-- GitHub Actions auto-deploys previous version
-- Or manually deploy specific gh-pages commit
+- Vercel auto-deploys reverted version
+- Or promote a previous deployment via Vercel dashboard
 
 ---
 

@@ -9,7 +9,7 @@ The Writing section displays three types of creative content:
 - **Essays**: Personal essays and reflective writing
 - **Fiction**: Short stories and narrative fiction
 
-Each type has its own data file, component, and interface in the `src/` directory.
+Each type has its own data file, component, and interface.
 
 ## Table of Contents
 
@@ -25,7 +25,7 @@ Each type has its own data file, component, and interface in the `src/` director
 ## Adding Poetry
 
 ### File Location
-`src/data/poetry.ts`
+`data/poetry.ts`
 
 ### Interface
 ```typescript
@@ -93,7 +93,7 @@ fullText: "Standing on the very sands of time The river is the rhyme"  // ❌ Lo
 
 ### Steps to Add a Poem
 
-1. Open `src/data/poetry.ts`
+1. Open `data/poetry.ts`
 2. Add a new object to the `poems` array
 3. Fill in all required fields
 4. Ensure `slug` is URL-friendly (lowercase, hyphens)
@@ -105,7 +105,7 @@ fullText: "Standing on the very sands of time The river is the rhyme"  // ❌ Lo
 ## Adding Essays
 
 ### File Location
-`src/data/essays.ts`
+`data/essays.ts`
 
 ### Interface
 ```typescript
@@ -153,7 +153,7 @@ Closing thoughts and conclusions.`,
 
 ### Steps to Add an Essay
 
-1. Open `src/data/essays.ts`
+1. Open `data/essays.ts`
 2. Add a new object to the `essays` array
 3. Fill in all required fields
 4. Use double newlines between paragraphs
@@ -165,7 +165,7 @@ Closing thoughts and conclusions.`,
 ## Adding Fiction
 
 ### File Location
-`src/data/fiction.ts`
+`data/fiction.ts`
 
 ### Interface
 ```typescript
@@ -215,7 +215,7 @@ Same as essays:
 
 ### Steps to Add a Story
 
-1. Open `src/data/fiction.ts`
+1. Open `data/fiction.ts`
 2. Add a new object to the `stories` array
 3. Fill in all required fields
 4. Calculate word count
@@ -286,7 +286,7 @@ npm run dev
 ```
 
 ### 2. Navigate to the Writing page
-Open `http://localhost:5173/writing` in your browser
+Open `http://localhost:3001/writing` in your browser
 
 ### 3. Check each tab
 - **Poetry**: Verify formatting, line breaks, indentation
@@ -319,7 +319,7 @@ After adding new content:
 1. **Test locally** (see above)
 2. **Stage changes**:
    ```bash
-   git add src/data/poetry.ts    # or essays.ts or fiction.ts
+   git add data/poetry.ts    # or essays.ts or fiction.ts
    ```
 3. **Commit with descriptive message**:
    ```bash
@@ -378,7 +378,7 @@ After adding new content:
 
 For questions or issues:
 1. Check existing content in data files for examples
-2. Review component code in `src/components/`
+2. Review component code in `app/components/`
 3. Test locally before committing
 4. Refer to PRD.md for architecture details
 

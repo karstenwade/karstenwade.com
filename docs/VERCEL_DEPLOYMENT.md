@@ -27,7 +27,7 @@ This document provides comprehensive instructions for deploying karstenwade.com 
 - **Primary Hosting:** Vercel
 - **Custom Domain:** karstenwade.com
 - **Base Path:** `/` (root)
-- **Build Framework:** Vite
+- **Build Framework:** Next.js
 - **HTTPS:** Automatic SSL (Let's Encrypt via Vercel)
 - **CDN:** Vercel's global edge network
 - **Deploy Method:** Automatic Git integration
@@ -37,7 +37,7 @@ This document provides comprehensive instructions for deploying karstenwade.com 
 - See [DNS_CONFIGURATION.md](./DNS_CONFIGURATION.md) for GitHub Pages setup
 
 **Why Vercel?**
-- Zero-config deployment for Vite projects
+- Zero-config deployment for Next.js projects
 - Automatic HTTPS with custom domains
 - Global CDN for fast content delivery
 - Deploy previews for pull requests
@@ -75,16 +75,14 @@ Before deploying to Vercel, ensure you have:
 
 ### Step 3: Configure Build Settings
 
-Vercel should auto-detect the Vite framework. Verify these settings:
+Vercel should auto-detect the Next.js framework. Verify these settings:
 
 ```
-Framework Preset: Vite
+Framework Preset: Next.js
 Build Command: npm run build
-Output Directory: dist
+Output Directory: out
 Install Command: npm install
 ```
-
-**Important:** Do NOT set `GITHUB_PAGES=true` environment variable for Vercel builds. This variable is only for GitHub Pages builds.
 
 ### Step 4: Deploy
 
@@ -155,17 +153,7 @@ TTL: 3600
 
 ### Production Environment
 
-Vercel builds do NOT need the `GITHUB_PAGES` environment variable.
-
-The conditional base path logic in `vite.config.ts` will automatically use `/` for Vercel:
-
-```typescript
-const isGitHubPages = process.env.GITHUB_PAGES === 'true'
-const base = isGitHubPages ? '/karstenwade.com/' : '/'
-```
-
-**Do NOT set:**
-- ❌ GITHUB_PAGES=true (this is only for GitHub Pages builds)
+No special environment variables are required for Vercel builds. The Next.js static export (`output: 'export'`) uses `/` as the base path automatically.
 
 ### Optional Environment Variables
 
@@ -201,7 +189,7 @@ Vercel runs: npm install
     ↓
 Vercel runs: npm run build
     ↓
-Build creates dist/ directory (base path: '/')
+Build creates out/ directory (base path: '/')
     ↓
 Vercel deploys to edge network
     ↓
@@ -333,18 +321,10 @@ lighthouse https://karstenwade.com --view
 **Problem:** Direct navigation to routes like /cv or /writing returns 404
 
 **Solutions:**
-1. Verify vercel.json has rewrite rules:
-   ```json
-   "rewrites": [
-     {
-       "source": "/(.*)",
-       "destination": "/index.html"
-     }
-   ]
-   ```
-2. Ensure React Router is configured correctly
-3. Check that base path is set to `/` (not `/karstenwade.com/`)
-4. Redeploy after fixing vercel.json
+1. Verify `next.config.ts` has `output: 'export'` set correctly
+2. Ensure `generateStaticParams` is implemented for dynamic routes
+3. Check that all page files exist under `app/` with correct naming (`page.tsx`)
+4. Redeploy after fixing configuration
 
 ### Images Not Loading
 
@@ -388,15 +368,14 @@ Vercel provides built-in monitoring:
 
 **Framework Updates:**
 ```bash
-# Update Vite and React
-npm update vite @vitejs/plugin-react react react-dom
+# Update Next.js and React
+npm update next react react-dom
 
 # Update all dependencies
 npm update
 
 # Rebuild and test
 npm run build
-npm run preview
 ```
 
 **Vercel Platform:**
@@ -490,7 +469,7 @@ vercel logs
 
 ### Official Documentation
 - [Vercel Documentation](https://vercel.com/docs)
-- [Vite on Vercel](https://vercel.com/docs/frameworks/vite)
+- [Next.js on Vercel](https://vercel.com/docs/frameworks/nextjs)
 - [Custom Domains](https://vercel.com/docs/concepts/projects/custom-domains)
 - [Vercel CLI](https://vercel.com/docs/cli)
 

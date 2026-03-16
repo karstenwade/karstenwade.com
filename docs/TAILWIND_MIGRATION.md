@@ -5,7 +5,7 @@ This document details the migration from custom CSS to Tailwind CSS v4 and Shadc
 ## Overview
 
 **Migration Period**: November 2024
-**Tailwind Version**: 4.1.17 (Vite plugin)
+**Tailwind Version**: 4.1.17 (PostCSS plugin)
 **Shadcn UI**: Latest (via CLI)
 **Status**: ✅ Complete
 
@@ -26,31 +26,28 @@ This document details the migration from custom CSS to Tailwind CSS v4 and Shadc
 ### Global Styles Updated
 
 - `tailwind.config.js`: Extended with "Wide Horizon Clubhouse" design tokens
-- `src/styles/index.css`: Reorganized with @layer directives
-- `src/styles/App.css`: Simplified to plain CSS for v4 compatibility
-- `src/styles/variables.css`: Preserved for fluid typography and runtime theming
+- `app/globals.css`: Global styles with @layer directives (merged from former src/styles/)
+- `styles/variables.css`: Preserved for fluid typography and runtime theming
 
 ## Architecture Decisions
 
 ### Tailwind v4 Setup
 
-We use the **Vite plugin** approach for Tailwind v4:
+We use the **PostCSS plugin** approach for Tailwind v4:
 
-```typescript
-// vite.config.ts
-import tailwindcss from '@tailwindcss/vite'
-
-export default defineConfig({
-  plugins: [react(), tailwindcss()],
-  // ...
-})
+```javascript
+// postcss.config.js
+module.exports = {
+  plugins: {
+    '@tailwindcss/postcss': {},
+  },
+}
 ```
 
-**Why Vite plugin instead of PostCSS?**
-- Faster build times with Rust-based tree-shaking
-- Better integration with Vite's dev server
-- Simpler configuration
-- First-class v4 support
+**Why PostCSS instead of a Vite plugin?**
+- Required for Next.js compatibility
+- Standard integration path for Next.js projects
+- Full Tailwind v4 feature support
 
 ### CSS Variables Strategy
 
@@ -62,7 +59,7 @@ We maintain CSS variables alongside Tailwind for:
 
 Example:
 ```css
-/* variables.css */
+/* styles/variables.css */
 --font-size-3xl: clamp(2.5rem, 2rem + 2.5vw, 4rem);
 
 /* Used in both places */
@@ -72,7 +69,7 @@ h1 { font-size: var(--font-size-3xl); }  /* Direct CSS */
 
 ### Design Token Integration
 
-All design tokens from `variables.css` are now available as Tailwind utilities via `tailwind.config.js`:
+All design tokens from `styles/variables.css` are now available as Tailwind utilities via `tailwind.config.js`:
 
 ```javascript
 // tailwind.config.js
@@ -102,7 +99,7 @@ Usage:
 Global styles organized into Tailwind layers for proper CSS cascade:
 
 ```css
-/* index.css */
+/* app/globals.css */
 @layer base {
   /* Typography defaults, focus styles, semantic HTML */
   body { margin: 0; font-family: var(--font-body); }
@@ -123,16 +120,16 @@ Global styles organized into Tailwind layers for proper CSS cascade:
 
 ```bash
 # Find component CSS file
-ls src/components/MyComponent.css
+ls app/components/MyComponent.css
 
 # Count lines to migrate
-wc -l src/components/MyComponent.css
+wc -l app/components/MyComponent.css
 ```
 
 ### 2. Run Existing Tests (RED phase)
 
 ```bash
-npx vitest run src/components/MyComponent.test.tsx
+npx vitest run app/components/MyComponent.test.tsx
 ```
 
 Ensure all tests pass before migration.
@@ -176,7 +173,7 @@ Keep BEM-style class names alongside Tailwind for test compatibility:
 ### 5. Run Tests Again (GREEN phase)
 
 ```bash
-npx vitest run src/components/MyComponent.test.tsx
+npx vitest run app/components/MyComponent.test.tsx
 ```
 
 All tests should still pass.
@@ -184,7 +181,7 @@ All tests should still pass.
 ### 6. Remove CSS File
 
 ```bash
-git rm src/components/MyComponent.css
+git rm app/components/MyComponent.css
 ```
 
 ### 7. Verify Build
@@ -289,7 +286,7 @@ After migration:
 npx vitest run
 
 # Specific component
-npx vitest run src/components/Button.test.tsx
+npx vitest run app/components/Button.test.tsx
 
 # Watch mode
 npx vitest watch
@@ -344,10 +341,14 @@ All migrated components verify:
 
 **Problem**: Used `gap-6` but class doesn't appear in build.
 
-**Solution**: Ensure correct Tailwind v4 setup with Vite plugin:
-```typescript
-// vite.config.ts
-import tailwindcss from '@tailwindcss/vite'  // ← Must use Vite plugin
+**Solution**: Ensure correct Tailwind v4 setup with PostCSS plugin:
+```javascript
+// postcss.config.js
+module.exports = {
+  plugins: {
+    '@tailwindcss/postcss': {},  // ← Must use PostCSS plugin
+  },
+}
 ```
 
 ### Issue: Tests fail after migration
@@ -390,10 +391,10 @@ Then Tailwind utilities automatically respect the CSS variables.
 
 ### Internal References
 
-- Design System: `src/styles/variables.css`
+- Design System: `styles/variables.css`
 - Tailwind Config: `tailwind.config.js`
-- Global Styles: `src/styles/index.css`
-- Utility Function: `src/lib/utils.ts` (cn helper)
+- Global Styles: `app/globals.css`
+- Utility Function: `lib/utils.ts` (cn helper)
 
 ### Related Issues
 
@@ -408,7 +409,7 @@ Then Tailwind utilities automatically respect the CSS variables.
 
 ## Contributors
 
-Migration completed by Claude Code (Anthropic)
+Migration completed by AINative Dev Team
 Project: karstenwade.com
 Date: November 2024
 
